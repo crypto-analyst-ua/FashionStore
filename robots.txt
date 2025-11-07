@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+Disallow: /tmp/
+Disallow: /*.json$
+Disallow: /*.xml$
+
+Sitemap: https://fashionstore-ua.web.app/sitemap.xml
+
+# Разрешить индексацию основных разделов
+Allow: /women/
+Allow: /men/
+Allow: /kids/
+Allow: /shoes/
+Allow: /accessories/
+Allow: /sale/
+
+# Скорость сканирования (запросов в секунду)
+Crawl-delay: 1
+
+# Предпочтительный хост
+Host: https://fashionstore-ua.web.app
