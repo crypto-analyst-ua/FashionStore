@@ -543,6 +543,33 @@ function addSearchStyles() {
   document.head.appendChild(style);
 }
 
+// ===== ФУНКЦИЯ СЧЕТЧИКА ПРОСМОТРОВ =====
+
+function setupPageCounter() {
+  const params = new URLSearchParams({
+      style: 'flat-square',
+      label: 'Views',
+      color: 'blue',
+      logo: 'firebase'
+  });
+
+  // Используем текущий домен сайта
+  const currentHost = window.location.hostname;
+  const currentPath = window.location.pathname;
+
+  // Создаем URL для счетчика просмотров
+  const counterURL = `https://hits.sh/${currentHost}${currentPath}.svg?${params.toString()}`;
+  
+  const pageViewsElement = document.getElementById('page-views');
+  const pageViewsContainer = document.getElementById('page-views-container');
+  
+  if (pageViewsElement && pageViewsContainer) {
+      pageViewsElement.src = counterURL;
+      // Показываем контейнер (убираем display: none)
+      pageViewsContainer.style.display = 'block';
+  }
+}
+
 // ===== ОСНОВНЫЕ ФУНКЦИИ FASHION STORE =====
 
 // Инициализация приложения
@@ -569,6 +596,12 @@ function initApp() {
       document.getElementById('admin-access-btn').style.display = 'none';
       document.getElementById("admin-panel").style.display = "none";
       adminMode = false;
+      
+      // Скрываем счетчик просмотров при выходе
+      const pageViewsContainer = document.getElementById('page-views-container');
+      if (pageViewsContainer) {
+        pageViewsContainer.style.display = 'none';
+      }
     }
   });
   
@@ -670,6 +703,9 @@ function initApp() {
   
   // Добавляем стили для заказов
   addOrdersStyles();
+  
+  // Инициализация счетчика просмотров
+  setupPageCounter();
 }
 
 // Функція відкриття профілю користувача
@@ -1829,6 +1865,20 @@ function checkout() {
         <input type="email" id="order-email" required value="${currentUser.email || ''}">
       </div>
       
+      <!-- ДОБАВЛЕНО: ПОЛЕ КОММЕНТАРИЯ -->
+      <div class="form-group">
+        <label>Коментар до замовлення (необов'язково)</label>
+        <textarea 
+          id="order-comment" 
+          placeholder="Ваші побажання щодо замовлення, коментарі або особливі умови доставки..."
+          rows="3"
+          maxlength="500"
+        ></textarea>
+        <div class="char-counter" style="text-align: right; font-size: 0.8em; color: #666;">
+          <span id="comment-chars">0</span>/500 символів
+        </div>
+      </div>
+      
       <div class="delivery-section">
         <h4>Спосіб доставки</h4>
         <div class="delivery-options">
@@ -1919,6 +1969,25 @@ function checkout() {
   
   openModal();
   
+  // Добавляем обработчик для подсчета символов в комментарии
+  const commentField = document.getElementById('order-comment');
+  const charCounter = document.getElementById('comment-chars');
+  
+  if (commentField && charCounter) {
+    commentField.addEventListener('input', function() {
+      const length = this.value.length;
+      charCounter.textContent = length;
+      
+      if (length > 450) {
+        charCounter.style.color = '#e74c3c';
+      } else if (length > 400) {
+        charCounter.style.color = '#f39c12';
+      } else {
+        charCounter.style.color = '#666';
+      }
+    });
+  }
+  
   // Гарантируем правильное отображение полей доставки при открытии формы
   toggleDeliveryFields();
 }
@@ -1979,6 +2048,7 @@ function placeOrder(event) {
   const name = document.getElementById('order-name').value.trim();
   const phone = document.getElementById('order-phone').value.trim();
   const email = document.getElementById('order-email').value.trim();
+  const comment = document.getElementById('order-comment')?.value.trim() || ''; // ДОБАВЛЕНО: получаем комментарий
   const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
   const deliveryMethod = document.querySelector('input[name="delivery"]:checked').value;
   
@@ -2054,6 +2124,7 @@ function placeOrder(event) {
     userName: name,
     userPhone: cleanPhone,
     userEmail: email,
+    comment: comment, // ДОБАВЛЕНО: сохраняем комментарий в заказе
     items: {...cart},
     total: calculateCartTotal(),
     delivery: deliveryDetails,
@@ -2097,19 +2168,30 @@ function sendOrderEmail(orderId, order) {
     }
   }
   
+  // ДОБАВЛЕНО: информация о комментарии в email
+  const commentInfo = order.comment ? `
+    <tr>
+      <td colspan="4" style="background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6;">
+        <strong>Коментар клієнта:</strong><br>
+        ${order.comment}
+      </td>
+    </tr>
+  ` : '';
+  
   const templateParams = {
     to_email: "korovinkonstantin0@gmail.com",
     order_id: orderId,
     customer_name: order.userName,
     customer_email: order.userEmail,
     customer_phone: order.userPhone,
+    customer_comment: order.comment || 'Не вказано', // ДОБАВЛЕНО
     delivery_service: order.delivery.service,
     delivery_city: order.delivery.city,
     delivery_warehouse: order.delivery.warehouse,
     delivery_index: order.delivery.index || '',
     payment_method: order.paymentMethod === 'cash' ? 'Готівкою при отриманні' : 'Онлайн-оплата карткою',
     total_amount: formatPrice(order.total),
-    items: itemsList,
+    items: itemsList + commentInfo, // ДОБАВЛЕНО комментарий в список товаров
     order_date: new Date().toLocaleString('uk-UA')
   };
 
@@ -2166,6 +2248,17 @@ function showOrderConfirmation(orderId, order) {
     `;
   }
   
+  // ДОБАВЛЕНО: отображение комментария в подтверждении заказа
+  let commentInfo = '';
+  if (order.comment) {
+    commentInfo = `
+      <div class="comment-section" style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #007bff;">
+        <h4 style="margin: 0 0 10px 0; color: #333;">Ваш коментар:</h4>
+        <p style="margin: 0; font-style: italic; color: #555;">"${order.comment}"</p>
+      </div>
+    `;
+  }
+  
   modalContent.innerHTML = `
     <button class="modal-close" onclick="closeModal()" aria-label="Закрити"><i class="fas fa-times" aria-hidden="true"></i></button>
     <div class="order-confirmation">
@@ -2178,6 +2271,7 @@ function showOrderConfirmation(orderId, order) {
         <p><strong>Ім'я:</strong> ${order.userName}</p>
         <p><strong>Телефон:</strong> ${order.userPhone}</p>
         <p><strong>Email:</strong> ${order.userEmail}</p>
+        ${commentInfo} <!-- ДОБАВЛЕНО: отображаем комментарий -->
         ${deliveryInfo}
         <div class="delivery-notice">
           <i class="fas fa-info-circle"></i>
@@ -2659,6 +2753,17 @@ class OrderManager {
 
     // Генерация секции информации о клиенте
     generateCustomerInfoSection(order) {
+        // ДОБАВЛЕНО: отображение комментария клиента
+        let commentSection = '';
+        if (order.comment) {
+            commentSection = `
+                <div class="info-item full-width">
+                    <strong>Коментар клієнта:</strong>
+                    <div class="customer-comment">${order.comment}</div>
+                </div>
+            `;
+        }
+
         return `
             <div class="customer-info-section">
                 <h4>👤 Інформація про клієнта</h4>
@@ -2675,6 +2780,7 @@ class OrderManager {
                         <strong>Телефон:</strong>
                         <span>${order.userPhone}</span>
                     </div>
+                    ${commentSection}
                 </div>
             </div>
         `;
@@ -2949,6 +3055,16 @@ class OrderManager {
             }
         }
 
+        // ДОБАВЛЕНО: комментарий в печатную версию
+        const commentSection = order.comment ? `
+            <div class="print-section">
+                <h3>Коментар клієнта</h3>
+                <p style="background: #f8f9fa; padding: 15px; border-radius: 6px; border-left: 4px solid #007bff;">
+                    ${order.comment}
+                </p>
+            </div>
+        ` : '';
+
         return `
             <div class="print-header">
                 <h1>FashionStore</h1>
@@ -2962,6 +3078,8 @@ class OrderManager {
                 <p><strong>Телефон:</strong> ${order.userPhone}</p>
                 <p><strong>Email:</strong> ${order.userEmail}</p>
             </div>
+            
+            ${commentSection}
             
             <div class="print-section">
                 <h3>Доставка</h3>
@@ -3395,6 +3513,22 @@ function addOrdersStyles() {
                 border-bottom: 1px solid #eee;
             }
             
+            .info-item.full-width {
+                grid-column: 1 / -1;
+            }
+            
+            .customer-comment {
+                background: #f8f9fa;
+                padding: 12px;
+                border-radius: 6px;
+                border-left: 3px solid #007bff;
+                font-style: italic;
+                margin-top: 8px;
+                white-space: pre-wrap;
+                word-break: break-word;
+                line-height: 1.4;
+            }
+            
             .admin-controls-grid {
                 display: grid;
                 grid-template-columns: 1fr auto auto;
@@ -3518,6 +3652,40 @@ function addOrdersStyles() {
                 border: 1px solid #dee2e6;
             }
             
+            /* Стили для поля комментария */
+            .form-group textarea {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                resize: vertical;
+                min-height: 80px;
+                font-family: inherit;
+                font-size: 14px;
+                transition: border-color 0.3s ease;
+            }
+            
+            .form-group textarea:focus {
+                outline: none;
+                border-color: #007bff;
+                box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+            }
+            
+            .char-counter {
+                font-size: 0.8em;
+                color: #666;
+                text-align: right;
+                margin-top: 5px;
+            }
+            
+            .comment-section {
+                background: #f8f9fa;
+                border-radius: 8px;
+                padding: 15px;
+                margin: 15px 0;
+                border-left: 4px solid #007bff;
+            }
+            
             @media (max-width: 768px) {
                 .orders-header {
                     flex-direction: column;
@@ -3639,6 +3807,7 @@ function loadAdminOrders() {
           </div>
           <div class="order-info">
             <p><strong>Клієнт:</strong> ${order.userName} (${order.userEmail}, ${order.userPhone})</p>
+            ${order.comment ? `<p><strong>Коментар:</strong> ${order.comment}</p>` : ''}
             <p><strong>Сума:</strong> ${formatPrice(order.total)} ₴</p>
             <p><strong>Доставка:</strong> ${order.delivery.service}</p>
             <p><strong>Статус:</strong> <span class="order-status ${statusClass}">${statusText}</span></p>
@@ -3857,6 +4026,9 @@ function verifyAdminPassword() {
     closeModal();
     
     loadAdminOrders();
+    
+    // Показываем счетчик просмотров для администратора
+    setupPageCounter();
   } else {
     showNotification("Невірний пароль адміністратора", "error");
   }
@@ -3880,6 +4052,9 @@ function promptAdminPassword() {
     showNotification("Права адміністратора отримані");
     
     loadAdminOrders();
+    
+    // Показываем счетчик просмотров для администратора
+    setupPageCounter();
   } else if (password) {
     showNotification("Невірний пароль адміністратора", "error");
   }
@@ -3892,6 +4067,9 @@ function checkAdminStatus(userId) {
         document.getElementById("admin-panel").style.display = "block";
         adminMode = true;
         loadAdminOrders();
+        
+        // Показываем счетчик просмотров для администратора
+        setupPageCounter();
       }
     })
     .catch((error) => {
@@ -3900,6 +4078,12 @@ function checkAdminStatus(userId) {
 }
 
 function logout() {
+  // Скрываем счетчик просмотров при выходе
+  const pageViewsContainer = document.getElementById('page-views-container');
+  if (pageViewsContainer) {
+    pageViewsContainer.style.display = 'none';
+  }
+  
   auth.signOut()
     .then(() => {
       showNotification("Вихід виконано успішно");
