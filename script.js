@@ -123,9 +123,9 @@ const searchSynonyms = {
   'обувь': ['туфли', 'ботинки', 'кроссовки', 'сапоги', 'босоножки'],
   'сумка': ['сумки', 'рюкзак', 'рюкзаки', 'клатч', 'портфель'],
   'аксессуар': ['аксессуары', 'украшение', 'украшения', 'бижутерия'],
-  'свитер': ['свитера', 'свитеров', 'кофта', 'кофты', 'джемпер'],
+  'свитер': ['свитера', 'свитеров', 'кофта', ' кофты', 'джемпер'],
   'юбка': ['юбки', 'юбок'],
-  'брюки': ['брюки', ' штаны', 'штанов'],
+  'брюки': ['брюки', 'штаны', 'штанов'],
   'шорты': ['шорты', 'шорт'],
   'пальто': ['пальто', 'плащ'],
   'кроссовки': ['кеды', 'сникерсы'],
@@ -143,7 +143,7 @@ const searchSynonyms = {
   'взуття': ['туфлі', 'чоботи', 'кросівки', 'ботильйони', 'босоніжки'],
   'сумка': ['сумки', 'рюкзак', 'рюкзаки', 'клатч'],
   'аксесуар': ['аксесуари', 'прикраса', 'прикраси', 'біжутерія'],
-  'светр': ['светри', 'кофта', ' кофти', 'демпер'],
+  'светр': ['светри', 'кофта', 'кофти', 'демпер'],
   'спідниця': ['спідниці', 'спідниць'],
   'штани': ['брюки', 'штанів'],
   'шорти': ['шортів'],
@@ -1169,7 +1169,7 @@ function renderCategoriesList() {
             <div class="category-item" onclick="selectCategory('${category}')">
                 ${translateCategory(category)}
                 <span class="category-count">${categoryCounts[category]}</span>
-            </div>
+        </div>
         `;
         
         mobileCategoriesHTML += `
@@ -1774,6 +1774,11 @@ function checkout() {
             <input type="text" id="up-warehouse" required placeholder="Номер відділення">
           </div>
           <div class="form-group">
+            <label>Поштовий індекс*</label>
+            <input type="text" id="up-index" required placeholder="01001" pattern="[0-9]{5}" maxlength="5">
+            <small class="form-hint">5 цифр, наприклад: 01001</small>
+          </div>
+          <div class="form-group">
             <label>Адреса для кур'єрської доставки (опційно)</label>
             <input type="text" id="up-address" placeholder="Вулиця, будинок, квартира">
           </div>
@@ -1845,6 +1850,7 @@ function toggleDeliveryFields() {
     // Убираем обязательность полей Укрпочты
     document.getElementById('up-city').required = false;
     document.getElementById('up-warehouse').required = false;
+    document.getElementById('up-index').required = false;
   } else {
     npFields.style.display = 'none';
     upFields.style.display = 'block';
@@ -1856,6 +1862,7 @@ function toggleDeliveryFields() {
     // Делаем поля Укрпочты обязательными
     document.getElementById('up-city').required = true;
     document.getElementById('up-warehouse').required = true;
+    document.getElementById('up-index').required = true;
   }
 }
 
@@ -1911,10 +1918,18 @@ function placeOrder(event) {
     // Исправлено: гарантированно получаем поля для Укрпочты
     const city = document.getElementById('up-city').value.trim();
     const warehouse = document.getElementById('up-warehouse').value.trim();
+    const index = document.getElementById('up-index').value.trim();
     const address = document.getElementById('up-address').value.trim();
     
-    if (!city || !warehouse) {
-      showNotification('Заповніть обов\'язкові поля для доставки Укрпоштою', 'error');
+    if (!city || !warehouse || !index) {
+      showNotification('Заповніть всі обов\'язкові поля для доставки Укрпоштою', 'error');
+      return;
+    }
+    
+    // Валидация индекса
+    const indexRegex = /^\d{5}$/;
+    if (!indexRegex.test(index)) {
+      showNotification('Введіть коректний поштовий індекс (5 цифр)', 'error');
       return;
     }
     
@@ -1922,6 +1937,7 @@ function placeOrder(event) {
       service: 'Укрпошта', 
       city, 
       warehouse,
+      index,
       address: address || ''
     };
   }
@@ -1993,6 +2009,7 @@ function sendOrderEmail(orderId, order) {
     delivery_service: order.delivery.service,
     delivery_city: order.delivery.city,
     delivery_warehouse: order.delivery.warehouse,
+    delivery_index: order.delivery.index || '',
     payment_method: order.paymentMethod === 'cash' ? 'Готівкою при отриманні' : 'Онлайн-оплата карткою',
     total_amount: formatPrice(order.total),
     items: itemsList,
@@ -2047,6 +2064,7 @@ function showOrderConfirmation(orderId, order) {
       <p><strong>Спосіб доставки:</strong> ${order.delivery.service}</p>
       <p><strong>Місто:</strong> ${order.delivery.city}</p>
       <p><strong>Відділення:</strong> ${order.delivery.warehouse}</p>
+      <p><strong>Поштовий індекс:</strong> ${order.delivery.index}</p>
       ${order.delivery.address ? `<p><strong>Адреса:</strong> ${order.delivery.address}</p>` : ''}
     `;
   }
@@ -2086,7 +2104,7 @@ function showOrderConfirmation(orderId, order) {
   openModal();
 }
 
-// ===== УЛУЧШЕННАЯ СИСТЕМА УПРАВЛЕНИЯ ЗАКАЗАМИ ПОЛЬЗОВАТЕЛЯ =====
+// ===== УЛУЧШЕННАЯ СИСТЕМА УПРАВЛЕНИЯ ЗАКАЗАМИ =====
 
 class OrderManager {
     constructor() {
@@ -2277,6 +2295,7 @@ class OrderManager {
             'Дата не вказана';
         
         const statusInfo = this.getStatusInfo(order.status);
+        const trackingButton = this.generateTrackingButton(order);
 
         return `
             <div class="user-order-item" data-status="${order.status}">
@@ -2317,14 +2336,7 @@ class OrderManager {
                     <button class="btn btn-outline" onclick="orderManager.viewOrderDetails('${order.id}')">
                         <i class="fas fa-eye"></i> Деталі замовлення
                     </button>
-                    ${order.ttn ? `
-                        <a href="https://tracking.novaposhta.ua/#/uk/search/${order.ttn}" 
-                           target="_blank" 
-                           class="btn btn-outline"
-                           onclick="orderManager.trackPackage('${order.id}')">
-                            <i class="fas fa-truck"></i> Відстежити
-                        </a>
-                    ` : ''}
+                    ${trackingButton}
                     ${order.status === 'new' ? `
                         <button class="btn btn-danger" onclick="orderManager.cancelOrder('${order.id}')">
                             <i class="fas fa-times"></i> Скасувати
@@ -2333,6 +2345,42 @@ class OrderManager {
                 </div>
             </div>
         `;
+    }
+
+    // Генерация кнопки отслеживания
+    generateTrackingButton(order) {
+        if (!order.ttn) return '';
+
+        const trackingUrl = this.getTrackingUrl(order);
+        if (!trackingUrl) return '';
+
+        return `
+            <a href="${trackingUrl}" 
+               target="_blank" 
+               class="btn btn-outline"
+               onclick="orderManager.trackPackage('${order.id}')">
+                <i class="fas fa-truck"></i> Відстежити
+            </a>
+        `;
+    }
+
+    // Получение URL для отслеживания
+    getTrackingUrl(order) {
+        if (!order.ttn) return null;
+
+        const deliveryService = order.delivery?.service?.toLowerCase() || '';
+        const ttn = order.ttn.trim();
+
+        if (deliveryService.includes('нова') || deliveryService.includes('nova')) {
+            // Новая Почта
+            return `https://tracking.novaposhta.ua/#/uk/search/${ttn}`;
+        } else if (deliveryService.includes('укрпошта') || deliveryService.includes('ukrposhta')) {
+            // Укрпошта
+            return `https://track.ukrposhta.ua/tracking_UA.html?barcode=${ttn}`;
+        } else {
+            // По умолчанию считаем, что это Новая Почта
+            return `https://tracking.novaposhta.ua/#/uk/search/${ttn}`;
+        }
     }
 
     // Получить информацию о статусе
@@ -2428,6 +2476,7 @@ class OrderManager {
         const modalContent = document.getElementById("modal-content");
         const itemsHTML = this.generateOrderItemsHTML(order);
         const statusInfo = this.getStatusInfo(order.status);
+        const trackingButton = this.generateTrackingButton(order);
         
         modalContent.innerHTML = `
             <button class="modal-close" onclick="closeModal()" aria-label="Закрити">
@@ -2449,6 +2498,16 @@ class OrderManager {
                 ${adminMode ? this.generateAdminControlsSection(order) : ''}
                 ${this.generateOrderItemsSection(order, itemsHTML)}
                 ${this.generateOrderTotalSection(order)}
+                
+                <div class="order-actions-footer">
+                    ${trackingButton}
+                    <button class="btn btn-outline" onclick="orderManager.printOrder('${order.id}')">
+                        <i class="fas fa-print"></i> Друк
+                    </button>
+                    <button class="btn" onclick="closeModal()">
+                        <i class="fas fa-times"></i> Закрити
+                    </button>
+                </div>
             </div>
         `;
         
@@ -2461,7 +2520,7 @@ class OrderManager {
             return `
                 <div class="ttn-section no-ttn">
                     <i class="fas fa-info-circle"></i>
-                    <p>ТТН ще не додано до цього замовлення</p>
+                    <p>ТТН ще не додано до цього замовлення. Ми повідомимо вас, коли замовлення буде відправлено.</p>
                 </div>
             `;
         }
@@ -2469,6 +2528,8 @@ class OrderManager {
         const ttnDate = order.ttnAddedAt ? 
             order.ttnAddedAt.toDate().toLocaleString('uk-UA') : 
             'Дата не вказана';
+
+        const trackingUrl = this.getTrackingUrl(order);
 
         return `
             <div class="ttn-section">
@@ -2487,12 +2548,14 @@ class OrderManager {
                         <span>${order.delivery?.service || 'Не вказано'}</span>
                     </div>
                 </div>
-                <a href="https://tracking.novaposhta.ua/#/uk/search/${order.ttn}" 
-                   target="_blank" 
-                   class="btn btn-track"
-                   onclick="orderManager.trackPackage('${order.id}')">
-                    <i class="fas fa-external-link-alt"></i> Відстежити посилку
-                </a>
+                ${trackingUrl ? `
+                    <a href="${trackingUrl}" 
+                       target="_blank" 
+                       class="btn btn-track"
+                       onclick="orderManager.trackPackage('${order.id}')">
+                        <i class="fas fa-external-link-alt"></i> Відстежити посилку
+                    </a>
+                ` : ''}
             </div>
         `;
     }
@@ -2545,6 +2608,10 @@ class OrderManager {
                         <strong>Спосіб оплати:</strong>
                         <span>${order.paymentMethod === 'cash' ? '💵 Готівкою при отриманні' : '💳 Онлайн-оплата'}</span>
                     </div>
+                    <div class="info-item">
+                        <strong>Номер замовлення:</strong>
+                        <span class="order-number">${order.id}</span>
+                    </div>
                 </div>
             </div>
         `;
@@ -2552,13 +2619,16 @@ class OrderManager {
 
     // Генерация секции информации о доставке
     generateDeliveryInfoSection(order) {
+        const deliveryService = order.delivery?.service || 'Не вказано';
+        const estimatedDelivery = this.getEstimatedDelivery(deliveryService);
+
         return `
             <div class="delivery-info-section">
                 <h4>🚚 Доставка</h4>
                 <div class="info-grid">
                     <div class="info-item">
                         <strong>Служба доставки:</strong>
-                        <span>${order.delivery?.service || 'Не вказано'}</span>
+                        <span>${deliveryService}</span>
                     </div>
                     ${order.delivery?.city ? `
                         <div class="info-item">
@@ -2572,15 +2642,36 @@ class OrderManager {
                             <span>${order.delivery.warehouse}</span>
                         </div>
                     ` : ''}
+                    ${order.delivery?.index ? `
+                        <div class="info-item">
+                            <strong>Поштовий індекс:</strong>
+                            <span>${order.delivery.index}</span>
+                        </div>
+                    ` : ''}
                     ${order.delivery?.address ? `
                         <div class="info-item">
                             <strong>Адреса:</strong>
                             <span>${order.delivery.address}</span>
                         </div>
                     ` : ''}
+                    <div class="info-item">
+                        <strong>Орієнтовний термін доставки:</strong>
+                        <span>${estimatedDelivery}</span>
+                    </div>
                 </div>
             </div>
         `;
+    }
+
+    // Получение ориентировочного срока доставки
+    getEstimatedDelivery(service) {
+        if (service.includes('Нова Пошта')) {
+            return '1-3 робочих дні';
+        } else if (service.includes('Укрпошта')) {
+            return '2-5 робочих днів';
+        } else {
+            return '2-4 робочих дні';
+        }
     }
 
     // Генерация секции админ-контролов
@@ -2599,6 +2690,9 @@ class OrderManager {
                     </select>
                     <button class="btn btn-outline" onclick="orderManager.addTTNToOrder('${order.id}')">
                         <i class="fas fa-truck"></i> ${order.ttn ? 'Змінити ТТН' : 'Додати ТТН'}
+                    </button>
+                    <button class="btn btn-danger" onclick="orderManager.deleteOrder('${order.id}')">
+                        <i class="fas fa-trash"></i> Видалити
                     </button>
                 </div>
             </div>
@@ -2642,6 +2736,7 @@ class OrderManager {
                             <div class="order-item-meta">
                                 ${product.brand ? `<span class="item-brand">${product.brand}</span>` : ''}
                                 <span class="item-quantity">Кількість: ${quantity}</span>
+                                ${product.size ? `<span class="item-size">Розмір: ${product.size}</span>` : ''}
                             </div>
                             <div class="order-item-pricing">
                                 <span class="item-price">${formatPrice(product.price)} ₴ × ${quantity}</span>
@@ -2690,9 +2785,120 @@ class OrderManager {
 
     // Отслеживание посылки
     trackPackage(orderId) {
-        // Логирование действия отслеживания
         console.log(`Tracking package for order: ${orderId}`);
         // Можно добавить аналитику здесь
+    }
+
+    // Печать заказа
+    printOrder(orderId) {
+        const order = this.orders.find(o => o.id === orderId);
+        if (!order) return;
+
+        const printWindow = window.open('', '_blank');
+        const printContent = this.generatePrintContent(order);
+        
+        printWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Замовлення #${order.id}</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                    .print-header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px; }
+                    .print-section { margin-bottom: 20px; }
+                    .print-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                    .print-table th, .print-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+                    .print-table th { background-color: #f5f5f5; }
+                    .total-section { margin-top: 30px; text-align: right; font-weight: bold; }
+                    @media print { body { margin: 0; } }
+                </style>
+            </head>
+            <body>
+                ${printContent}
+            </body>
+            </html>
+        `);
+        
+        printWindow.document.close();
+        printWindow.print();
+    }
+
+    // Генерация контента для печати
+    generatePrintContent(order) {
+        const orderDate = order.createdAt ? 
+            order.createdAt.toDate().toLocaleString('uk-UA') : 
+            'Дата не вказана';
+        
+        let itemsHTML = '';
+        let total = 0;
+
+        if (order.items) {
+            for (const [productId, quantity] of Object.entries(order.items)) {
+                const product = products.find(p => p.id === productId);
+                if (product) {
+                    const itemTotal = product.price * quantity;
+                    total += itemTotal;
+                    
+                    itemsHTML += `
+                        <tr>
+                            <td>${product.title}</td>
+                            <td>${product.brand || '-'}</td>
+                            <td>${quantity}</td>
+                            <td>${formatPrice(product.price)} ₴</td>
+                            <td>${formatPrice(itemTotal)} ₴</td>
+                        </tr>
+                    `;
+                }
+            }
+        }
+
+        return `
+            <div class="print-header">
+                <h1>FashionStore</h1>
+                <h2>Замовлення #${order.id}</h2>
+                <p>Дата створення: ${orderDate}</p>
+            </div>
+            
+            <div class="print-section">
+                <h3>Інформація про клієнта</h3>
+                <p><strong>Ім'я:</strong> ${order.userName}</p>
+                <p><strong>Телефон:</strong> ${order.userPhone}</p>
+                <p><strong>Email:</strong> ${order.userEmail}</p>
+            </div>
+            
+            <div class="print-section">
+                <h3>Доставка</h3>
+                <p><strong>Служба доставки:</strong> ${order.delivery?.service || 'Не вказано'}</p>
+                <p><strong>Місто:</strong> ${order.delivery?.city || 'Не вказано'}</p>
+                <p><strong>Відділення:</strong> ${order.delivery?.warehouse || 'Не вказано'}</p>
+                ${order.delivery?.index ? `<p><strong>Поштовий індекс:</strong> ${order.delivery.index}</p>` : ''}
+                ${order.delivery?.address ? `<p><strong>Адреса:</strong> ${order.delivery.address}</p>` : ''}
+            </div>
+            
+            <div class="print-section">
+                <h3>Товари</h3>
+                <table class="print-table">
+                    <thead>
+                        <tr>
+                            <th>Товар</th>
+                            <th>Бренд</th>
+                            <th>Кількість</th>
+                            <th>Ціна</th>
+                            <th>Сума</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${itemsHTML}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="total-section">
+                <p><strong>Загальна сума: ${formatPrice(total)} ₴</strong></p>
+                <p><strong>Статус: ${this.getStatusInfo(order.status).text}</strong></p>
+                ${order.ttn ? `<p><strong>ТТН: ${order.ttn}</strong></p>` : ''}
+            </div>
+        `;
     }
 
     // Отмена заказа
@@ -2763,9 +2969,26 @@ class OrderManager {
         }
     }
 
+    // Удаление заказа (для админа)
+    async deleteOrder(orderId) {
+        if (!confirm("Ви впевнені, що хочете видалити це замовлення? Цю дію неможливо скасувати.")) {
+            return;
+        }
+
+        try {
+            await db.collection("orders").doc(orderId).delete();
+            showNotification("Замовлення успішно видалено");
+        } catch (error) {
+            console.error("Помилка видалення замовлення: ", error);
+            showNotification("Помилка видалення замовлення", "error");
+        }
+    }
+
     // Отправка email с ТТН
     sendTTNEmail(order) {
         if (!order.ttn) return;
+        
+        const trackingUrl = this.getTrackingUrl(order);
         
         const templateParams = {
             to_email: order.userEmail,
@@ -2775,7 +2998,8 @@ class OrderManager {
             delivery_service: order.delivery?.service || 'Нова Пошта',
             delivery_city: order.delivery?.city || '',
             delivery_warehouse: order.delivery?.warehouse || '',
-            tracking_url: `https://tracking.novaposhta.ua/#/uk/search/${order.ttn}`
+            delivery_index: order.delivery?.index || '',
+            tracking_url: trackingUrl || '#'
         };
 
         emailjs.send(EMAILJS_SERVICE_ID, "template_ttn_notification", templateParams)
@@ -3076,7 +3300,7 @@ function addOrdersStyles() {
             
             .admin-controls-grid {
                 display: grid;
-                grid-template-columns: 1fr auto;
+                grid-template-columns: 1fr auto auto;
                 gap: 15px;
                 align-items: center;
             }
@@ -3180,6 +3404,23 @@ function addOrdersStyles() {
                 border-top: 2px solid #eee;
             }
             
+            .order-actions-footer {
+                display: flex;
+                gap: 10px;
+                justify-content: flex-end;
+                margin-top: 20px;
+                padding-top: 20px;
+                border-top: 1px solid #eee;
+            }
+            
+            .order-number {
+                font-family: monospace;
+                background: #f8f9fa;
+                padding: 4px 8px;
+                border-radius: 4px;
+                border: 1px solid #dee2e6;
+            }
+            
             @media (max-width: 768px) {
                 .orders-header {
                     flex-direction: column;
@@ -3217,6 +3458,15 @@ function addOrdersStyles() {
                 .order-item-pricing {
                     flex-direction: column;
                     gap: 5px;
+                }
+                
+                .order-actions-footer {
+                    flex-direction: column;
+                }
+                
+                .order-actions-footer .btn {
+                    width: 100%;
+                    justify-content: center;
                 }
             }
         </style>
@@ -3298,16 +3548,16 @@ function loadAdminOrders() {
             ${order.ttn ? `<p><strong>ТТН:</strong> ${order.ttn}</p>` : ''}
           </div>
           <div class="admin-order-actions">
-            <button class="btn btn-detail" onclick="viewOrderDetails('${order.id}')">Деталі</button>
-            <select onchange="changeOrderStatus('${order.id}', this.value)">
+            <button class="btn btn-detail" onclick="orderManager.viewOrderDetails('${order.id}')">Деталі</button>
+            <select onchange="orderManager.changeOrderStatus('${order.id}', this.value)">
               <option value="new" ${order.status === 'new' ? 'selected' : ''}>Новий</option>
               <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>В обробці</option>
               <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Відправлено</option>
               <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Доставлено</option>
               <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Скасовано</option>
             </select>
-            <button class="btn" onclick="addTTNToOrder('${order.id}')">ТТН</button>
-            <button class="btn btn-danger" onclick="deleteOrder('${order.id}')">Видалити</button>
+            <button class="btn" onclick="orderManager.addTTNToOrder('${order.id}')">ТТН</button>
+            <button class="btn btn-danger" onclick="orderManager.deleteOrder('${order.id}')">Видалити</button>
           </div>
         `;
         
@@ -3317,106 +3567,6 @@ function loadAdminOrders() {
       console.error("Помилка завантаження замовлень: ", error);
       ordersList.innerHTML = '<p>Помилка завантаження замовлень</p>';
     });
-}
-
-function addTTNToOrder(orderId) {
-  const ttn = prompt('Введіть ТТН (трек-номер) для цього замовлення:');
-  
-  if (ttn && ttn.trim() !== '') {
-    db.collection("orders").doc(orderId).update({
-      ttn: ttn.trim(),
-      ttnAddedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    })
-    .then(() => {
-      showNotification("ТТН успішно додано до замовлення");
-      
-      db.collection("orders").doc(orderId).get()
-        .then((doc) => {
-          if (doc.exists) {
-            const order = { id: doc.id, ...doc.data() };
-            sendTTNEmail(orderId, order);
-          }
-        });
-      
-      loadAdminOrders();
-    })
-    .catch((error) => {
-      console.error("Помилка додавання ТТН: ", error);
-      showNotification("Помилка додавання ТТН", "error");
-    });
-  }
-}
-
-function sendTTNEmail(orderId, order) {
-  if (!order.ttn) return;
-  
-  const templateParams = {
-    to_email: order.userEmail,
-    order_id: orderId,
-    customer_name: order.userName,
-    ttn_number: order.ttn,
-    delivery_service: order.delivery.service,
-    delivery_city: order.delivery.city,
-    delivery_warehouse: order.delivery.warehouse,
-    tracking_url: `https://tracking.novaposhta.ua/#/uk/search/${order.ttn}`
-  };
-
-  emailjs.send(EMAILJS_SERVICE_ID, "template_ttn_notification", templateParams)
-    .then(function(response) {
-      console.log('Email с ТТН успешно отправлен!', response.status, response.text);
-    }, function(error) {
-      console.error('Ошибка отправки email с ТТН:', error);
-    });
-}
-
-function changeOrderStatus(orderId, status) {
-  db.collection("orders").doc(orderId).update({
-    status,
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-  })
-  .then(() => {
-    showNotification("Статус замовлення оновлено");
-  })
-  .catch((error) => {
-    console.error("Помилка оновлення статусу замовлення: ", error);
-    showNotification("Помилка оновлення статусу замовлення", "error");
-  });
-}
-
-function deleteOrder(orderId) {
-  if (confirm("Ви впевнені, що хочете видалити це замовлення? Цю дію не можна скасувати.")) {
-    db.collection("orders").doc(orderId).delete()
-      .then(() => {
-        showNotification("Замовлення успішно видалено");
-      })
-      .catch((error) => {
-        console.error("Помилка видалення замовлення: ", error);
-        showNotification("Помилка видалення замовлення", "error");
-      });
-  }
-}
-
-function getStatusClass(status) {
-  const statusClasses = {
-    'new': 'status-new',
-    'processing': 'status-processing',
-    'shipped': 'status-shipped',
-    'delivered': 'status-delivered',
-    'cancelled': 'status-cancelled'
-  };
-  return statusClasses[status] || 'status-new';
-}
-
-function getStatusText(status) {
-  const statusTexts = {
-    'new': 'Новий',
-    'processing': 'В обробці',
-    'shipped': 'Відправлено',
-    'delivered': 'Доставлено',
-    'cancelled': 'Скасовано'
-  };
-  return statusTexts[status] || 'Новий';
 }
 
 // ===== ДОПОЛНИТЕЛЬНЫЕ ФУНКЦИИ =====
