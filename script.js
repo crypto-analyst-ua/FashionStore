@@ -120,10 +120,10 @@ const searchSynonyms = {
   'блузка': ['блузки', 'блузок', 'блуза'],
   'рубашка': ['рубашки', 'рубашек', 'сорочка', 'сорочки'],
   'куртка': ['куртки', 'курток', 'пиджак', 'пиджаки', 'жакет'],
-  'обувь': ['туфли', 'ботинки', 'кроссовки', 'сапоги', 'босоножки'],
+  'обувь': ['туфли', 'ботинки', ' кроссовки', 'сапоги', 'босоножки'],
   'сумка': ['сумки', 'рюкзак', 'рюкзаки', 'клатч', 'портфель'],
   'аксессуар': ['аксессуары', 'украшение', 'украшения', 'бижутерия'],
-  'свитер': ['свитера', 'свитеров', 'кофта', ' кофты', 'джемпер'],
+  'свитер': ['свитера', 'свитеров', 'кофта', 'кофты', 'джемпер'],
   'юбка': ['юбки', 'юбок'],
   'брюки': ['брюки', 'штаны', 'штанов'],
   'шорты': ['шорты', 'шорт'],
@@ -572,6 +572,23 @@ function initApp() {
     }
   });
   
+  // Инициализация выпадающего меню пользователя
+  const userMenu = document.getElementById('user-menu');
+  if (userMenu) {
+      const userBtn = userMenu.querySelector('.user-btn');
+      const userDropdown = userMenu.querySelector('.user-dropdown');
+
+      userBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          userDropdown.classList.toggle('show');
+      });
+
+      // Закрытие выпадающего меню при клике вне его
+      document.addEventListener('click', function() {
+          userDropdown.classList.remove('show');
+      });
+  }
+  
   // Загрузка товаров
   loadProducts().catch(error => {
     console.error("Помилка завантаження з Firestore, пробуємо завантажити з JSON:", error);
@@ -653,6 +670,86 @@ function initApp() {
   
   // Добавляем стили для заказов
   addOrdersStyles();
+}
+
+// Функція відкриття профілю користувача
+function openProfile() {
+  if (!currentUser) {
+    showNotification("Спочатку увійдіть в систему", "warning");
+    openAuthModal();
+    return;
+  }
+  
+  const modalContent = document.getElementById("modal-content");
+  modalContent.innerHTML = `
+    <button class="modal-close" onclick="closeModal()" aria-label="Закрити"><i class="fas fa-times" aria-hidden="true"></i></button>
+    <h3>Профіль користувача</h3>
+    <div class="profile-info">
+      <div class="form-group">
+        <label>Ім'я</label>
+        <input type="text" id="profile-name" value="${currentUser.displayName || ''}">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="profile-email" value="${currentUser.email || ''}" disabled>
+      </div>
+      <div class="form-group">
+        <label>Новий пароль</label>
+        <input type="password" id="profile-password" placeholder="Залиште порожнім, якщо не хочете змінювати">
+      </div>
+      <button class="btn btn-detail" onclick="updateProfile()">Зберегти зміни</button>
+    </div>
+  `;
+  
+  openModal();
+}
+
+// Функція оновлення профілю користувача
+function updateProfile() {
+  const name = document.getElementById('profile-name').value;
+  const password = document.getElementById('profile-password').value;
+  
+  const updates = {};
+  if (name !== currentUser.displayName) {
+    updates.displayName = name;
+  }
+  
+  const promises = [];
+  
+  // Оновлюємо профіль
+  if (Object.keys(updates).length > 0) {
+    promises.push(currentUser.updateProfile(updates));
+  }
+  
+  // Якщо вказано новий пароль, оновлюємо його
+  if (password) {
+    promises.push(currentUser.updatePassword(password));
+  }
+  
+  if (promises.length === 0) {
+    showNotification("Немає змін для оновлення", "info");
+    return;
+  }
+  
+  Promise.all(promises)
+    .then(() => {
+      showNotification("Профіль успішно оновлено");
+      closeModal();
+      // Оновлюємо ім'я користувача в інтерфейсі
+      document.getElementById('user-name').textContent = name || currentUser.email;
+    })
+    .catch((error) => {
+      console.error("Помилка оновлення профілю: ", error);
+      let errorMessage = "Помилка оновлення профілю";
+      
+      if (error.code === 'auth/requires-recent-login') {
+        errorMessage = "Для зміни пароля необхідно повторно увійти в систему";
+      } else if (error.code === 'auth/weak-password') {
+        errorMessage = "Пароль занадто слабкий. Використовуйте мінімум 6 символів";
+      }
+      
+      showNotification(errorMessage, "error");
+    });
 }
 
 // Функции для мобильных фильтров
