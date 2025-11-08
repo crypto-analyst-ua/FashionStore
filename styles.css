@@ -4357,3 +4357,69 @@ main {
     padding-right: 2rem;
   }
 }
+
+/* Добавьте эти стили в медиазапрос для мобильных устройств */
+
+@media (max-width: 768px) {
+  /* Скрываем текст на кнопке входа/профиля */
+  .btn-admin .btn-text {
+    display: none !important;
+  }
+  
+  /* Скрываем текст в выпадающем меню пользователя */
+  .user-btn span:not(.btn-text) {
+    display: none !important;
+  }
+  
+  /* Уменьшаем кнопки профиля для мобильных */
+  .btn-admin {
+    padding: 0.5rem !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    border-radius: var(--border-radius) !important;
+  }
+  
+  .btn-admin i {
+    font-size: 1rem !important;
+    margin: 0 !important;
+  }
+  
+  /* Уменьшаем кнопку пользователя в выпадающем меню */
+  .user-btn {
+    padding: 0.5rem !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+  }
+  
+  .user-btn i {
+    font-size: 1rem !important;
+    margin: 0 !important;
+  }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 480px) {
+  .btn-admin {
+    width: 36px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0.4rem !important;
+  }
+  
+  .btn-admin i {
+    font-size: 0.9rem !important;
+  }
+  
+  .user-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0.4rem !important;
+  }
+  
+  .user-btn i {
+    font-size: 0.9rem !important;
+  }
+}
