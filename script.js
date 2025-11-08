@@ -104,12 +104,73 @@ let currentFilters = {
   source: 'all'
 };
 
-// ===== УЛУЧШЕННЫЕ ФУНКЦИИ ПОИСКА ДЛЯ FASHION STORE =====
+// ===== УЛУЧШЕННАЯ СИСТЕМА ПОИСКА =====
+
+// Константы для оптимизации
+const MAX_SEARCH_RESULTS = 1000;
+const ENHANCED_DEBOUNCE_DELAY = 200;
+const SEARCH_HISTORY_KEY = "fashionstore_search_history";
+const MAX_SEARCH_HISTORY = 10;
+
+// Глобальные переменные для улучшенного поиска
+let searchIndexReady = false;
+let searchLoading = false;
 
 let searchTimeout = null;
-const SEARCH_DELAY = 300;
 const searchCache = new Map();
 const MAX_CACHE_SIZE = 100;
+
+// Расширенный словарь опечаток и транслитерации
+const searchTypos = {
+  // Русские опечатки
+  'платье': ['плятье', 'платьё', 'платей', 'плятье', 'плать'],
+  'джинсы': ['джинси', 'джинсови', 'джинс', 'джинса', 'джинсов'],
+  'футболка': ['фудболка', 'футболк', 'футболки', 'футболака'],
+  'блузка': ['блуска', 'блузк', 'блузки', 'блуска'],
+  'рубашка': ['рубаска', 'рубашки', 'рубашк'],
+  'куртка': ['курка', 'куртки', 'куртк'],
+  'обувь': ['обув', 'обуф', 'обуви'],
+  'сумка': ['сумк', 'сумки', 'сумку'],
+  'аксессуар': ['аксесуар', 'аксессуары', 'аксесуары'],
+  'свитер': ['свитер', 'свитера', 'свитеров'],
+  'юбка': ['юбк', 'юбки', 'юбку'],
+  'брюки': ['брюк', 'брюки', 'брюков'],
+  'шорты': ['шорт', 'шортов', 'шорты'],
+  'пальто': ['пальт', 'пальта', 'пальто'],
+  'кроссовки': ['кросовки', ' кроссовк', 'кроссовки'],
+  'туфли': ['туфл', 'туфлей', 'туфель'],
+  'сапоги': ['сапог', 'сапогов', 'сапоги'],
+  'украшения': ['украшение', 'украшений', 'украшения'],
+
+  // Украинские опечатки
+  'сукня': ['сукна', 'сукни', 'сукню'],
+  'джинси': ['джинсі', 'джинс', 'джинсов'],
+  'футболка': ['футболк', 'футболки', 'футболака'],
+  'блузка': ['блузк', 'блузки', 'блуска'],
+  'сорочка': ['сорочк', 'сорочки', 'сорочку'],
+  'куртка': ['куртк', 'куртки', 'куртку'],
+  'взуття': ['взутт', 'взуттия', 'взутть'],
+  'сумка': ['сумк', 'сумки', 'сумку'],
+  'аксесуар': ['аксесуары', 'аксесуари', 'аксесуар'],
+  'светр': ['светр', 'светра', 'светри'],
+  'спідниця': ['спідниці', 'спідниць', 'спідницю'],
+  'штани': ['штан', 'штанів', 'штани'],
+  'шорти': ['шорт', 'шортів', 'шорти'],
+  'пальто': ['пальт', 'пальта', 'пальто'],
+  'кросівки': ['кросівк', 'кросівок', 'кросівки'],
+  'туфлі': ['туфл', 'туфель', 'туфлі'],
+  'чоботи': ['чобот', 'чобіт', 'чоботи'],
+  'прикраси': ['прикрас', 'прикраси', 'прикрас'],
+
+  // Транслитерация
+  'sumka': ['сумка', 'сумку'],
+  'kurtka': ['куртка', 'куртки'],
+  'platye': ['платье', 'платья'],
+  'jeans': ['джинсы', 'джинси'],
+  'dress': ['платье', 'платья'],
+  'shirt': ['рубашка', 'рубашки'],
+  'shoes': ['обувь', 'взуття']
+};
 
 // Словарь синонимов для модной одежды
 const searchSynonyms = {
@@ -120,10 +181,10 @@ const searchSynonyms = {
   'блузка': ['блузки', 'блузок', 'блуза'],
   'рубашка': ['рубашки', 'рубашек', 'сорочка', 'сорочки'],
   'куртка': ['куртки', 'курток', 'пиджак', 'пиджаки', 'жакет'],
-  'обувь': ['туфли', 'ботинки', ' кроссовки', 'сапоги', 'босоножки'],
+  'обувь': ['туфли', 'ботинки', 'кроссовки', 'сапоги', 'босоножки'],
   'сумка': ['сумки', 'рюкзак', 'рюкзаки', 'клатч', 'портфель'],
   'аксессуар': ['аксессуары', 'украшение', 'украшения', 'бижутерия'],
-  'свитер': ['свитера', 'свитеров', 'кофта', 'кофты', 'джемпер'],
+  'свитер': ['свитера', 'свитеров', ' кофта', 'кофты', 'джемпер'],
   'юбка': ['юбки', 'юбок'],
   'брюки': ['брюки', 'штаны', 'штанов'],
   'шорты': ['шорты', 'шорт'],
@@ -154,22 +215,42 @@ const searchSynonyms = {
   'прикраси': ['біжутерія', 'прикраса', 'браслет', 'кільце', 'сережки']
 };
 
-// Нормализация текста для поиска
+// Функция исправления опечаток
+function fixCommonTypos(query) {
+  if (!query || query.length < 2) return query;
+  
+  let fixedQuery = query.toLowerCase();
+  
+  // Исправляем опечатки
+  Object.entries(searchTypos).forEach(([correct, mistakes]) => {
+    mistakes.forEach(mistake => {
+      if (fixedQuery.includes(mistake)) {
+        fixedQuery = fixedQuery.replace(mistake, correct);
+      }
+    });
+  });
+  
+  return fixedQuery;
+}
+
+// Улучшенная нормализация текста
 function normalizeSearchTerm(term) {
   if (!term) return '';
   
   let normalized = term.toLowerCase()
-    .replace(/[є]/g, 'е')
+    .replace(/[єё]/g, 'е')
     .replace(/[ї]/g, 'и') 
     .replace(/[і]/g, 'и')
     .replace(/[ґ]/g, 'г')
-    .replace(/[ё]/g, 'е')
     .replace(/[ы]/g, 'и')
     .replace(/[э]/g, 'е')
     .replace(/[ъь]/g, '')
     .replace(/[^а-яa-z0-9\-\s']/g, '')
     .replace(/\s+/g, ' ')
     .trim();
+  
+  // Исправляем опечатки
+  normalized = fixCommonTypos(normalized);
   
   return normalized;
 }
@@ -190,10 +271,209 @@ function expandSearchQuery(query) {
   return [...new Set(expanded)].join(' ');
 }
 
-// Улучшенная функция для получения поисковых подсказок
-function getSearchSuggestions(query) {
+// Функция расчета релевантности
+function calculateRelevance(product, searchTerms) {
+  if (!product || !searchTerms) return 0;
+  
+  let score = 0;
+  const searchText = searchTerms.toLowerCase();
+  
+  // Приоритеты совпадений
+  if (product.title && product.title.toLowerCase().includes(searchText)) {
+    score += 100;
+    // Бонус за точное совпадение в начале названия
+    if (product.title.toLowerCase().startsWith(searchText)) score += 50;
+  }
+  
+  if (product.brand && product.brand.toLowerCase().includes(searchText)) score += 50;
+  if (product.category && product.category.toLowerCase().includes(searchText)) score += 30;
+  if (product.description && product.description.toLowerCase().includes(searchText)) score += 10;
+  
+  // Поиск по артикулам и кодам
+  if (product.sku && product.sku.toLowerCase().includes(searchText)) score += 80;
+  if (product.article && product.article.toLowerCase().includes(searchText)) score += 80;
+  if (product.vendorCode && product.vendorCode.toLowerCase().includes(searchText)) score += 80;
+  
+  // Поиск по размеру и цвету
+  if (product.size && product.size.toLowerCase().includes(searchText)) score += 40;
+  if (product.color && product.color.toLowerCase().includes(searchText)) score += 40;
+  
+  // Бонусы за дополнительные параметры
+  if (product.isPopular) score += 20;
+  if (product.isNew) score += 15;
+  if (product.inStock) score += 10;
+  if (product.discount) score += 5;
+  
+  return score;
+}
+
+// Улучшенная предобработка товаров
+function preprocessProducts(productsArray) {
+  console.log("Предобработка товаров...");
+  
+  const processedProducts = productsArray.map((product, index) => {
+    if (!product || typeof product !== 'object') return product;
+    
+    // Создаем уникальный ID если его нет
+    if (!product.id) {
+      product.id = `product_${Date.now()}_${index}`;
+    }
+    
+    const searchFields = [
+      product.title || '',
+      product.brand || '',
+      product.category || '',
+      product.description || '',
+      product.specifications || '',
+      product.model || '',
+      product.sku || '',
+      product.article || '',
+      product.vendorCode || '',
+      product.size ? `размер:${product.size} size:${product.size} розмір:${product.size}` : '',
+      product.color ? `цвет:${product.color} color:${product.color} колір:${product.color}` : ''
+    ];
+    
+    const normalizedFields = searchFields.map(field => 
+      normalizeSearchTerm(String(field || ''))
+    );
+    
+    const searchIndex = normalizedFields.join(' ').toLowerCase();
+    
+    return {
+      ...product,
+      searchIndex,
+      title: product.title || 'Без назви',
+      brand: product.brand || '',
+      category: product.category || '',
+      description: product.description || '',
+      price: Number(product.price) || 0,
+      image: product.image || '',
+      inStock: product.inStock !== undefined ? product.inStock : true,
+      specifications: product.specifications || '',
+      model: product.model || '',
+      sku: product.sku || '',
+      article: product.article || '',
+      vendorCode: product.vendorCode || '',
+      size: product.size || '',
+      color: product.color || ''
+    };
+  });
+  
+  console.log(`Обработано ${processedProducts.length} товаров`);
+  return processedProducts;
+}
+
+// Управление историей поиска
+function saveToSearchHistory(query) {
+  if (!query || query.trim().length < 2) return;
+  
+  const cleanQuery = query.trim();
+  const history = JSON.parse(localStorage.getItem(SEARCH_HISTORY_KEY) || '[]');
+  const newHistory = [cleanQuery, ...history.filter(item => item !== cleanQuery)].slice(0, MAX_SEARCH_HISTORY);
+  localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(newHistory));
+}
+
+function getSearchHistory() {
+  return JSON.parse(localStorage.getItem(SEARCH_HISTORY_KEY) || '[]');
+}
+
+function clearSearchHistory() {
+  localStorage.removeItem(SEARCH_HISTORY_KEY);
+}
+
+function removeFromSearchHistory(term) {
+  const history = getSearchHistory();
+  const newHistory = history.filter(item => item !== term);
+  localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(newHistory));
+  
+  // Обновляем отображение
+  const searchInput = document.getElementById('search');
+  if (searchInput && searchInput.value === '') {
+    showSearchHistorySuggestions(false);
+  }
+  
+  const searchMobileInput = document.getElementById('search-mobile');
+  if (searchMobileInput && searchMobileInput.value === '') {
+    showSearchHistorySuggestions(true);
+  }
+}
+
+// Индикатор загрузки поиска
+function showSearchLoading(isMobile = false) {
+  const suggestionsId = isMobile ? 'search-suggestions-mobile' : 'search-suggestions';
+  const suggestionsContainer = document.getElementById(suggestionsId);
+  
+  if (suggestionsContainer) {
+    suggestionsContainer.innerHTML = '<div class="search-loading">🔍 Поиск...</div>';
+    suggestionsContainer.style.display = 'block';
+  }
+  
+  searchLoading = true;
+}
+
+function hideSearchLoading(isMobile = false) {
+  searchLoading = false;
+}
+
+// Аналитика поиска
+function trackSearchMetrics(query, resultsCount, selectedSuggestion = null) {
+  const metrics = {
+    query,
+    timestamp: Date.now(),
+    resultsCount,
+    selectedSuggestion,
+    hasResults: resultsCount > 0,
+    queryLength: query.length
+  };
+  
+  // Сохраняем в localStorage для последующего анализа
   try {
-    if (!query || query.length < 1) return [];
+    const searchAnalytics = JSON.parse(localStorage.getItem('search_analytics') || '[]');
+    searchAnalytics.push(metrics);
+    
+    // Сохраняем только последние 100 записей
+    if (searchAnalytics.length > 100) {
+      searchAnalytics.splice(0, searchAnalytics.length - 100);
+    }
+    
+    localStorage.setItem('search_analytics', JSON.stringify(searchAnalytics));
+  } catch (error) {
+    console.error('Ошибка сохранения аналитики поиска:', error);
+  }
+}
+
+// Безопасный поиск с обработкой ошибок
+function safeSearch(query) {
+  try {
+    if (!query || typeof query !== 'string') {
+      return [];
+    }
+    
+    // Сохраняем в историю
+    saveToSearchHistory(query);
+    
+    // Трекинг метрик
+    const results = searchProductsEnhanced(query);
+    trackSearchMetrics(query, results.length);
+    
+    return results;
+  } catch (error) {
+    console.error('Search error:', error);
+    
+    // Fallback: простой поиск по заголовку
+    return products.filter(p => 
+      p.title?.toLowerCase().includes(query.toLowerCase())
+    ).slice(0, 50);
+  }
+}
+
+// Улучшенные подсказки с историей и действиями
+function getEnhancedSearchSuggestions(query) {
+  try {
+    if (!query || query.length < 1) {
+      // Показываем историю поиска когда поле пустое
+      return getSearchHistorySuggestions();
+    }
     
     const normalizedQuery = normalizeSearchTerm(query);
     
@@ -213,7 +493,10 @@ function getSearchSuggestions(query) {
       const fieldsToCheck = [
         { field: 'title', type: 'Назва', icon: '👕', relevance: 10 },
         { field: 'brand', type: 'Бренд', icon: '🏷️', relevance: 8 },
-        { field: 'category', type: 'Категорія', icon: '📂', relevance: 6 }
+        { field: 'category', type: 'Категорія', icon: '📂', relevance: 6 },
+        { field: 'sku', type: 'Артикул', icon: '#️⃣', relevance: 9 },
+        { field: 'size', type: 'Розмір', icon: '📏', relevance: 5 },
+        { field: 'color', type: 'Колір', icon: '🎨', relevance: 5 }
       ];
       
       for (const { field, type, icon, relevance } of fieldsToCheck) {
@@ -234,23 +517,218 @@ function getSearchSuggestions(query) {
         }
       }
       
-      if (suggestions.length >= 5) break;
+      if (suggestions.length >= 8) break;
+    }
+    
+    // Добавляем быстрые действия если мало результатов
+    if (suggestions.length < 3) {
+      suggestions.push({
+        type: 'action',
+        icon: '🔍',
+        value: `Знайти "${query}"`,
+        action: 'search',
+        relevance: 100
+      });
     }
     
     suggestions.sort((a, b) => (b.relevance || 0) - (a.relevance || 0));
     
-    if (searchCache.size > MAX_CACHE_SIZE) {
-      const firstKey = searchCache.keys().next().value;
-      searchCache.delete(firstKey);
-    }
+    // Очистка кэша
+    cleanupSearchCache();
     
-    const finalSuggestions = suggestions.slice(0, 5);
+    const finalSuggestions = suggestions.slice(0, 6);
     searchCache.set(normalizedQuery, finalSuggestions);
     return finalSuggestions;
   } catch (error) {
     console.error("Ошибка в поиске подсказок:", error);
-    return [];
+    return getFallbackSuggestions(query);
   }
+}
+
+// Подсказки из истории поиска
+function getSearchHistorySuggestions() {
+  const history = getSearchHistory();
+  return history.slice(0, 5).map(term => ({
+    type: 'history',
+    icon: '🕒',
+    value: term,
+    action: 'search',
+    relevance: 100
+  }));
+}
+
+// Резервные подсказки при ошибке
+function getFallbackSuggestions(query) {
+  return [
+    {
+      type: 'action',
+      icon: '🔍',
+      value: `Знайти "${query}"`,
+      action: 'search',
+      relevance: 100
+    }
+  ];
+}
+
+// Очистка кэша поиска
+function cleanupSearchCache() {
+  if (searchCache.size > MAX_CACHE_SIZE) {
+    const keys = Array.from(searchCache.keys()).slice(0, 20);
+    keys.forEach(key => searchCache.delete(key));
+  }
+}
+
+// Удаление дубликатов в результатах
+function removeDuplicateResults(results) {
+  const seen = new Set();
+  const uniqueResults = [];
+  
+  for (const product of results) {
+    const key = `${product.title}_${product.brand}_${product.price}_${product.sku || ''}`;
+    if (!seen.has(key)) {
+      seen.add(key);
+      uniqueResults.push(product);
+    }
+  }
+  
+  return uniqueResults;
+}
+
+// Приоритет по наличию и локации
+function enhanceWithLocation(results) {
+  return results.sort((a, b) => {
+    // Приоритет товаров в наличии
+    if (a.inStock && !b.inStock) return -1;
+    if (!a.inStock && b.inStock) return 1;
+    
+    return 0;
+  });
+}
+
+// Улучшенная функция поиска с ранжированием
+function searchProductsEnhanced(searchTerm) {
+  if (!searchTerm || searchTerm.trim().length < 1) {
+    return products;
+  }
+  
+  const normalizedSearch = normalizeSearchTerm(searchTerm);
+  const searchWords = normalizedSearch.split(/\s+/).filter(word => word.length >= 1);
+  
+  if (searchWords.length === 0) {
+    return products;
+  }
+  
+  const expandedQuery = expandSearchQuery(normalizedSearch);
+  const expandedWords = expandedQuery.split(/\s+/).filter(word => word.length >= 1);
+  
+  let results = products.filter(product => {
+    if (!product.searchIndex) return false;
+    
+    // Ищем товары, которые содержат ВСЕ слова из запроса
+    const allWordsMatch = searchWords.every(word => 
+      product.searchIndex.includes(word)
+    );
+    
+    // Если не нашли по всем словам, ищем по расширенному запросу
+    if (!allWordsMatch && expandedWords.length > searchWords.length) {
+      return expandedWords.some(word => 
+        product.searchIndex.includes(word)
+      );
+    }
+    
+    return allWordsMatch;
+  });
+  
+  // Ограничение количества результатов
+  if (results.length > MAX_SEARCH_RESULTS) {
+    results = results.slice(0, MAX_SEARCH_RESULTS);
+  }
+  
+  // Ранжирование по релевантности
+  results.forEach(product => {
+    product.relevanceScore = calculateRelevance(product, searchTerm);
+  });
+  
+  // Сортировка по релевантности
+  results.sort((a, b) => {
+    if (b.relevanceScore !== a.relevanceScore) {
+      return b.relevanceScore - a.relevanceScore;
+    }
+    
+    // Вторичная сортировка
+    if (a.isPopular && !b.isPopular) return -1;
+    if (!a.isPopular && b.isPopular) return 1;
+    if (a.isNew && !b.isNew) return -1;
+    if (!a.isNew && b.isNew) return 1;
+    
+    return 0;
+  });
+  
+  // Удаление дубликатов
+  results = removeDuplicateResults(results);
+  
+  return results;
+}
+
+// Основная функция поиска
+function searchProducts(searchTerm) {
+  return safeSearch(searchTerm);
+}
+
+// Голосовой поиск
+function setupVoiceSearch() {
+  const VoiceSearch = {
+    isSupported: false,
+    recognition: null,
+    
+    init() {
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        this.isSupported = true;
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        this.recognition = new SpeechRecognition();
+        this.recognition.continuous = false;
+        this.recognition.interimResults = false;
+        this.recognition.lang = 'uk-UA'; // Украинский язык по умолчанию
+        
+        this.recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          this.handleVoiceResult(transcript);
+        };
+        
+        this.recognition.onerror = (event) => {
+          console.error('Voice recognition error:', event.error);
+          showNotification('Помилка розпізнавання голосу', 'error');
+        };
+      }
+    },
+    
+    start() {
+      if (!this.isSupported) {
+        showNotification('Голосовий пошук не підтримується вашим браузером', 'warning');
+        return;
+      }
+      
+      try {
+        this.recognition.start();
+        showNotification('Слухаю... Говоріть now', 'info');
+      } catch (error) {
+        console.error('Error starting voice recognition:', error);
+      }
+    },
+    
+    handleVoiceResult(transcript) {
+      const searchInput = document.getElementById('search') || document.getElementById('search-mobile');
+      if (searchInput) {
+        searchInput.value = transcript;
+        currentFilters.search = transcript;
+        applyFilters();
+        showNotification(`Пошук за запитом: "${transcript}"`);
+      }
+    }
+  };
+  
+  VoiceSearch.init();
+  return VoiceSearch;
 }
 
 // Функция для экранирования HTML
@@ -260,69 +738,81 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
-// Настройка обработчиков поиска
-function setupSearchHandler() {
-  const searchInput = document.getElementById('search');
-  const searchMobileInput = document.getElementById('search-mobile');
-  let lastSearchValue = '';
+// Показать историю поиска
+function showSearchHistorySuggestions(isMobile = false) {
+  const history = getSearchHistory();
+  if (history.length === 0) return;
   
-  function handleSearch(value, isMobile = false) {
-    if (value === lastSearchValue) return;
+  const searchContainer = isMobile 
+    ? document.querySelector('.search-container-mobile') 
+    : document.querySelector('.search-container');
+  
+  if (!searchContainer) return;
+  
+  const suggestionsId = isMobile ? 'search-suggestions-mobile' : 'search-suggestions';
+  let suggestionsContainer = document.getElementById(suggestionsId);
+  
+  if (!suggestionsContainer) {
+    suggestionsContainer = document.createElement('div');
+    suggestionsContainer.id = suggestionsId;
+    suggestionsContainer.className = 'search-suggestions' + (isMobile ? ' mobile-suggestions' : '');
+    searchContainer.appendChild(suggestionsContainer);
+  }
+  
+  suggestionsContainer.innerHTML = '';
+  
+  history.slice(0, 5).forEach((term, index) => {
+    const div = document.createElement('div');
+    div.className = `search-suggestion ${index === 0 ? 'active' : ''}`;
+    div.innerHTML = `
+      <i class="fas fa-history"></i>
+      <span class="suggestion-text">${escapeHtml(term)}</span>
+      <span class="suggestion-type">Історія</span>
+      <button class="clear-history-btn" onclick="event.stopPropagation(); removeFromSearchHistory('${term}')">
+        <i class="fas fa-times"></i>
+      </button>
+    `;
     
-    clearTimeout(searchTimeout);
-    
-    searchTimeout = setTimeout(() => {
-      lastSearchValue = value;
-      currentFilters.search = value;
-      
-      if (value.length >= 1) {
-        showSearchSuggestions(value, isMobile);
+    div.addEventListener('click', () => {
+      if (isMobile) {
+        document.getElementById('search-mobile').value = term;
       } else {
-        hideSearchSuggestions(isMobile);
+        document.getElementById('search').value = term;
       }
-      
+      currentFilters.search = term;
       applyFilters();
-    }, SEARCH_DELAY);
-  }
-  
-  // Обработчик для десктопного поиска
-  if (searchInput) {
-    searchInput.addEventListener('input', function() {
-      const currentValue = this.value.trim();
-      handleSearch(currentValue, false);
-      if (searchMobileInput) {
-        searchMobileInput.value = currentValue;
-      }
+      hideSearchSuggestions(isMobile);
     });
-  }
-  
-  // Обработчик для мобильного поиска
-  if (searchMobileInput) {
-    searchMobileInput.addEventListener('input', function() {
-      const currentValue = this.value.trim();
-      handleSearch(currentValue, true);
-      if (searchInput) {
-        searchInput.value = currentValue;
-      }
-    });
-  }
-  
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('.search-container') && !e.target.closest('.search-container-mobile')) {
-      hideSearchSuggestions(false);
-      hideSearchSuggestions(true);
-    }
+    
+    suggestionsContainer.appendChild(div);
   });
+  
+  // Кнопка очистки истории
+  const clearHistoryDiv = document.createElement('div');
+  clearHistoryDiv.className = 'search-suggestion suggestion-clear-history';
+  clearHistoryDiv.innerHTML = `
+    <i class="fas fa-trash"></i>
+    <span class="suggestion-text">Очистити історію пошуку</span>
+  `;
+  clearHistoryDiv.addEventListener('click', (e) => {
+    e.stopPropagation();
+    clearSearchHistory();
+    hideSearchSuggestions(isMobile);
+    showNotification('Історію пошуку очищено');
+  });
+  suggestionsContainer.appendChild(clearHistoryDiv);
+  
+  suggestionsContainer.style.display = 'block';
 }
 
 // Функция показа подсказок
 function showSearchSuggestions(query, isMobile = false) {
   if (!query || query.length < 1) {
-    hideSearchSuggestions(isMobile);
+    showSearchHistorySuggestions(isMobile);
     return;
   }
   
-  const suggestions = getSearchSuggestions(query);
+  const suggestions = getEnhancedSearchSuggestions(query);
   const searchContainer = isMobile 
     ? document.querySelector('.search-container-mobile') 
     : document.querySelector('.search-container');
@@ -344,27 +834,69 @@ function showSearchSuggestions(query, isMobile = false) {
     
     suggestions.forEach((suggestion, index) => {
       const div = document.createElement('div');
-      div.className = `search-suggestion ${index === 0 ? 'active' : ''}`;
-      div.innerHTML = `
-        ${suggestion.icon} 
-        <span class="suggestion-text">${escapeHtml(suggestion.value)}</span>
-        <span class="suggestion-type">${suggestion.type}</span>
-      `;
+      div.className = `search-suggestion ${suggestion.type === 'action' ? 'suggestion-action' : ''} ${index === 0 ? 'active' : ''}`;
       
-      div.addEventListener('click', () => {
-        if (isMobile) {
-          document.getElementById('search-mobile').value = suggestion.value;
-        } else {
-          document.getElementById('search').value = suggestion.value;
-        }
-        currentFilters.search = suggestion.value;
-        applyFilters();
-        hideSearchSuggestions(isMobile);
+      if (suggestion.type === 'action') {
+        div.innerHTML = `
+          ${suggestion.icon} 
+          <span class="suggestion-text">${escapeHtml(suggestion.value)}</span>
+        `;
         
-        if (suggestion.productId) {
-          showProductDetail(suggestion.productId);
-        }
-      });
+        div.addEventListener('click', () => {
+          if (suggestion.action === 'search') {
+            const searchValue = suggestion.value.replace(/^Знайти "/, '').replace(/"$/, '');
+            if (isMobile) {
+              document.getElementById('search-mobile').value = searchValue;
+            } else {
+              document.getElementById('search').value = searchValue;
+            }
+            currentFilters.search = searchValue;
+            applyFilters();
+          }
+          hideSearchSuggestions(isMobile);
+        });
+      } else if (suggestion.type === 'history') {
+        div.innerHTML = `
+          ${suggestion.icon} 
+          <span class="suggestion-text">${escapeHtml(suggestion.value)}</span>
+          <span class="suggestion-type">Історія</span>
+          <button class="clear-history-btn" onclick="event.stopPropagation(); removeFromSearchHistory('${suggestion.value}')">
+            <i class="fas fa-times"></i>
+          </button>
+        `;
+        
+        div.addEventListener('click', () => {
+          if (isMobile) {
+            document.getElementById('search-mobile').value = suggestion.value;
+          } else {
+            document.getElementById('search').value = suggestion.value;
+          }
+          currentFilters.search = suggestion.value;
+          applyFilters();
+          hideSearchSuggestions(isMobile);
+        });
+      } else {
+        div.innerHTML = `
+          ${suggestion.icon} 
+          <span class="suggestion-text">${escapeHtml(suggestion.value)}</span>
+          <span class="suggestion-type">${suggestion.type}</span>
+        `;
+        
+        div.addEventListener('click', () => {
+          if (isMobile) {
+            document.getElementById('search-mobile').value = suggestion.value;
+          } else {
+            document.getElementById('search').value = suggestion.value;
+          }
+          currentFilters.search = suggestion.value;
+          applyFilters();
+          hideSearchSuggestions(isMobile);
+          
+          if (suggestion.productId) {
+            showProductDetail(suggestion.productId);
+          }
+        });
+      }
       
       suggestionsContainer.appendChild(div);
     });
@@ -384,80 +916,183 @@ function hideSearchSuggestions(isMobile = false) {
   }
 }
 
-// Предобработка товаров для поиска
-function preprocessProducts(productsArray) {
-  return productsArray.map(product => {
-    if (!product || typeof product !== 'object') return product;
-    
-    const searchFields = [
-      product.title || '', product.title || '', product.title || '',
-      product.brand || '', product.brand || '',
-      product.category || '',
-      product.description || '',
-      product.specifications || '',
-      product.model || '',
-      product.sku || ''
-    ];
-    
-    const normalizedFields = searchFields.map(field => 
-      normalizeSearchTerm(String(field))
-    );
-    
-    const searchIndex = normalizedFields.join(' ').toLowerCase();
-    
-    return {
-      ...product,
-      searchIndex,
-      title: product.title || 'Без назви',
-      brand: product.brand || '',
-      category: product.category || '',
-      description: product.description || '',
-      price: Number(product.price) || 0,
-      image: product.image || '',
-      inStock: product.inStock !== undefined ? product.inStock : true,
-      specifications: product.specifications || '',
-      model: product.model || '',
-      sku: product.sku || ''
-    };
-  });
-}
-
-// Улучшенная функция поиска
-function searchProductsEnhanced(searchTerm) {
-  if (!searchTerm || searchTerm.trim().length < 1) {
-    return products;
-  }
-  
-  const normalizedSearch = normalizeSearchTerm(searchTerm);
-  const searchWords = normalizedSearch.split(/\s+/).filter(word => word.length >= 1);
-  
-  if (searchWords.length === 0) {
-    return products;
-  }
-  
-  const expandedQuery = expandSearchQuery(normalizedSearch);
-  const expandedWords = expandedQuery.split(/\s+/).filter(word => word.length >= 1);
-  
-  return products.filter(product => {
-    if (!product.searchIndex) return false;
-    
-    const allWordsMatch = searchWords.every(word => 
-      product.searchIndex.includes(word)
-    );
-    
-    if (!allWordsMatch && expandedWords.length > searchWords.length) {
-      return expandedWords.some(word => 
-        product.searchIndex.includes(word)
-      );
+// Добавление кнопки голосового поиска
+function addVoiceSearchButton() {
+  const style = document.createElement('style');
+  style.textContent = `
+    .voice-search-btn {
+      position: absolute;
+      right: 45px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
     }
     
-    return allWordsMatch;
+    .voice-search-btn:hover {
+      background: #f0f0f0;
+      color: #007bff;
+    }
+    
+    .voice-search-btn.listening {
+      color: #e74c3c;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: translateY(-50%) scale(1); }
+      50% { transform: translateY(-50%) scale(1.1); }
+      100% { transform: translateY(-50%) scale(1); }
+    }
+    
+    .search-loading {
+      padding: 10px;
+      text-align: center;
+      color: #666;
+      font-style: italic;
+    }
+    
+    .suggestion-action {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+    
+    .suggestion-clear-history {
+      border-top: 1px solid #eee;
+      color: #666;
+      font-size: 0.9em;
+    }
+    
+    .clear-history-btn {
+      background: none;
+      border: none;
+      color: #999;
+      cursor: pointer;
+      padding: 2px 5px;
+      border-radius: 3px;
+      margin-left: auto;
+    }
+    
+    .clear-history-btn:hover {
+      background: #f0f0f0;
+      color: #e74c3c;
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Добавляем кнопки в поля поиска
+  const searchInput = document.getElementById('search');
+  const searchMobileInput = document.getElementById('search-mobile');
+  
+  [searchInput, searchMobileInput].forEach((input, index) => {
+    if (!input) return;
+    
+    const isMobile = index === 1;
+    const voiceBtn = document.createElement('button');
+    voiceBtn.type = 'button';
+    voiceBtn.className = 'voice-search-btn';
+    voiceBtn.innerHTML = '🎤';
+    voiceBtn.title = 'Голосовий пошук';
+    
+    voiceBtn.addEventListener('click', () => {
+      voiceBtn.classList.add('listening');
+      const voiceSearch = setupVoiceSearch();
+      voiceSearch.start();
+      
+      // Снимаем класс listening через 5 секунд
+      setTimeout(() => {
+        voiceBtn.classList.remove('listening');
+      }, 5000);
+    });
+    
+    input.parentNode.style.position = 'relative';
+    input.parentNode.appendChild(voiceBtn);
   });
 }
 
-// Основная функция поиска
-function searchProducts(searchTerm) {
-  return searchProductsEnhanced(searchTerm);
+// Настройка обработчиков поиска
+function setupSearchHandler() {
+  const searchInput = document.getElementById('search');
+  const searchMobileInput = document.getElementById('search-mobile');
+  let lastSearchValue = '';
+  
+  // Инициализация голосового поиска
+  const voiceSearch = setupVoiceSearch();
+  
+  // Добавляем кнопку голосового поиска
+  addVoiceSearchButton();
+  
+  function handleSearch(value, isMobile = false) {
+    if (value === lastSearchValue) return;
+    
+    clearTimeout(searchTimeout);
+    
+    // Показываем индикатор загрузки
+    if (value.length >= 1) {
+      showSearchLoading(isMobile);
+    }
+    
+    searchTimeout = setTimeout(() => {
+      lastSearchValue = value;
+      currentFilters.search = value;
+      
+      if (value.length >= 1) {
+        showSearchSuggestions(value, isMobile);
+      } else {
+        showSearchHistorySuggestions(isMobile);
+      }
+      
+      applyFilters();
+      hideSearchLoading(isMobile);
+    }, ENHANCED_DEBOUNCE_DELAY);
+  }
+  
+  // Обработчик для десктопного поиска
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      const currentValue = this.value.trim();
+      handleSearch(currentValue, false);
+      if (searchMobileInput) {
+        searchMobileInput.value = currentValue;
+      }
+    });
+    
+    // Обработчик фокуса - показываем историю
+    searchInput.addEventListener('focus', function() {
+      if (this.value === '') {
+        showSearchHistorySuggestions(false);
+      }
+    });
+  }
+  
+  // Обработчик для мобильного поиска
+  if (searchMobileInput) {
+    searchMobileInput.addEventListener('input', function() {
+      const currentValue = this.value.trim();
+      handleSearch(currentValue, true);
+      if (searchInput) {
+        searchInput.value = currentValue;
+      }
+    });
+    
+    searchMobileInput.addEventListener('focus', function() {
+      if (this.value === '') {
+        showSearchHistorySuggestions(true);
+      }
+    });
+  }
+  
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-container') && !e.target.closest('.search-container-mobile')) {
+      hideSearchSuggestions(false);
+      hideSearchSuggestions(true);
+    }
+  });
 }
 
 // Добавление CSS для поиска
@@ -528,6 +1163,69 @@ function addSearchStyles() {
       border-radius: 4px;
     }
     
+    .voice-search-btn {
+      position: absolute;
+      right: 45px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    .voice-search-btn:hover {
+      background: #f0f0f0;
+      color: #007bff;
+    }
+    
+    .voice-search-btn.listening {
+      color: #e74c3c;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: translateY(-50%) scale(1); }
+      50% { transform: translateY(-50%) scale(1.1); }
+      100% { transform: translateY(-50%) scale(1); }
+    }
+    
+    .search-loading {
+      padding: 10px;
+      text-align: center;
+      color: #666;
+      font-style: italic;
+    }
+    
+    .suggestion-action {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+    
+    .suggestion-clear-history {
+      border-top: 1px solid #eee;
+      color: #666;
+      font-size: 0.9em;
+    }
+    
+    .clear-history-btn {
+      background: none;
+      border: none;
+      color: #999;
+      cursor: pointer;
+      padding: 2px 5px;
+      border-radius: 3px;
+      margin-left: auto;
+    }
+    
+    .clear-history-btn:hover {
+      background: #f0f0f0;
+      color: #e74c3c;
+    }
+    
     @media (max-width: 768px) {
       .search-container {
         display: none;
@@ -541,6 +1239,17 @@ function addSearchStyles() {
     }
   `;
   document.head.appendChild(style);
+}
+
+// Инициализация улучшенного поиска при загрузке приложения
+function initEnhancedSearch() {
+  addSearchStyles();
+  setupSearchHandler();
+  
+  // Гарантируем предобработку товаров
+  if (products.length > 0 && !searchIndexReady) {
+    products = preprocessProducts(products);
+  }
 }
 
 // ===== ФУНКЦИЯ СЧЕТЧИКА ПРОСМОТРОВ =====
@@ -576,7 +1285,13 @@ function setupPageCounter() {
 function initApp() {
   emailjs.init(EMAILJS_USER_ID);
   
-  addSearchStyles();
+  // Предобработка товаров после загрузки
+  if (products.length > 0) {
+    products = preprocessProducts(products);
+  }
+  
+  // Инициализируем улучшенный поиск
+  initEnhancedSearch();
 
   showEnhancedLoadingSkeleton();
   
@@ -664,8 +1379,6 @@ function initApp() {
   }
   
   document.getElementById("year").innerText = new Date().getFullYear();
-  
-  setupSearchHandler();
   
   // Настройка обработчиков фильтров
   document.getElementById('category').addEventListener('change', function() {
@@ -1200,6 +1913,9 @@ function getFilteredProducts() {
     case 'name-desc':
       filteredProducts.sort((a, b) => b.title.localeCompare(a.title));
       break;
+    case 'relevance':
+      // Уже отсортировано в searchProductsEnhanced
+      break;
     default:
       filteredProducts.sort((a, b) => {
         if (a.isPopular && !b.isPopular) return -1;
@@ -1455,32 +2171,16 @@ function toggleFavorites() {
 
 // Применение фильтров
 function applyFilters() {
-  const minPrice = document.getElementById("price-min").value ? parseInt(document.getElementById("price-min").value) : null;
-  const maxPrice = document.getElementById("price-max").value ? parseInt(document.getElementById("price-max").value) : null;
+  const minPrice = document.getElementById("price-min")?.value ? parseInt(document.getElementById("price-min").value) : null;
+  const maxPrice = document.getElementById("price-max")?.value ? parseInt(document.getElementById("price-max").value) : null;
   
   currentFilters.minPrice = minPrice;
   currentFilters.maxPrice = maxPrice;
-  currentFilters.category = document.getElementById("category").value;
-  currentFilters.brand = document.getElementById("brand").value;
-  currentFilters.availability = document.getElementById("availability").value;
-  currentFilters.sort = document.getElementById("sort").value;
-  
-  const currentCategory = currentFilters.category;
-  document.querySelectorAll('.category-item').forEach(item => {
-    item.classList.remove('active');
-  });
-  
-  if (currentCategory === '') {
-    document.querySelectorAll('.category-item')[0].classList.add('active');
-  } else {
-    const categoryItems = document.querySelectorAll('.category-item');
-    for (let item of categoryItems) {
-      if (item.textContent.includes(translateCategory(currentCategory))) {
-        item.classList.add('active');
-        break;
-      }
-    }
-  }
+  currentFilters.category = document.getElementById("category")?.value || '';
+  currentFilters.brand = document.getElementById("brand")?.value || '';
+  currentFilters.availability = document.getElementById("availability")?.value || '';
+  currentFilters.sort = document.getElementById("sort")?.value || 'default';
+  currentFilters.search = document.getElementById("search")?.value || '';
   
   currentPage = 1;
   
