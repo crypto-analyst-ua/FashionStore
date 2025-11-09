@@ -104,21 +104,460 @@ let currentFilters = {
   source: 'all'
 };
 
-// ===== УЛУЧШЕННАЯ СИСТЕМА ПОИСКА =====
+// ===== УЛУЧШЕННАЯ СИСТЕМА ПОИСКА В СТИЛЕ МАРКЕТПЛЕЙСОВ =====
 
-// Константы для оптимизации
-const MAX_SEARCH_RESULTS = 1000;
-const ENHANCED_DEBOUNCE_DELAY = 200;
-const SEARCH_HISTORY_KEY = "fashionstore_search_history";
-const MAX_SEARCH_HISTORY = 10;
+// Константы для оптимизации поиска
+const SEARCH_CONFIG = {
+  MAX_RESULTS: 1000,
+  DEBOUNCE_DELAY: 150,
+  MAX_HISTORY: 10,
+  MAX_CACHE_SIZE: 200,
+  MIN_QUERY_LENGTH: 2
+};
 
-// Глобальные переменные для улучшенного поиска
-let searchIndexReady = false;
-let searchLoading = false;
+// Расширенный интеллектуальный словарь для модной индустрии
+const FASHION_SEARCH_KNOWLEDGE = {
+  // Категории и подкатегории
+  categories: {
+    'платье': ['вечернее', 'коктейльное', 'повседневное', 'офисное', 'свадебное', 'летнее', 'на выпускной'],
+    'джинсы': ['скинни', 'стрейч', 'бойфренды', 'мамашки', 'флоппи', 'рваные', 'зауженные'],
+    'футболка': ['базовая', 'оверсайз', 'поло', 'лонгслив', 'с принтом', 'классическая'],
+    'куртка': ['косуха', 'бомбер', 'анорак', 'ветровка', 'джинсовая', 'кожаная'],
+    'обувь': ['повседневная', 'спортивная', 'вечерняя', 'офисная', 'пляжная'],
+    'сумка': ['повседневная', 'вечерняя', 'пляжная', 'деловая', 'кросс-боди']
+  },
+  
+  // Сезонность
+  seasons: {
+    'лето': ['летний', 'летняя', 'летнее', 'пляжный', 'пляжная'],
+    'зима': ['зимний', 'зимняя', 'зимнее', 'утепленный', 'теплый'],
+    'весна': ['весенний', 'весенняя', 'весеннее', 'демисезонный'],
+    'осень': ['осенний', 'осенняя', 'осеннее', 'дождевик']
+  },
+  
+  // Стили
+  styles: {
+    'повседневный': ['кэжуал', 'ежедневный', 'расслабленный'],
+    'офисный': ['деловой', 'бизнес', 'формальный', 'строгий'],
+    'вечерний': ['нарядный', 'гламурный', 'торжественный'],
+    'спортивный': ['спорт-шик', 'активный', 'тренировочный']
+  }
+};
 
-let searchTimeout = null;
-const searchCache = new Map();
-const MAX_CACHE_SIZE = 100;
+// Умный поисковый индекс
+class SmartSearchIndex {
+  constructor() {
+    this.products = [];
+    this.index = new Map();
+    this.suggestionsCache = new Map();
+  }
+
+  // Индексирование товаров с учетом multiple fields
+  indexProducts(products) {
+    this.products = products;
+    this.index.clear();
+    
+    products.forEach((product, idx) => {
+      const searchableText = this.getSearchableText(product);
+      const words = this.tokenizeText(searchableText);
+      
+      words.forEach(word => {
+        if (!this.index.has(word)) {
+          this.index.set(word, new Set());
+        }
+        this.index.get(word).add(idx);
+      });
+    });
+    
+    console.log(`🔍 Проиндексировано ${products.length} товаров, ${this.index.size} уникальных слов`);
+  }
+
+  // Получение поискового текста из всех полей товара
+  getSearchableText(product) {
+    const fields = [
+      product.title,
+      product.brand,
+      product.category,
+      product.description,
+      product.color,
+      product.size,
+      product.material,
+      product.style,
+      product.season,
+      product.sku,
+      product.article
+    ];
+    
+    return fields
+      .filter(Boolean)
+      .map(field => field.toLowerCase())
+      .join(' ')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Нормализация Unicode
+  }
+
+  // Токенизация текста с извлечением ключевых слов
+  tokenizeText(text) {
+    return text
+      .toLowerCase()
+      .split(/[^\wа-яёїієґ]+/gi)
+      .filter(word => word.length > 2)
+      .flatMap(word => this.expandWordVariants(word))
+      .filter(Boolean);
+  }
+
+  // Расширение вариантов слова (синонимы, транслитерация)
+  expandWordVariants(word) {
+    const variants = new Set([word]);
+    
+    // Транслитерация
+    const translit = this.transliterate(word);
+    if (translit !== word) variants.add(translit);
+    
+    // Синонимы из расширенного словаря
+    if (searchSynonyms[word]) {
+      searchSynonyms[word].forEach(synonym => variants.add(synonym));
+    }
+    
+    // Обратный поиск синонимов
+    Object.entries(searchSynonyms).forEach(([key, synonyms]) => {
+      if (synonyms.includes(word)) variants.add(key);
+    });
+    
+    return Array.from(variants);
+  }
+
+  // Транслитерация кириллицы
+  transliterate(text) {
+    const cyrillic = 'абвгґдеёжзийклмнопрстуфхцчшщъыьэюя';
+    const latin = 'abvhgdeejziyklmnoprstufkchtschtsyyeyuya';
+    
+    return text.split('').map(char => {
+      const index = cyrillic.indexOf(char);
+      return index >= 0 ? latin[index] : char;
+    }).join('');
+  }
+
+  // Основной поиск с ранжированием
+  search(query, options = {}) {
+    if (!query || query.length < SEARCH_CONFIG.MIN_QUERY_LENGTH) {
+      return this.products;
+    }
+
+    const tokens = this.tokenizeText(query);
+    const results = this.findProducts(tokens);
+    const rankedResults = this.rankResults(results, tokens, query);
+    
+    return rankedResults.slice(0, options.limit || SEARCH_CONFIG.MAX_RESULTS);
+  }
+
+  // Поиск товаров по токенам
+  findProducts(tokens) {
+    const productScores = new Map();
+    
+    tokens.forEach(token => {
+      if (this.index.has(token)) {
+        this.index.get(token).forEach(productIdx => {
+          const currentScore = productScores.get(productIdx) || 0;
+          productScores.set(productIdx, currentScore + 1);
+        });
+      }
+    });
+    
+    return Array.from(productScores.entries())
+      .filter(([_, score]) => score > 0)
+      .map(([idx, score]) => ({
+        product: this.products[idx],
+        score,
+        index: idx
+      }));
+  }
+
+  // Ранжирование результатов
+  rankResults(results, tokens, originalQuery) {
+    return results
+      .map(result => {
+        const relevance = this.calculateRelevance(result.product, tokens, originalQuery);
+        return {
+          ...result,
+          relevance: result.score + relevance
+        };
+      })
+      .sort((a, b) => b.relevance - a.relevance)
+      .map(item => item.product);
+  }
+
+  // Расчет релевантности с учетом различных факторов
+  calculateRelevance(product, tokens, originalQuery) {
+    let score = 0;
+    const searchText = this.getSearchableText(product);
+    const originalQueryLower = originalQuery.toLowerCase();
+
+    // Приоритеты полей
+    if (product.title?.toLowerCase().includes(originalQueryLower)) score += 100;
+    if (product.brand?.toLowerCase().includes(originalQueryLower)) score += 80;
+    if (product.category?.toLowerCase().includes(originalQueryLower)) score += 60;
+    if (product.sku?.toLowerCase().includes(originalQueryLower)) score += 90;
+
+    // Точное совпадение в начале названия
+    if (product.title?.toLowerCase().startsWith(originalQueryLower)) score += 50;
+
+    // Популярность и актуальность
+    if (product.isPopular) score += 30;
+    if (product.isNew) score += 25;
+    if (product.inStock) score += 20;
+    if (product.discount) score += 15;
+
+    // Дополнительные бонусы
+    if (product.rating > 4) score += 10;
+    if (product.reviewCount > 10) score += 5;
+
+    return score;
+  }
+
+  // Получение умных подсказок
+  getSmartSuggestions(query, limit = 8) {
+    if (!query) return this.getPopularSearches(limit);
+    
+    const cacheKey = query.toLowerCase();
+    if (this.suggestionsCache.has(cacheKey)) {
+      return this.suggestionsCache.get(cacheKey);
+    }
+
+    const suggestions = new Set();
+    const tokens = this.tokenizeText(query);
+
+    // Поиск по брендам
+    this.products.forEach(product => {
+      if (product.brand?.toLowerCase().includes(query.toLowerCase())) {
+        suggestions.add({ type: 'brand', value: product.brand, count: 1 });
+      }
+    });
+
+    // Поиск по категориям
+    this.products.forEach(product => {
+      if (product.category?.toLowerCase().includes(query.toLowerCase())) {
+        suggestions.add({ type: 'category', value: product.category, count: 1 });
+      }
+    });
+
+    // Поиск по популярным запросам
+    tokens.forEach(token => {
+      if (this.index.has(token)) {
+        this.index.get(token).forEach(idx => {
+          const product = this.products[idx];
+          if (product.title?.toLowerCase().includes(query.toLowerCase())) {
+            suggestions.add({ 
+              type: 'product', 
+              value: product.title, 
+              productId: product.id,
+              count: 1 
+            });
+          }
+        });
+      }
+    });
+
+    const result = Array.from(suggestions)
+      .slice(0, limit)
+      .map(suggestion => ({
+        ...suggestion,
+        icon: this.getSuggestionIcon(suggestion.type)
+      }));
+
+    this.suggestionsCache.set(cacheKey, result);
+    return result;
+  }
+
+  getSuggestionIcon(type) {
+    const icons = {
+      brand: '🏷️',
+      category: '📁',
+      product: '👕',
+      history: '🕒',
+      popular: '🔥'
+    };
+    return icons[type] || '🔍';
+  }
+
+  getPopularSearches(limit = 5) {
+    // Здесь можно добавить логику получения популярных запросов
+    // Пока возвращаем заглушку
+    return [
+      { type: 'popular', value: 'джинсы', icon: '🔥' },
+      { type: 'popular', value: 'платья', icon: '🔥' },
+      { type: 'popular', value: 'куртки', icon: '🔥' },
+      { type: 'popular', value: 'обувь', icon: '🔥' },
+      { type: 'popular', value: 'сумки', icon: '🔥' }
+    ].slice(0, limit);
+  }
+}
+
+// Менеджер поиска с улучшенным UX
+class SearchManager {
+  constructor() {
+    this.searchIndex = new SmartSearchIndex();
+    this.isInitialized = false;
+    this.searchHistory = this.loadSearchHistory();
+  }
+
+  init(products) {
+    this.searchIndex.indexProducts(products);
+    this.isInitialized = true;
+    console.log('🎯 Поисковый менеджер инициализирован');
+  }
+
+  // Основной поиск
+  search(query, options = {}) {
+    if (!this.isInitialized) {
+      console.warn('Поисковый индекс не инициализирован');
+      return [];
+    }
+
+    this.saveToHistory(query);
+    return this.searchIndex.search(query, options);
+  }
+
+  // Получение подсказок
+  getSuggestions(query, limit = 8) {
+    if (!this.isInitialized) return [];
+    return this.searchIndex.getSmartSuggestions(query, limit);
+  }
+
+  // Работа с историей поиска
+  loadSearchHistory() {
+    try {
+      return JSON.parse(localStorage.getItem(SEARCH_HISTORY_KEY)) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  saveSearchHistory() {
+    try {
+      localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(this.searchHistory));
+    } catch (error) {
+      console.error('Ошибка сохранения истории поиска:', error);
+    }
+  }
+
+  saveToHistory(query) {
+    if (!query || query.length < SEARCH_CONFIG.MIN_QUERY_LENGTH) return;
+    
+    const cleanQuery = query.trim();
+    this.searchHistory = [
+      cleanQuery,
+      ...this.searchHistory.filter(item => item !== cleanQuery)
+    ].slice(0, SEARCH_CONFIG.MAX_HISTORY);
+    
+    this.saveSearchHistory();
+  }
+
+  clearHistory() {
+    this.searchHistory = [];
+    this.saveSearchHistory();
+  }
+
+  removeFromHistory(query) {
+    this.searchHistory = this.searchHistory.filter(item => item !== query);
+    this.saveSearchHistory();
+  }
+
+  getHistory() {
+    return this.searchHistory.slice(0, 5);
+  }
+}
+
+// Аналитика поиска для улучшения качества
+class SearchAnalytics {
+  constructor() {
+    this.searches = [];
+    this.clicks = [];
+  }
+
+  trackSearch(query, resultsCount) {
+    this.searches.push({
+      query,
+      resultsCount,
+      timestamp: Date.now(),
+      hasResults: resultsCount > 0
+    });
+    
+    // Сохраняем аналитику в localStorage
+    this.saveAnalytics();
+  }
+
+  trackClick(query, productId, position) {
+    this.clicks.push({
+      query,
+      productId,
+      position,
+      timestamp: Date.now()
+    });
+    
+    this.saveAnalytics();
+  }
+
+  saveAnalytics() {
+    try {
+      const analytics = {
+        searches: this.searches.slice(-100), // Последние 100 записей
+        clicks: this.clicks.slice(-100),
+        updatedAt: Date.now()
+      };
+      
+      localStorage.setItem('search_analytics', JSON.stringify(analytics));
+    } catch (error) {
+      console.error('Ошибка сохранения аналитики:', error);
+    }
+  }
+
+  getPopularQueries(limit = 10) {
+    const queryCounts = {};
+    
+    this.searches.forEach(search => {
+      queryCounts[search.query] = (queryCounts[search.query] || 0) + 1;
+    });
+    
+    return Object.entries(queryCounts)
+      .sort(([,a], [,b]) => b - a)
+      .slice(0, limit)
+      .map(([query]) => query);
+  }
+}
+
+// Глобальные экземпляры менеджера поиска и аналитики
+const searchManager = new SearchManager();
+const searchAnalytics = new SearchAnalytics();
+
+// Интеграция с существующей системой
+function initEnhancedSearch() {
+  // Заменяем старые функции поиска на новые
+  window.searchProductsEnhanced = function(searchTerm) {
+    return searchManager.search(searchTerm);
+  };
+
+  window.getEnhancedSearchSuggestions = function(query) {
+    return searchManager.getSuggestions(query);
+  };
+
+  window.saveToSearchHistory = function(query) {
+    searchManager.saveToHistory(query);
+  };
+
+  window.getSearchHistory = function() {
+    return searchManager.getHistory();
+  };
+
+  window.clearSearchHistory = function() {
+    searchManager.clearHistory();
+  };
+
+  window.removeFromSearchHistory = function(query) {
+    searchManager.removeFromHistory(query);
+  };
+
+  console.log('🔍 Улучшенная поисковая система активирована');
+}
 
 // Расширенный словарь опечаток и транслитерации
 const searchTypos = {
@@ -309,7 +748,7 @@ function calculateRelevance(product, searchTerms) {
 
 // Улучшенная предобработка товаров
 function preprocessProducts(productsArray) {
-  console.log("Предобработка товаров...");
+  console.log("🔧 Предобработка товаров для умного поиска...");
   
   const processedProducts = productsArray.map((product, index) => {
     if (!product || typeof product !== 'object') return product;
@@ -355,11 +794,17 @@ function preprocessProducts(productsArray) {
       article: product.article || '',
       vendorCode: product.vendorCode || '',
       size: product.size || '',
-      color: product.color || ''
+      color: product.color || '',
+      // Добавляем новые поля для улучшенного поиска
+      material: product.material || '',
+      style: product.style || '',
+      season: product.season || '',
+      rating: product.rating || 0,
+      reviewCount: product.reviewCount || 0
     };
   });
   
-  console.log(`Обработано ${processedProducts.length} товаров`);
+  console.log(`✅ Обработано ${processedProducts.length} товаров`);
   return processedProducts;
 }
 
@@ -417,29 +862,7 @@ function hideSearchLoading(isMobile = false) {
 
 // Аналитика поиска
 function trackSearchMetrics(query, resultsCount, selectedSuggestion = null) {
-  const metrics = {
-    query,
-    timestamp: Date.now(),
-    resultsCount,
-    selectedSuggestion,
-    hasResults: resultsCount > 0,
-    queryLength: query.length
-  };
-  
-  // Сохраняем в localStorage для последующего анализа
-  try {
-    const searchAnalytics = JSON.parse(localStorage.getItem('search_analytics') || '[]');
-    searchAnalytics.push(metrics);
-    
-    // Сохраняем только последние 100 записей
-    if (searchAnalytics.length > 100) {
-      searchAnalytics.splice(0, searchAnalytics.length - 100);
-    }
-    
-    localStorage.setItem('search_analytics', JSON.stringify(searchAnalytics));
-  } catch (error) {
-    console.error('Ошибка сохранения аналитики поиска:', error);
-  }
+  searchAnalytics.trackSearch(query, resultsCount);
 }
 
 // Безопасный поиск с обработкой ошибок
@@ -1292,6 +1715,11 @@ function initApp() {
   
   // Инициализируем улучшенный поиск
   initEnhancedSearch();
+  
+  // Инициализируем поисковый менеджер
+  if (products.length > 0) {
+    searchManager.init(products);
+  }
 
   showEnhancedLoadingSkeleton();
   
@@ -1353,6 +1781,9 @@ function initApp() {
         showNotification(`Товари завантажено з ${PRODUCT_FILES.length} файлів`);
         
         localStorage.setItem('products_backup', JSON.stringify(products));
+        
+        // Инициализируем поисковый менеджер после загрузки товаров
+        searchManager.init(products);
       })
       .catch(jsonError => {
         console.error("Помилка завантаження з JSON:", jsonError);
@@ -1559,6 +1990,10 @@ function loadProducts() {
     renderFeaturedProducts();
     renderCategories();
     renderBrands();
+    
+    // Инициализируем поисковый менеджер
+    searchManager.init(products);
+    
     return Promise.resolve();
   }
   
@@ -1577,6 +2012,10 @@ function loadProducts() {
           renderFeaturedProducts();
           renderCategories();
           renderBrands();
+          
+          // Инициализируем поисковый менеджер
+          searchManager.init(products);
+          
           return Promise.resolve();
         } else {
           return loadProductsFromJson()
@@ -1593,6 +2032,9 @@ function loadProducts() {
               showNotification("Товари завантажено з локального файлу");
               
               localStorage.setItem('products_backup', JSON.stringify(products));
+              
+              // Инициализируем поисковый менеджер
+              searchManager.init(products);
             });
         }
       } else {
@@ -1614,6 +2056,10 @@ function loadProducts() {
         renderFeaturedProducts();
         renderCategories();
         renderBrands();
+        
+        // Инициализируем поисковый менеджер
+        searchManager.init(products);
+        
         return Promise.resolve();
       }
     })
@@ -1632,6 +2078,10 @@ function loadProducts() {
         renderFeaturedProducts();
         renderCategories();
         renderBrands();
+        
+        // Инициализируем поисковый менеджер
+        searchManager.init(products);
+        
         return Promise.resolve();
       } else {
         return Promise.reject(error);
@@ -4798,3 +5248,15 @@ function logout() {
 document.addEventListener("DOMContentLoaded", function() {
     initApp();
 });
+
+// Глобальные переменные для улучшенного поиска
+let searchIndexReady = false;
+let searchLoading = false;
+
+let searchTimeout = null;
+const searchCache = new Map();
+const MAX_CACHE_SIZE = 100;
+const MAX_SEARCH_RESULTS = 1000;
+const ENHANCED_DEBOUNCE_DELAY = 200;
+const SEARCH_HISTORY_KEY = "fashionstore_search_history";
+const MAX_SEARCH_HISTORY = 10;
