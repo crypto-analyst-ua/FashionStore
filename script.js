@@ -146,26 +146,32 @@ function getCartComment(productId) {
     return cart[productId]?.comment || '';
 }
 
-// ===== УЛУЧШЕННАЯ СИСТЕМА ГОЛОСОВОГО ПОИСКА =====
+// ===== ИСПРАВЛЕННАЯ СИСТЕМА ГОЛОСОВОГО ПОИСКА =====
 
 // Глобальная переменная для управления голосовым поиском
 let voiceSearch = {
     recognition: null,
     isListening: false,
-    isSupported: false
+    isSupported: false,
+    permissionGranted: false
 };
 
-// Инициализация голосового поиска
+// Улучшенная инициализация голосового поиска
 function initVoiceSearch() {
+    console.log('🎤 Инициализация голосового поиска...');
+    
     // Проверяем поддержку в разных браузерах
     const SpeechRecognition = window.SpeechRecognition || 
-                            window.webkitSpeechRecognition ||
-                            window.mozSpeechRecognition || 
-                            window.msSpeechRecognition;
+                            window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
         console.warn('Голосовой поиск не поддерживается в этом браузере');
         voiceSearch.isSupported = false;
+        
+        // Скрываем все кнопки голосового поиска
+        document.querySelectorAll('.voice-search-btn').forEach(btn => {
+            btn.style.display = 'none';
+        });
         return;
     }
 
@@ -180,42 +186,64 @@ function initVoiceSearch() {
         
         // Обработчики событий
         voiceSearch.recognition.onstart = function() {
+            console.log('Голосовой поиск: началось прослушивание');
             voiceSearch.isListening = true;
             updateVoiceSearchUI(true);
-            showNotification('Слухаю... Говоріть зараз', 'info');
+            showNotification('🎤 Слухаю... Говоріть зараз', 'info');
         };
         
         voiceSearch.recognition.onresult = function(event) {
+            console.log('Голосовой поиск: получен результат', event);
             const transcript = event.results[0][0].transcript;
             handleVoiceSearchResult(transcript);
         };
         
         voiceSearch.recognition.onerror = function(event) {
-            console.error('Ошибка распознавания голоса:', event.error);
+            console.error('Голосовой поиск: ошибка распознавания:', event.error);
             handleVoiceSearchError(event.error);
         };
         
         voiceSearch.recognition.onend = function() {
+            console.log('Голосовой поиск: прослушивание завершено');
             voiceSearch.isListening = false;
             updateVoiceSearchUI(false);
         };
         
-        console.log('🎤 Голосовой поиск инициализирован');
+        voiceSearch.recognition.onaudiostart = function() {
+            console.log('Голосовой поиск: началась обработка аудио');
+        };
+        
+        voiceSearch.recognition.onsoundstart = function() {
+            console.log('Голосовой поиск: обнаружен звук');
+        };
+        
+        voiceSearch.recognition.onsoundend = function() {
+            console.log('Голосовой поиск: звук закончился');
+        };
+        
+        voiceSearch.recognition.onaudioend = function() {
+            console.log('Голосовой поиск: обработка аудио завершена');
+        };
+        
+        console.log('🎤 Голосовой поиск успешно инициализирован');
         
     } catch (error) {
         console.error('Ошибка инициализации голосового поиска:', error);
         voiceSearch.isSupported = false;
+        showNotification('Помилка ініціалізації голосового пошуку', 'error');
     }
 }
 
-// Обработка результатов голосового поиска
+// Улучшенная обработка результатов голосового поиска
 function handleVoiceSearchResult(transcript) {
     if (!transcript || transcript.trim() === '') {
-        showNotification('Не розпізнано мовлення', 'warning');
+        console.warn('Голосовой поиск: пустой транскрипт');
+        showNotification('Не розпізнано мовлення. Спробуйте ще раз.', 'warning');
         return;
     }
     
     const cleanTranscript = transcript.trim();
+    console.log('Голосовой поиск: распознано:', cleanTranscript);
     
     // Определяем, какое поле поиска активно
     const searchInput = document.getElementById('search');
@@ -233,69 +261,125 @@ function handleVoiceSearchResult(transcript) {
     
     if (activeInput) {
         activeInput.value = cleanTranscript;
+        activeInput.focus(); // Фокусируемся на поле ввода
+        
+        // Обновляем фильтры и выполняем поиск
         currentFilters.search = cleanTranscript;
         applyFilters();
         
-        showNotification(`Пошук за запитом: "${cleanTranscript}"`);
+        showNotification(`🔍 Пошук за запитом: "${cleanTranscript}"`);
         
         // Сохраняем в историю поиска
         if (typeof saveToSearchHistory === 'function') {
             saveToSearchHistory(cleanTranscript);
         }
+        
+        // Показываем подсказки
+        showSearchSuggestions(cleanTranscript, activeInput === searchMobileInput);
     }
 }
 
-// Обработка ошибок голосового поиска
+// Улучшенная обработка ошибок голосового поиска
 function handleVoiceSearchError(error) {
+    console.error('Голосовой поиск: ошибка:', error);
+    
     let errorMessage = 'Помилка розпізнавання голосу';
+    let errorType = 'error';
     
     switch (error) {
         case 'no-speech':
             errorMessage = 'Мовлення не розпізнано. Спробуйте ще раз.';
+            errorType = 'warning';
             break;
         case 'audio-capture':
-            errorMessage = 'Мікрофон не знайдено або заблоковано.';
+            errorMessage = 'Мікрофон не знайдено або заблоковано. Перевірте налаштування мікрофона.';
             break;
         case 'not-allowed':
+        case 'permission-denied':
             errorMessage = 'Доступ до мікрофона заблоковано. Дозвольте доступ у налаштуваннях браузера.';
+            voiceSearch.permissionGranted = false;
             break;
         case 'network':
             errorMessage = 'Помилка мережі. Перевірте підключення до інтернету.';
             break;
         case 'language-not-supported':
-            errorMessage = 'Українська мова не підтримується для розпізнавання.';
+            errorMessage = 'Українська мова не підтримується для розпізнавання. Спробуйте сказати фразу англійською.';
+            errorType = 'warning';
+            break;
+        case 'service-not-allowed':
+            errorMessage = 'Сервіс розпізнавання мови недоступний.';
+            break;
+        case 'bad-grammar':
+            errorMessage = 'Помилка в граматиці розпізнавання.';
+            break;
+        case 'aborted':
+            errorMessage = 'Розпізнавання перервано.';
+            errorType = 'info';
             break;
         default:
-            errorMessage = `Помилка: ${error}`;
+            errorMessage = `Помилка розпізнавання: ${error}`;
             break;
     }
     
-    showNotification(errorMessage, 'error');
+    showNotification(errorMessage, errorType);
     updateVoiceSearchUI(false);
 }
 
-// Запуск голосового поиска
+// Улучшенный запуск голосового поиска
 function startVoiceSearch(isMobile = false) {
+    console.log('Голосовой поиск: запуск...', { isMobile, isSupported: voiceSearch.isSupported });
+    
     if (!voiceSearch.isSupported) {
         showNotification('Голосовий пошук не підтримується вашим браузером', 'warning');
         return;
     }
     
     if (voiceSearch.isListening) {
+        console.log('Голосовой поиск: остановка текущего прослушивания');
         stopVoiceSearch();
         return;
     }
     
     try {
-        voiceSearch.recognition.start();
-        
-        // Показываем индикатор на соответствующей кнопке
-        const voiceBtn = isMobile ? 
-            document.querySelector('.search-container-mobile .voice-search-btn') :
-            document.querySelector('.search-container .voice-search-btn');
+        // Проверяем разрешение на микрофон
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(function(stream) {
+                    voiceSearch.permissionGranted = true;
+                    console.log('Разрешение на микрофон получено');
+                    
+                    // Останавливаем все треки (очистка)
+                    stream.getTracks().forEach(track => track.stop());
+                    
+                    // Запускаем распознавание
+                    voiceSearch.recognition.start();
+                    
+                    // Показываем индикатор на соответствующей кнопке
+                    const voiceBtn = isMobile ? 
+                        document.querySelector('.search-container-mobile .voice-search-btn') :
+                        document.querySelector('.search-container .voice-search-btn');
+                        
+                    if (voiceBtn) {
+                        voiceBtn.classList.add('listening');
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Ошибка доступа к микрофону:', error);
+                    voiceSearch.permissionGranted = false;
+                    showNotification('Доступ до мікрофона заблоковано. Дозвольте доступ у налаштуваннях браузера.', 'error');
+                });
+        } else {
+            // Если getUserMedia не поддерживается, пробуем запустить напрямую
+            console.log('getUserMedia не поддерживается, запуск напрямую');
+            voiceSearch.recognition.start();
             
-        if (voiceBtn) {
-            voiceBtn.classList.add('listening');
+            const voiceBtn = isMobile ? 
+                document.querySelector('.search-container-mobile .voice-search-btn') :
+                document.querySelector('.search-container .voice-search-btn');
+                
+            if (voiceBtn) {
+                voiceBtn.classList.add('listening');
+            }
         }
         
     } catch (error) {
@@ -307,9 +391,14 @@ function startVoiceSearch(isMobile = false) {
 // Остановка голосового поиска
 function stopVoiceSearch() {
     if (voiceSearch.recognition && voiceSearch.isListening) {
-        voiceSearch.recognition.stop();
-        voiceSearch.isListening = false;
-        updateVoiceSearchUI(false);
+        try {
+            voiceSearch.recognition.stop();
+            voiceSearch.isListening = false;
+            updateVoiceSearchUI(false);
+            console.log('Голосовой поиск: принудительная остановка');
+        } catch (error) {
+            console.error('Ошибка остановки голосового поиска:', error);
+        }
     }
 }
 
@@ -322,20 +411,29 @@ function updateVoiceSearchUI(listening) {
             btn.classList.add('listening');
             btn.innerHTML = '⏹️';
             btn.title = 'Зупинити запис';
+            btn.style.backgroundColor = '#ff4444';
+            btn.style.color = 'white';
         } else {
             btn.classList.remove('listening');
             btn.innerHTML = '🎤';
             btn.title = 'Голосовий пошук';
+            btn.style.backgroundColor = '';
+            btn.style.color = '';
         }
     });
 }
 
-// Добавление кнопок голосового поиска в UI
+// Улучшенное добавление кнопок голосового поиска в UI
 function addVoiceSearchButtons() {
+    console.log('Добавление кнопок голосового поиска...');
+    
     const searchInput = document.getElementById('search');
     const searchMobileInput = document.getElementById('search-mobile');
     
-    // Создаем стили для кнопок голосового поиска
+    // Удаляем старые кнопки, если они есть
+    document.querySelectorAll('.voice-search-btn').forEach(btn => btn.remove());
+    
+    // Создаем улучшенные стили для кнопок голосового поиска
     const style = document.createElement('style');
     style.textContent = `
         .voice-search-btn {
@@ -343,25 +441,32 @@ function addVoiceSearchButtons() {
             right: 45px;
             top: 50%;
             transform: translateY(-50%);
-            background: none;
-            border: none;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
             color: #666;
             cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
+            padding: 8px 10px;
+            border-radius: 20px;
             transition: all 0.3s ease;
             z-index: 10;
-            font-size: 16px;
+            font-size: 14px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .voice-search-btn:hover {
-            background: #f0f0f0;
+            background: #e9ecef;
             color: #007bff;
+            border-color: #007bff;
         }
         
         .voice-search-btn.listening {
-            color: #e74c3c;
-            background: #ffeaea;
+            color: white !important;
+            background: #ff4444 !important;
+            border-color: #ff4444 !important;
             animation: pulse 1.5s infinite;
         }
         
@@ -376,14 +481,14 @@ function addVoiceSearchButtons() {
         @keyframes pulse {
             0% { 
                 transform: translateY(-50%) scale(1);
-                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+                box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7);
             }
             50% { 
                 transform: translateY(-50%) scale(1.05);
             }
             100% { 
                 transform: translateY(-50%) scale(1);
-                box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+                box-shadow: 0 0 0 8px rgba(255, 68, 68, 0);
             }
         }
         
@@ -392,48 +497,103 @@ function addVoiceSearchButtons() {
             .voice-search-btn {
                 right: 40px;
                 padding: 10px;
-                font-size: 18px;
+                font-size: 16px;
+                width: 40px;
+                height: 40px;
             }
         }
         
         /* Состояние, когда голосовой поиск не поддерживается */
         .voice-search-btn.not-supported {
-            display: none;
+            display: none !important;
+        }
+        
+        /* Улучшенная доступность */
+        .voice-search-btn:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+        
+        .voice-search-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     `;
+    
+    // Удаляем старые стили, если есть
+    const oldStyle = document.getElementById('voice-search-styles');
+    if (oldStyle) oldStyle.remove();
+    
+    style.id = 'voice-search-styles';
     document.head.appendChild(style);
     
     // Добавляем кнопки к полям поиска
     [searchInput, searchMobileInput].forEach((input, index) => {
-        if (!input) return;
+        if (!input) {
+            console.warn('Поле поиска не найдено:', index === 0 ? 'desktop' : 'mobile');
+            return;
+        }
         
         const isMobile = index === 1;
         const container = input.parentElement;
+        
+        if (!container) {
+            console.warn('Контейнер поиска не найден');
+            return;
+        }
         
         // Создаем кнопку голосового поиска
         const voiceBtn = document.createElement('button');
         voiceBtn.type = 'button';
         voiceBtn.className = 'voice-search-btn';
         voiceBtn.innerHTML = '🎤';
-        voiceBtn.title = 'Голосовий пошук';
+        voiceBtn.title = 'Голосовий пошук (натисніть та говоріть)';
         voiceBtn.setAttribute('aria-label', 'Голосовий пошук');
+        voiceBtn.setAttribute('role', 'button');
+        
+        // Если голосовой поиск не поддерживается, скрываем кнопку
+        if (!voiceSearch.isSupported) {
+            voiceBtn.classList.add('not-supported');
+        }
         
         // Добавляем обработчик клика
         voiceBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
+            console.log('Клик по кнопке голосового поиска');
             startVoiceSearch(isMobile);
+        });
+        
+        // Добавляем обработчик клавиатуры для доступности
+        voiceBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                startVoiceSearch(isMobile);
+            }
         });
         
         // Добавляем кнопку в контейнер
         container.style.position = 'relative';
         container.appendChild(voiceBtn);
         
-        // Если голосовой поиск не поддерживается, скрываем кнопку
-        if (!voiceSearch.isSupported) {
-            voiceBtn.classList.add('not-supported');
-        }
+        console.log('Кнопка голосового поиска добавлена:', isMobile ? 'mobile' : 'desktop');
     });
+}
+
+// Функция для проверки и переинициализации голосового поиска
+function reinitVoiceSearch() {
+    console.log('Переинициализация голосового поиска...');
+    
+    // Останавливаем текущее прослушивание
+    stopVoiceSearch();
+    
+    // Переинициализируем
+    initVoiceSearch();
+    
+    // Обновляем кнопки
+    setTimeout(() => {
+        addVoiceSearchButtons();
+    }, 100);
 }
 
 // ===== УЛУЧШЕННАЯ СИСТЕМА ПОИСКА В СТИЛЕ МАРКЕТПЛЕЙСОВ =====
@@ -1745,39 +1905,46 @@ function addSearchStyles() {
             right: 45px;
             top: 50%;
             transform: translateY(-50%);
-            background: none;
-            border: none;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
             color: #666;
             cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
+            padding: 8px 10px;
+            border-radius: 20px;
             transition: all 0.3s ease;
             z-index: 10;
-            font-size: 16px;
+            font-size: 14px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .voice-search-btn:hover {
-            background: #f0f0f0;
+            background: #e9ecef;
             color: #007bff;
+            border-color: #007bff;
         }
         
         .voice-search-btn.listening {
-            color: #e74c3c;
-            background: #ffeaea;
+            color: white !important;
+            background: #ff4444 !important;
+            border-color: #ff4444 !important;
             animation: pulse 1.5s infinite;
         }
         
         @keyframes pulse {
             0% { 
                 transform: translateY(-50%) scale(1);
-                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+                box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7);
             }
             50% { 
                 transform: translateY(-50%) scale(1.05);
             }
             100% { 
                 transform: translateY(-50%) scale(1);
-                box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+                box-shadow: 0 0 0 8px rgba(255, 68, 68, 0);
             }
         }
         
@@ -1822,7 +1989,9 @@ function addSearchStyles() {
             .voice-search-btn {
                 right: 40px;
                 padding: 10px;
-                font-size: 18px;
+                font-size: 16px;
+                width: 40px;
+                height: 40px;
             }
         }
         
@@ -1833,7 +2002,18 @@ function addSearchStyles() {
         }
         
         .voice-search-btn.not-supported {
-            display: none;
+            display: none !important;
+        }
+        
+        /* Улучшенная доступность */
+        .voice-search-btn:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+        
+        .voice-search-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     `;
     document.head.appendChild(style);
@@ -2109,8 +2289,11 @@ function addProductCommentStyles() {
 function initApp() {
     emailjs.init(EMAILJS_USER_ID);
     
-    // Инициализация голосового поиска ДО добавления кнопок
-    initVoiceSearch();
+    // Инициализация улучшенного голосового поиска
+    setTimeout(() => {
+        initVoiceSearch();
+        addVoiceSearchButtons();
+    }, 1000); // Даем время на загрузку DOM
     
     // Инициализация корзины с поддержкой комментариев
     updateCartStructure();
@@ -2772,7 +2955,7 @@ function getFilteredProducts() {
             filteredProducts.sort((a, b) => a.title.localeCompare(b.title));
             break;
         case 'name-desc':
-            filteredProducts.sort((a, b) => b.title.localeCompare(a.title));
+            filteredProducts.sort((a, b) => b.title.localeCompare(b.title));
             break;
         case 'relevance':
             // Уже отсортировано в searchProductsEnhanced
@@ -4757,6 +4940,9 @@ const orderManager = new OrderManager();
 const originalCloseModal = closeModal;
 closeModal = function() {
     orderManager.cleanup();
+    if (voiceSearch.isListening) {
+        stopVoiceSearch();
+    }
     originalCloseModal();
 };
 
@@ -5193,19 +5379,6 @@ function logout() {
         });
 }
 
-// Добавляем обработчик для закрытия голосового поиска при нажатии Esc
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && voiceSearch.isListening) {
-        stopVoiceSearch();
-        showNotification('Голосовий пошук скасовано', 'info');
-    }
-});
-
-// Инициализация при загрузке страницы
-document.addEventListener("DOMContentLoaded", function() {
-    initApp();
-});
-
 // Глобальные переменные для улучшенного поиска
 let searchIndexReady = false;
 let searchLoading = false;
@@ -5217,3 +5390,40 @@ const MAX_SEARCH_RESULTS = 1000;
 const ENHANCED_DEBOUNCE_DELAY = 200;
 const SEARCH_HISTORY_KEY = "fashionstore_search_history";
 const MAX_SEARCH_HISTORY = 10;
+
+// Обработчики для улучшения работы голосового поиска
+document.addEventListener('DOMContentLoaded', function() {
+    // Переинициализация при изменении видимости страницы
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            reinitVoiceSearch();
+        }
+    });
+    
+    // Остановка голосового поиска при нажатии Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && voiceSearch.isListening) {
+            stopVoiceSearch();
+            showNotification('Голосовий пошук скасовано', 'info');
+        }
+    });
+    
+    // Остановка голосового поиска при закрытии модальных окон
+    const originalCloseModal = closeModal;
+    window.closeModal = function() {
+        if (voiceSearch.isListening) {
+            stopVoiceSearch();
+        }
+        originalCloseModal();
+    };
+});
+
+// Экспортируем функции для глобального доступа
+window.reinitVoiceSearch = reinitVoiceSearch;
+window.startVoiceSearch = startVoiceSearch;
+window.stopVoiceSearch = stopVoiceSearch;
+
+// Инициализация при загрузке страницы
+document.addEventListener("DOMContentLoaded", function() {
+    initApp();
+});
