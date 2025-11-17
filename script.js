@@ -2888,8 +2888,6 @@ function showProductDetail(productId) {
                     <p>${product.description || 'Опис відсутній'}</p>
                 </div>
                 <div class="product-specs">
-                    <p><strong>Бренд:</strong> ${product.brand || 'Не вказано'}</p>
-                    <p><strong>Категорія:</strong> ${translateCategory(product.category)}</p>
                     ${product.size ? `<p><strong>Розмір:</strong> ${product.size}</p>` : ''}
                     ${product.color ? `<p><strong>Колір:</strong> ${product.color}</p>` : ''}
                     <p><strong>Наявність:</strong> ${product.inStock ? 'В наявності' : 'Немає в наявності'}</p>
@@ -2902,10 +2900,10 @@ function showProductDetail(productId) {
                 
                 <!-- ДОБАВЛЕНО: ПОЛЕ КОММЕНТАРИЯ ДЛЯ ЗАКАЗА -->
                 <div class="form-group">
-                    <label for="product-comment">Додайте, будь ласка, розмір, колір та ваші побажання</label>
+                    <label for="product-comment">Додайте, будь ласка, розмір, та ваші побажання</label>
                     <textarea 
                         id="product-comment" 
-                        placeholder="Наприклад, бажаний розмір, колір або інші побажання щодо товару..."
+                        placeholder="Наприклад, бажаний розмір, або інші побажання щодо товару..."
                         rows="3"
                         maxlength="500"
                     ></textarea>
