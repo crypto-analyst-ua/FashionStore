@@ -1963,7 +1963,7 @@ function showProductDetail(productId) {
                 
                 <!-- ДОБАВЛЕНО: ПОЛЕ КОММЕНТАРИЯ -->
                 <div class="form-group">
-                    <label>Коментар до товару (Додайте, будь ласка, розмір, колір та ваші побажання)</label>
+                    <label>Додайте, будь ласка, розмір, колір та ваші побажання</label>
                     <textarea 
                         id="product-comment" 
                         class="comment-textarea"
