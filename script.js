@@ -104,74 +104,26 @@ let currentFilters = {
   source: 'all'
 };
 
-// ===== ДОБАВЛЕНИЕ КОММЕНТАРИЕВ К ТОВАРАМ В КОРЗИНЕ =====
-
-// Обновляем структуру корзины для хранения комментариев
-function updateCartStructure() {
-    const cartData = localStorage.getItem(CART_STORAGE_KEY);
-    if (cartData) {
-        const oldCart = JSON.parse(cartData);
-        const newCart = {};
-        
-        // Преобразуем старую структуру в новую
-        Object.keys(oldCart).forEach(productId => {
-            if (typeof oldCart[productId] === 'number') {
-                // Старая структура: { productId: quantity }
-                newCart[productId] = {
-                    quantity: oldCart[productId],
-                    comment: ''
-                };
-            } else {
-                // Уже новая структура
-                newCart[productId] = oldCart[productId];
-            }
-        });
-        
-        cart = newCart;
-        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-    }
-}
-
-// Функция для обновления комментария к товару в корзине
-function updateCartComment(productId, comment) {
-    if (cart[productId]) {
-        cart[productId].comment = comment;
-        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-        showNotification("Коментар збережено");
-    }
-}
-
-// Функция для получения комментария к товару
-function getCartComment(productId) {
-    return cart[productId]?.comment || '';
-}
-
-// ===== ИСПРАВЛЕННАЯ СИСТЕМА ГОЛОСОВОГО ПОИСКА =====
+// ===== УЛУЧШЕННАЯ СИСТЕМА ГОЛОСОВОГО ПОИСКА =====
 
 // Глобальная переменная для управления голосовым поиском
 let voiceSearch = {
     recognition: null,
     isListening: false,
-    isSupported: false,
-    permissionGranted: false
+    isSupported: false
 };
 
-// Улучшенная инициализация голосового поиска
+// Инициализация голосового поиска
 function initVoiceSearch() {
-    console.log('🎤 Инициализация голосового поиска...');
-    
     // Проверяем поддержку в разных браузерах
     const SpeechRecognition = window.SpeechRecognition || 
-                            window.webkitSpeechRecognition;
+                            window.webkitSpeechRecognition ||
+                            window.mozSpeechRecognition || 
+                            window.msSpeechRecognition;
 
     if (!SpeechRecognition) {
         console.warn('Голосовой поиск не поддерживается в этом браузере');
         voiceSearch.isSupported = false;
-        
-        // Скрываем все кнопки голосового поиска
-        document.querySelectorAll('.voice-search-btn').forEach(btn => {
-            btn.style.display = 'none';
-        });
         return;
     }
 
@@ -186,64 +138,42 @@ function initVoiceSearch() {
         
         // Обработчики событий
         voiceSearch.recognition.onstart = function() {
-            console.log('Голосовой поиск: началось прослушивание');
             voiceSearch.isListening = true;
             updateVoiceSearchUI(true);
-            showNotification('🎤 Слухаю... Говоріть зараз', 'info');
+            showNotification('Слухаю... Говоріть зараз', 'info');
         };
         
         voiceSearch.recognition.onresult = function(event) {
-            console.log('Голосовой поиск: получен результат', event);
             const transcript = event.results[0][0].transcript;
             handleVoiceSearchResult(transcript);
         };
         
         voiceSearch.recognition.onerror = function(event) {
-            console.error('Голосовой поиск: ошибка распознавания:', event.error);
+            console.error('Ошибка распознавания голоса:', event.error);
             handleVoiceSearchError(event.error);
         };
         
         voiceSearch.recognition.onend = function() {
-            console.log('Голосовой поиск: прослушивание завершено');
             voiceSearch.isListening = false;
             updateVoiceSearchUI(false);
         };
         
-        voiceSearch.recognition.onaudiostart = function() {
-            console.log('Голосовой поиск: началась обработка аудио');
-        };
-        
-        voiceSearch.recognition.onsoundstart = function() {
-            console.log('Голосовой поиск: обнаружен звук');
-        };
-        
-        voiceSearch.recognition.onsoundend = function() {
-            console.log('Голосовой поиск: звук закончился');
-        };
-        
-        voiceSearch.recognition.onaudioend = function() {
-            console.log('Голосовой поиск: обработка аудио завершена');
-        };
-        
-        console.log('🎤 Голосовой поиск успешно инициализирован');
+        console.log('🎤 Голосовой поиск инициализирован');
         
     } catch (error) {
         console.error('Ошибка инициализации голосового поиска:', error);
         voiceSearch.isSupported = false;
-        showNotification('Помилка ініціалізації голосового пошуку', 'error');
     }
 }
 
-// Улучшенная обработка результатов голосового поиска
+// Обработка результатов голосового поиска
 function handleVoiceSearchResult(transcript) {
     if (!transcript || transcript.trim() === '') {
-        console.warn('Голосовой поиск: пустой транскрипт');
-        showNotification('Не розпізнано мовлення. Спробуйте ще раз.', 'warning');
+        showNotification('Не розпізнано мовлення', 'warning');
         return;
     }
     
     const cleanTranscript = transcript.trim();
-    console.log('Голосовой поиск: распознано:', cleanTranscript);
     
     // Определяем, какое поле поиска активно
     const searchInput = document.getElementById('search');
@@ -261,125 +191,69 @@ function handleVoiceSearchResult(transcript) {
     
     if (activeInput) {
         activeInput.value = cleanTranscript;
-        activeInput.focus(); // Фокусируемся на поле ввода
-        
-        // Обновляем фильтры и выполняем поиск
         currentFilters.search = cleanTranscript;
         applyFilters();
         
-        showNotification(`🔍 Пошук за запитом: "${cleanTranscript}"`);
+        showNotification(`Пошук за запитом: "${cleanTranscript}"`);
         
         // Сохраняем в историю поиска
         if (typeof saveToSearchHistory === 'function') {
             saveToSearchHistory(cleanTranscript);
         }
-        
-        // Показываем подсказки
-        showSearchSuggestions(cleanTranscript, activeInput === searchMobileInput);
     }
 }
 
-// Улучшенная обработка ошибок голосового поиска
+// Обработка ошибок голосового поиска
 function handleVoiceSearchError(error) {
-    console.error('Голосовой поиск: ошибка:', error);
-    
     let errorMessage = 'Помилка розпізнавання голосу';
-    let errorType = 'error';
     
     switch (error) {
         case 'no-speech':
             errorMessage = 'Мовлення не розпізнано. Спробуйте ще раз.';
-            errorType = 'warning';
             break;
         case 'audio-capture':
-            errorMessage = 'Мікрофон не знайдено або заблоковано. Перевірте налаштування мікрофона.';
+            errorMessage = 'Мікрофон не знайдено або заблоковано.';
             break;
         case 'not-allowed':
-        case 'permission-denied':
             errorMessage = 'Доступ до мікрофона заблоковано. Дозвольте доступ у налаштуваннях браузера.';
-            voiceSearch.permissionGranted = false;
             break;
         case 'network':
             errorMessage = 'Помилка мережі. Перевірте підключення до інтернету.';
             break;
         case 'language-not-supported':
-            errorMessage = 'Українська мова не підтримується для розпізнавання. Спробуйте сказати фразу англійською.';
-            errorType = 'warning';
-            break;
-        case 'service-not-allowed':
-            errorMessage = 'Сервіс розпізнавання мови недоступний.';
-            break;
-        case 'bad-grammar':
-            errorMessage = 'Помилка в граматиці розпізнавання.';
-            break;
-        case 'aborted':
-            errorMessage = 'Розпізнавання перервано.';
-            errorType = 'info';
+            errorMessage = 'Українська мова не підтримується для розпізнавання.';
             break;
         default:
-            errorMessage = `Помилка розпізнавання: ${error}`;
+            errorMessage = `Помилка: ${error}`;
             break;
     }
     
-    showNotification(errorMessage, errorType);
+    showNotification(errorMessage, 'error');
     updateVoiceSearchUI(false);
 }
 
-// Улучшенный запуск голосового поиска
+// Запуск голосового поиска
 function startVoiceSearch(isMobile = false) {
-    console.log('Голосовой поиск: запуск...', { isMobile, isSupported: voiceSearch.isSupported });
-    
     if (!voiceSearch.isSupported) {
         showNotification('Голосовий пошук не підтримується вашим браузером', 'warning');
         return;
     }
     
     if (voiceSearch.isListening) {
-        console.log('Голосовой поиск: остановка текущего прослушивания');
         stopVoiceSearch();
         return;
     }
     
     try {
-        // Проверяем разрешение на микрофон
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ audio: true })
-                .then(function(stream) {
-                    voiceSearch.permissionGranted = true;
-                    console.log('Разрешение на микрофон получено');
-                    
-                    // Останавливаем все треки (очистка)
-                    stream.getTracks().forEach(track => track.stop());
-                    
-                    // Запускаем распознавание
-                    voiceSearch.recognition.start();
-                    
-                    // Показываем индикатор на соответствующей кнопке
-                    const voiceBtn = isMobile ? 
-                        document.querySelector('.search-container-mobile .voice-search-btn') :
-                        document.querySelector('.search-container .voice-search-btn');
-                        
-                    if (voiceBtn) {
-                        voiceBtn.classList.add('listening');
-                    }
-                })
-                .catch(function(error) {
-                    console.error('Ошибка доступа к микрофону:', error);
-                    voiceSearch.permissionGranted = false;
-                    showNotification('Доступ до мікрофона заблоковано. Дозвольте доступ у налаштуваннях браузера.', 'error');
-                });
-        } else {
-            // Если getUserMedia не поддерживается, пробуем запустить напрямую
-            console.log('getUserMedia не поддерживается, запуск напрямую');
-            voiceSearch.recognition.start();
+        voiceSearch.recognition.start();
+        
+        // Показываем индикатор на соответствующей кнопке
+        const voiceBtn = isMobile ? 
+            document.querySelector('.search-container-mobile .voice-search-btn') :
+            document.querySelector('.search-container .voice-search-btn');
             
-            const voiceBtn = isMobile ? 
-                document.querySelector('.search-container-mobile .voice-search-btn') :
-                document.querySelector('.search-container .voice-search-btn');
-                
-            if (voiceBtn) {
-                voiceBtn.classList.add('listening');
-            }
+        if (voiceBtn) {
+            voiceBtn.classList.add('listening');
         }
         
     } catch (error) {
@@ -391,14 +265,9 @@ function startVoiceSearch(isMobile = false) {
 // Остановка голосового поиска
 function stopVoiceSearch() {
     if (voiceSearch.recognition && voiceSearch.isListening) {
-        try {
-            voiceSearch.recognition.stop();
-            voiceSearch.isListening = false;
-            updateVoiceSearchUI(false);
-            console.log('Голосовой поиск: принудительная остановка');
-        } catch (error) {
-            console.error('Ошибка остановки голосового поиска:', error);
-        }
+        voiceSearch.recognition.stop();
+        voiceSearch.isListening = false;
+        updateVoiceSearchUI(false);
     }
 }
 
@@ -411,29 +280,20 @@ function updateVoiceSearchUI(listening) {
             btn.classList.add('listening');
             btn.innerHTML = '⏹️';
             btn.title = 'Зупинити запис';
-            btn.style.backgroundColor = '#ff4444';
-            btn.style.color = 'white';
         } else {
             btn.classList.remove('listening');
             btn.innerHTML = '🎤';
             btn.title = 'Голосовий пошук';
-            btn.style.backgroundColor = '';
-            btn.style.color = '';
         }
     });
 }
 
-// Улучшенное добавление кнопок голосового поиска в UI
+// Добавление кнопок голосового поиска в UI
 function addVoiceSearchButtons() {
-    console.log('Добавление кнопок голосового поиска...');
-    
     const searchInput = document.getElementById('search');
     const searchMobileInput = document.getElementById('search-mobile');
     
-    // Удаляем старые кнопки, если они есть
-    document.querySelectorAll('.voice-search-btn').forEach(btn => btn.remove());
-    
-    // Создаем улучшенные стили для кнопок голосового поиска
+    // Создаем стили для кнопок голосового поиска
     const style = document.createElement('style');
     style.textContent = `
         .voice-search-btn {
@@ -441,32 +301,25 @@ function addVoiceSearchButtons() {
             right: 45px;
             top: 50%;
             transform: translateY(-50%);
-            background: #f8f9fa;
-            border: 1px solid #ddd;
+            background: none;
+            border: none;
             color: #666;
             cursor: pointer;
-            padding: 8px 10px;
-            border-radius: 20px;
+            padding: 8px;
+            border-radius: 50%;
             transition: all 0.3s ease;
             z-index: 10;
-            font-size: 14px;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 16px;
         }
         
         .voice-search-btn:hover {
-            background: #e9ecef;
+            background: #f0f0f0;
             color: #007bff;
-            border-color: #007bff;
         }
         
         .voice-search-btn.listening {
-            color: white !important;
-            background: #ff4444 !important;
-            border-color: #ff4444 !important;
+            color: #e74c3c;
+            background: #ffeaea;
             animation: pulse 1.5s infinite;
         }
         
@@ -481,14 +334,14 @@ function addVoiceSearchButtons() {
         @keyframes pulse {
             0% { 
                 transform: translateY(-50%) scale(1);
-                box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7);
+                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
             }
             50% { 
                 transform: translateY(-50%) scale(1.05);
             }
             100% { 
                 transform: translateY(-50%) scale(1);
-                box-shadow: 0 0 0 8px rgba(255, 68, 68, 0);
+                box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
             }
         }
         
@@ -497,103 +350,48 @@ function addVoiceSearchButtons() {
             .voice-search-btn {
                 right: 40px;
                 padding: 10px;
-                font-size: 16px;
-                width: 40px;
-                height: 40px;
+                font-size: 18px;
             }
         }
         
         /* Состояние, когда голосовой поиск не поддерживается */
         .voice-search-btn.not-supported {
-            display: none !important;
-        }
-        
-        /* Улучшенная доступность */
-        .voice-search-btn:focus {
-            outline: 2px solid #007bff;
-            outline-offset: 2px;
-        }
-        
-        .voice-search-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+            display: none;
         }
     `;
-    
-    // Удаляем старые стили, если есть
-    const oldStyle = document.getElementById('voice-search-styles');
-    if (oldStyle) oldStyle.remove();
-    
-    style.id = 'voice-search-styles';
     document.head.appendChild(style);
     
     // Добавляем кнопки к полям поиска
     [searchInput, searchMobileInput].forEach((input, index) => {
-        if (!input) {
-            console.warn('Поле поиска не найдено:', index === 0 ? 'desktop' : 'mobile');
-            return;
-        }
+        if (!input) return;
         
         const isMobile = index === 1;
         const container = input.parentElement;
-        
-        if (!container) {
-            console.warn('Контейнер поиска не найден');
-            return;
-        }
         
         // Создаем кнопку голосового поиска
         const voiceBtn = document.createElement('button');
         voiceBtn.type = 'button';
         voiceBtn.className = 'voice-search-btn';
         voiceBtn.innerHTML = '🎤';
-        voiceBtn.title = 'Голосовий пошук (натисніть та говоріть)';
+        voiceBtn.title = 'Голосовий пошук';
         voiceBtn.setAttribute('aria-label', 'Голосовий пошук');
-        voiceBtn.setAttribute('role', 'button');
-        
-        // Если голосовой поиск не поддерживается, скрываем кнопку
-        if (!voiceSearch.isSupported) {
-            voiceBtn.classList.add('not-supported');
-        }
         
         // Добавляем обработчик клика
         voiceBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            console.log('Клик по кнопке голосового поиска');
             startVoiceSearch(isMobile);
-        });
-        
-        // Добавляем обработчик клавиатуры для доступности
-        voiceBtn.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                startVoiceSearch(isMobile);
-            }
         });
         
         // Добавляем кнопку в контейнер
         container.style.position = 'relative';
         container.appendChild(voiceBtn);
         
-        console.log('Кнопка голосового поиска добавлена:', isMobile ? 'mobile' : 'desktop');
+        // Если голосовой поиск не поддерживается, скрываем кнопку
+        if (!voiceSearch.isSupported) {
+            voiceBtn.classList.add('not-supported');
+        }
     });
-}
-
-// Функция для проверки и переинициализации голосового поиска
-function reinitVoiceSearch() {
-    console.log('Переинициализация голосового поиска...');
-    
-    // Останавливаем текущее прослушивание
-    stopVoiceSearch();
-    
-    // Переинициализируем
-    initVoiceSearch();
-    
-    // Обновляем кнопки
-    setTimeout(() => {
-        addVoiceSearchButtons();
-    }, 100);
 }
 
 // ===== УЛУЧШЕННАЯ СИСТЕМА ПОИСКА В СТИЛЕ МАРКЕТПЛЕЙСОВ =====
@@ -631,7 +429,7 @@ const FASHION_SEARCH_KNOWLEDGE = {
   styles: {
     'повседневный': ['кэжуал', 'ежедневный', 'расслабленный'],
     'офисный': ['деловой', 'бизнес', 'формальный', 'строгий'],
-    'вечерний': ['нарядный', 'гламурный', ' торжественный'],
+    'вечерний': ['нарядный', 'гламурный', 'торжественный'],
     'спортивный': ['спорт-шик', 'активный', 'тренировочный']
   }
 };
@@ -1105,7 +903,7 @@ const searchSynonyms = {
   'взуття': ['туфлі', 'чоботи', 'кросівки', 'ботильйони', 'босоніжки'],
   'сумка': ['сумки', 'рюкзак', 'рюкзаки', 'клатч'],
   'аксесуар': ['аксесуари', 'прикраса', 'прикраси', 'біжутерія'],
-  'светр': ['светри', ' кофта', 'кофти', 'демпер'],
+  'светр': ['светри', 'кофта', 'кофти', 'демпер'],
   'спідниця': ['спідниці', 'спідниць'],
   'штани': ['брюки', 'штанів'],
   'шорти': ['шортів'],
@@ -1905,46 +1703,39 @@ function addSearchStyles() {
             right: 45px;
             top: 50%;
             transform: translateY(-50%);
-            background: #f8f9fa;
-            border: 1px solid #ddd;
+            background: none;
+            border: none;
             color: #666;
             cursor: pointer;
-            padding: 8px 10px;
-            border-radius: 20px;
+            padding: 8px;
+            border-radius: 50%;
             transition: all 0.3s ease;
             z-index: 10;
-            font-size: 14px;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 16px;
         }
         
         .voice-search-btn:hover {
-            background: #e9ecef;
+            background: #f0f0f0;
             color: #007bff;
-            border-color: #007bff;
         }
         
         .voice-search-btn.listening {
-            color: white !important;
-            background: #ff4444 !important;
-            border-color: #ff4444 !important;
+            color: #e74c3c;
+            background: #ffeaea;
             animation: pulse 1.5s infinite;
         }
         
         @keyframes pulse {
             0% { 
                 transform: translateY(-50%) scale(1);
-                box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7);
+                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
             }
             50% { 
                 transform: translateY(-50%) scale(1.05);
             }
             100% { 
                 transform: translateY(-50%) scale(1);
-                box-shadow: 0 0 0 8px rgba(255, 68, 68, 0);
+                box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
             }
         }
         
@@ -1989,9 +1780,7 @@ function addSearchStyles() {
             .voice-search-btn {
                 right: 40px;
                 padding: 10px;
-                font-size: 16px;
-                width: 40px;
-                height: 40px;
+                font-size: 18px;
             }
         }
         
@@ -2002,18 +1791,7 @@ function addSearchStyles() {
         }
         
         .voice-search-btn.not-supported {
-            display: none !important;
-        }
-        
-        /* Улучшенная доступность */
-        .voice-search-btn:focus {
-            outline: 2px solid #007bff;
-            outline-offset: 2px;
-        }
-        
-        .voice-search-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+            display: none;
         }
     `;
     document.head.appendChild(style);
@@ -2087,220 +1865,17 @@ function setupPageCounter() {
     }
 }
 
-// ===== ДОБАВЛЕНИЕ КОММЕНТАРИЕВ В МОДАЛЬНОЕ ОКНО ТОВАРА =====
-
-// Функция для обновления счетчика символов в комментарии товара
-function updateProductCommentCounter() {
-    const commentField = document.getElementById('product-comment');
-    const counter = document.getElementById('product-comment-counter');
-    
-    if (commentField && counter) {
-        const length = commentField.value.length;
-        counter.textContent = `${length}/500`;
-        
-        if (length > 450) {
-            counter.style.color = '#e74c3c';
-        } else if (length > 400) {
-            counter.style.color = '#f39c12';
-        } else {
-            counter.style.color = '#666';
-        }
-    }
-}
-
-// Обновленная функция showProductDetail с добавлением поля комментария
-function showProductDetail(productId) {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
-    
-    // Получаем текущий комментарий из корзины
-    const currentComment = getCartComment(productId);
-    
-    const modalContent = document.getElementById("modal-content");
-    modalContent.innerHTML = `
-        <button class="modal-close" onclick="closeModal()" aria-label="Закрити"><i class="fas fa-times" aria-hidden="true"></i></button>
-        <h3>${product.title}</h3>
-        <div class="product-detail">
-            <div class="product-image">
-                <img src="${product.image || 'https://via.placeholder.com/400x400?text=Fashion+Product'}" alt="${product.title}">
-            </div>
-            <div class="product-info">
-                <div class="price-container">
-                    <span class="detail-price">${formatPrice(product.price)} ₴</span>
-                    ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)} ₴</span>` : ''}
-                </div>
-                <div class="product-description">
-                    <h4>Опис</h4>
-                    <p>${product.description || 'Опис відсутній'}</p>
-                </div>
-                <div class="product-specs">
-                    <p><strong>Бренд:</strong> ${product.brand || 'Не вказано'}</p>
-                    <p><strong>Категорія:</strong> ${translateCategory(product.category)}</p>
-                    ${product.size ? `<p><strong>Розмір:</strong> ${product.size}</p>` : ''}
-                    ${product.color ? `<p><strong>Колір:</strong> ${product.color}</p>` : ''}
-                    <p><strong>Наявність:</strong> ${product.inStock ? 'В наявності' : 'Немає в наявності'}</p>
-                </div>
-                
-                <!-- ДОБАВЛЕНО: ПОЛЕ КОММЕНТАРИЯ -->
-                <div class="form-group">
-                    <label>Додайте, будь ласка, розмір, колір та ваші побажання</label>
-                    <textarea 
-                        id="product-comment" 
-                        class="comment-textarea"
-                        placeholder="Ваш коментар до товару (бажаний розмір, колір, особливі побажання...)"
-                        maxlength="500"
-                        oninput="updateProductCommentCounter()"
-                    >${currentComment}</textarea>
-                    <div class="comment-char-count" id="product-comment-counter">${currentComment.length}/500</div>
-                </div>
-                
-                <div class="quantity-control">
-                    <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
-                    <input type="number" class="quantity-input" id="product-quantity" value="1" min="1">
-                    <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
-                </div>
-                <div class="detail-actions">
-                    <button class="btn btn-buy" onclick="addToCartWithQuantity('${product.id}')">
-                        <i class="fas fa-shopping-cart"></i> Додати до кошика
-                    </button>
-                    <button class="btn-favorite ${favorites[product.id] ? 'active' : ''}" onclick="toggleFavorite('${product.id}')">
-                        <i class="${favorites[product.id] ? 'fas' : 'far'} fa-heart"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="product-reviews">
-            <h4>Відгуки про товар</h4>
-            <div id="reviews-container-${product.id}"></div>
-            
-            ${currentUser ? `
-                <div class="add-review-section">
-                    <h4>Залишити відгук</h4>
-                    <form onsubmit="addReview(event, '${product.id}')">
-                        <div class="form-group">
-                            <label>Ваша оцінка</label>
-                            <div class="rating-stars">
-                                <span onclick="setRating(1)">★</span>
-                                <span onclick="setRating(2)">★</span>
-                                <span onclick="setRating(3)">★</span>
-                                <span onclick="setRating(4)">★</span>
-                                <span onclick="setRating(5)">★</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Ваш відгук</label>
-                            <textarea id="review-text" required></textarea>
-                        </div>
-                        <button type="submit" class="btn">Залишити відгук</button>
-                    </form>
-                </div>
-            ` : `
-                <p>Увійдіть, щоб залишити відгук</p>
-            `}
-        </div>
-    `;
-    
-    loadReviews(product.id);
-    currentRating = 0;
-    updateRatingStars();
-    
-    // Инициализируем счетчик символов для комментария
-    updateProductCommentCounter();
-    
-    openModal();
-}
-
-// Обновленная функция добавления в корзину с учетом комментария
-function addToCartWithQuantity(productId) {
-    const quantity = parseInt(document.getElementById("product-quantity").value) || 1;
-    const comment = document.getElementById("product-comment").value;
-    
-    if (!cart[productId]) {
-        cart[productId] = {
-            quantity: 0,
-            comment: ''
-        };
-    }
-    cart[productId].quantity += quantity;
-    cart[productId].comment = comment; // Сохраняем комментарий
-    
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-    
-    updateCartCount();
-    showNotification("Товар додано до кошика");
-    closeModal();
-}
-
-// Добавление стилей для комментария в модальном окне товара
-function addProductCommentStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-        .product-detail .form-group {
-            margin: 15px 0;
-        }
-        
-        .product-detail .comment-textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            resize: vertical;
-            min-height: 80px;
-            font-family: inherit;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
-        }
-        
-        .product-detail .comment-textarea:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
-            background: white;
-        }
-        
-        .product-detail .comment-char-count {
-            font-size: 0.75em;
-            color: #666;
-            text-align: right;
-            margin-top: 5px;
-        }
-        
-        .product-detail label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
-        }
-        
-        @media (max-width: 768px) {
-            .product-detail .comment-textarea {
-                min-height: 70px;
-                font-size: 16px;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-}
-
 // ===== ОСНОВНЫЕ ФУНКЦИИ FASHION STORE =====
 
 // Инициализация приложения
 function initApp() {
     emailjs.init(EMAILJS_USER_ID);
     
-    // Инициализация улучшенного голосового поиска
-    setTimeout(() => {
-        initVoiceSearch();
-        addVoiceSearchButtons();
-    }, 1000); // Даем время на загрузку DOM
-    
-    // Инициализация корзины с поддержкой комментариев
-    updateCartStructure();
+    // Инициализация голосового поиска ДО добавления кнопок
+    initVoiceSearch();
     
     // Добавляем стили для комментариев
-    addCartCommentStyles();
-    addProductCommentStyles();
+    addCommentStyles();
     
     // Предобработка товаров после загрузки
     if (products.length > 0) {
@@ -2955,7 +2530,7 @@ function getFilteredProducts() {
             filteredProducts.sort((a, b) => a.title.localeCompare(b.title));
             break;
         case 'name-desc':
-            filteredProducts.sort((a, b) => b.title.localeCompare(b.title));
+            filteredProducts.sort((a, b) => b.title.localeCompare(a.title));
             break;
         case 'relevance':
             // Уже отсортировано в searchProductsEnhanced
@@ -3161,10 +2736,7 @@ function showNotification(message, type = "success") {
 // Корзина и избранное
 function addToCart(productId) {
     if (!cart[productId]) {
-        cart[productId] = {
-            quantity: 0,
-            comment: ''
-        };
+        cart[productId] = { quantity: 0, comment: '' };
     }
     cart[productId].quantity++;
     
@@ -3293,6 +2865,122 @@ function setViewMode(mode) {
 
 let currentRating = 0;
 
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ПОКАЗА ДЕТАЛЕЙ ТОВАРА =====
+function showProductDetail(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+    
+    const modalContent = document.getElementById("modal-content");
+    modalContent.innerHTML = `
+        <button class="modal-close" onclick="closeModal()" aria-label="Закрити"><i class="fas fa-times" aria-hidden="true"></i></button>
+        <h3>${product.title}</h3>
+        <div class="product-detail">
+            <div class="product-image">
+                <img src="${product.image || 'https://via.placeholder.com/400x400?text=Fashion+Product'}" alt="${product.title}">
+            </div>
+            <div class="product-info">
+                <div class="price-container">
+                    <span class="detail-price">${formatPrice(product.price)} ₴</span>
+                    ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)} ₴</span>` : ''}
+                </div>
+                <div class="product-description">
+                    <h4>Опис</h4>
+                    <p>${product.description || 'Опис відсутній'}</p>
+                </div>
+                <div class="product-specs">
+                    <p><strong>Бренд:</strong> ${product.brand || 'Не вказано'}</p>
+                    <p><strong>Категорія:</strong> ${translateCategory(product.category)}</p>
+                    ${product.size ? `<p><strong>Розмір:</strong> ${product.size}</p>` : ''}
+                    ${product.color ? `<p><strong>Колір:</strong> ${product.color}</p>` : ''}
+                    <p><strong>Наявність:</strong> ${product.inStock ? 'В наявності' : 'Немає в наявності'}</p>
+                </div>
+                <div class="quantity-control">
+                    <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                    <input type="number" class="quantity-input" id="product-quantity" value="1" min="1">
+                    <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                </div>
+                
+                <!-- ДОБАВЛЕНО: ПОЛЕ КОММЕНТАРИЯ ДЛЯ ЗАКАЗА -->
+                <div class="form-group">
+                    <label for="product-comment">Додайте, будь ласка, розмір, колір та ваші побажання</label>
+                    <textarea 
+                        id="product-comment" 
+                        placeholder="Наприклад, бажаний розмір, колір або інші побажання щодо товару..."
+                        rows="3"
+                        maxlength="500"
+                    ></textarea>
+                    <div class="char-counter" style="text-align: right; font-size: 0.8em; color: #666;">
+                        <span id="product-comment-chars">0</span>/500 символів
+                    </div>
+                </div>
+                
+                <div class="detail-actions">
+                    <button class="btn btn-buy" onclick="addToCartWithQuantity('${product.id}')">
+                        <i class="fas fa-shopping-cart"></i> Додати до кошика
+                    </button>
+                    <button class="btn-favorite ${favorites[product.id] ? 'active' : ''}" onclick="toggleFavorite('${product.id}')">
+                        <i class="${favorites[product.id] ? 'fas' : 'far'} fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="product-reviews">
+            <h4>Відгуки про товар</h4>
+            <div id="reviews-container-${product.id}"></div>
+            
+            ${currentUser ? `
+                <div class="add-review-section">
+                    <h4>Залишити відгук</h4>
+                    <form onsubmit="addReview(event, '${product.id}')">
+                        <div class="form-group">
+                            <label>Ваша оцінка</label>
+                            <div class="rating-stars">
+                                <span onclick="setRating(1)">★</span>
+                                <span onclick="setRating(2)">★</span>
+                                <span onclick="setRating(3)">★</span>
+                                <span onclick="setRating(4)">★</span>
+                                <span onclick="setRating(5)">★</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Ваш відгук</label>
+                            <textarea id="review-text" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Залишити відгук</button>
+                    </form>
+                </div>
+            ` : `
+                <p>Увійдіть, щоб залишити відгук</p>
+            `}
+        </div>
+    `;
+    
+    loadReviews(product.id);
+    currentRating = 0;
+    updateRatingStars();
+    
+    // Добавляем обработчик для подсчета символов в комментарии товара
+    const commentField = document.getElementById('product-comment');
+    const charCounter = document.getElementById('product-comment-chars');
+    
+    if (commentField && charCounter) {
+        commentField.addEventListener('input', function() {
+            const length = this.value.length;
+            charCounter.textContent = length;
+            
+            if (length > 450) {
+                charCounter.style.color = '#e74c3c';
+            } else if (length > 400) {
+                charCounter.style.color = '#f39c12';
+            } else {
+                charCounter.style.color = '#666';
+            }
+        });
+    }
+    
+    openModal();
+}
+
 function setRating(rating) {
     currentRating = rating;
     updateRatingStars();
@@ -3390,6 +3078,28 @@ function addReview(event, productId) {
         });
 }
 
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ДОБАВЛЕНИЯ В КОРЗИНУ С КОММЕНТАРИЕМ =====
+function addToCartWithQuantity(productId) {
+    const quantity = parseInt(document.getElementById("product-quantity").value) || 1;
+    const comment = document.getElementById("product-comment")?.value.trim() || '';
+    
+    if (!cart[productId]) {
+        cart[productId] = { quantity: 0, comment: '' };
+    }
+    cart[productId].quantity += quantity;
+    
+    // Сохраняем комментарий (если товар уже был в корзине, комментарий обновится)
+    if (comment) {
+        cart[productId].comment = comment;
+    }
+    
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    
+    updateCartCount();
+    showNotification("Товар додано до кошика");
+    closeModal();
+}
+
 function changeQuantity(delta) {
     const input = document.getElementById("product-quantity");
     let value = parseInt(input.value) || 1;
@@ -3402,6 +3112,7 @@ function changeQuantity(delta) {
 
 // ===== КОРЗИНА И ОФОРМЛЕНИЕ ЗАКАЗА =====
 
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ОТКРЫТИЯ КОРЗИНЫ С УЧЕТОМ КОММЕНТАРИЕВ =====
 function openCart() {
     const modalContent = document.getElementById("modal-content");
     
@@ -3422,7 +3133,9 @@ function openCart() {
         for (const [productId, item] of Object.entries(cart)) {
             const product = products.find(p => p.id === productId);
             if (product) {
-                const itemTotal = product.price * item.quantity;
+                const quantity = item.quantity;
+                const comment = item.comment || '';
+                const itemTotal = product.price * quantity;
                 total += itemTotal;
                 
                 cartItemsHTML += `
@@ -3430,22 +3143,15 @@ function openCart() {
                         <img src="${product.image || 'https://via.placeholder.com/80x80?text=Fashion'}" alt="${product.title}" class="cart-item-image">
                         <div class="cart-item-details">
                             <h4 class="cart-item-title">${product.title}</h4>
-                            <div class="cart-item-price">${formatPrice(product.price)} ₴ x ${item.quantity} = ${formatPrice(itemTotal)} ₴</div>
-                            
-                            <!-- ПОЛЕ КОММЕНТАРИЯ ДЛЯ ТОВАРА -->
-                            <div class="cart-item-comment">
-                                <textarea 
-                                    class="comment-textarea" 
-                                    placeholder="Ваш коментар до товару (бажаний розмір, колір, особливі побажання...)"
-                                    onchange="updateCartComment('${productId}', this.value)"
-                                    maxlength="500"
-                                >${item.comment || ''}</textarea>
-                                <div class="comment-char-count">${(item.comment || '').length}/500</div>
-                            </div>
-                            
+                            <div class="cart-item-price">${formatPrice(product.price)} ₴ x ${quantity} = ${formatPrice(itemTotal)} ₴</div>
+                            ${comment ? `
+                                <div class="cart-item-comment">
+                                    <strong>Ваш коментар:</strong> ${comment}
+                                </div>
+                            ` : ''}
                             <div class="cart-item-actions">
                                 <button class="btn" onclick="changeCartQuantity('${productId}', -1)">-</button>
-                                <span>${item.quantity}</span>
+                                <span>${quantity}</span>
                                 <button class="btn" onclick="changeCartQuantity('${productId}', 1)">+</button>
                                 <button class="btn" onclick="removeFromCart('${productId}')"><i class="fas fa-trash"></i></button>
                             </div>
@@ -3466,23 +3172,6 @@ function openCart() {
                 <button class="btn btn-buy" onclick="checkout()">Оформити замовлення</button>
             </div>
         `;
-        
-        // Добавляем обработчики для подсчета символов в комментариях
-        document.querySelectorAll('.comment-textarea').forEach(textarea => {
-            const charCount = textarea.parentElement.querySelector('.comment-char-count');
-            textarea.addEventListener('input', function() {
-                const length = this.value.length;
-                charCount.textContent = `${length}/500`;
-                
-                if (length > 450) {
-                    charCount.style.color = '#e74c3c';
-                } else if (length > 400) {
-                    charCount.style.color = '#f39c12';
-                } else {
-                    charCount.style.color = '#666';
-                }
-            });
-        });
     }
     
     openModal();
@@ -3838,13 +3527,22 @@ function sendOrderEmail(orderId, order) {
     for (const [productId, item] of Object.entries(order.items)) {
         const product = products.find(p => p.id === productId);
         if (product) {
+            const quantity = item.quantity;
+            const comment = item.comment || '';
             itemsList += `
                 <tr>
                     <td>${product.title}</td>
-                    <td>${item.quantity}</td>
+                    <td>${quantity}</td>
                     <td>${formatPrice(product.price)} ₴</td>
-                    <td>${formatPrice(product.price * item.quantity)} ₴</td>
+                    <td>${formatPrice(product.price * quantity)} ₴</td>
                 </tr>
+                ${comment ? `
+                <tr>
+                    <td colspan="4" style="background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6;">
+                        <strong>Коментар:</strong> ${comment}
+                    </td>
+                </tr>
+                ` : ''}
             `;
         }
     }
@@ -3853,7 +3551,7 @@ function sendOrderEmail(orderId, order) {
     const commentInfo = order.comment ? `
         <tr>
             <td colspan="4" style="background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6;">
-                <strong>Коментар клієнта:</strong><br>
+                <strong>Коментар клієнта до замовлення:</strong><br>
                 ${order.comment}
             </td>
         </tr>
@@ -3884,25 +3582,27 @@ function sendOrderEmail(orderId, order) {
         });
 }
 
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ГЕНЕРАЦИИ СВОДКИ ЗАКАЗА С УЧЕТОМ КОММЕНТАРИЕВ =====
 function generateOrderSummary() {
     let summaryHTML = '';
     
     for (const [productId, item] of Object.entries(cart)) {
         const product = products.find(p => p.id === productId);
         if (product) {
-            const itemComment = item.comment ? `
-                <div class="order-item-comment">
-                    <strong>Коментар:</strong> ${item.comment}
-                </div>
-            ` : '';
+            const quantity = item.quantity;
+            const comment = item.comment || '';
             
             summaryHTML += `
                 <div class="order-item">
                     <div class="order-item-main">
-                        <span>${product.title} x${item.quantity}</span>
-                        <span>${formatPrice(product.price * item.quantity)} ₴</span>
+                        <span>${product.title} x${quantity}</span>
+                        <span>${formatPrice(product.price * quantity)} ₴</span>
                     </div>
-                    ${itemComment}
+                    ${comment ? `
+                        <div class="order-item-comment">
+                            <em>Коментар: "${comment}"</em>
+                        </div>
+                    ` : ''}
                 </div>
             `;
         }
@@ -3943,7 +3643,7 @@ function showOrderConfirmation(orderId, order) {
     if (order.comment) {
         commentInfo = `
             <div class="comment-section" style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #007bff;">
-                <h4 style="margin: 0 0 10px 0; color: #333;">Ваш коментар:</h4>
+                <h4 style="margin: 0 0 10px 0; color: #333;">Ваш коментар до замовлення:</h4>
                 <p style="margin: 0; font-style: italic; color: #555;">"${order.comment}"</p>
             </div>
         `;
@@ -3983,6 +3683,69 @@ function showOrderConfirmation(orderId, order) {
     `;
     
     openModal();
+}
+
+// ===== ДОБАВЛЯЕМ СТИЛИ ДЛЯ КОММЕНТАРИЕВ =====
+function addCommentStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .cart-item-comment {
+            margin: 8px 0;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 3px solid #007bff;
+            font-size: 0.9em;
+            color: #555;
+        }
+        
+        .cart-item-comment strong {
+            color: #333;
+        }
+        
+        .order-item-comment {
+            margin-top: 5px;
+            padding: 5px 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: #666;
+            border-left: 2px solid #28a745;
+        }
+        
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
+        
+        .char-counter {
+            font-size: 0.8em;
+            color: #666;
+            text-align: right;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .cart-item-comment {
+                font-size: 0.85em;
+                padding: 6px 10px;
+            }
+        }
+    `;
+    document.head.appendChild(style);
 }
 
 // ===== УЛУЧШЕННАЯ СИСТЕМА УПРАВЛЕНИЯ ЗАКАЗАМИ =====
@@ -4616,14 +4379,10 @@ class OrderManager {
         for (const [productId, item] of Object.entries(order.items)) {
             const product = products.find(p => p.id === productId);
             if (product) {
-                const itemTotal = product.price * item.quantity;
+                const quantity = item.quantity;
+                const comment = item.comment || '';
+                const itemTotal = product.price * quantity;
                 totalAmount += itemTotal;
-                
-                const itemComment = item.comment ? `
-                    <div class="order-item-comment">
-                        <strong>Коментар клієнта:</strong> ${item.comment}
-                    </div>
-                ` : '';
                 
                 itemsHTML += `
                     <div class="order-item-detail" onclick="showProductDetail('${product.id}')">
@@ -4634,12 +4393,16 @@ class OrderManager {
                             <h5 class="order-item-title">${product.title}</h5>
                             <div class="order-item-meta">
                                 ${product.brand ? `<span class="item-brand">${product.brand}</span>` : ''}
-                                <span class="item-quantity">Кількість: ${item.quantity}</span>
+                                <span class="item-quantity">Кількість: ${quantity}</span>
                                 ${product.size ? `<span class="item-size">Розмір: ${product.size}</span>` : ''}
                             </div>
-                            ${itemComment}
+                            ${comment ? `
+                                <div class="order-item-comment">
+                                    <strong>Коментар:</strong> ${comment}
+                                </div>
+                            ` : ''}
                             <div class="order-item-pricing">
-                                <span class="item-price">${formatPrice(product.price)} ₴ × ${item.quantity}</span>
+                                <span class="item-price">${formatPrice(product.price)} ₴ × ${quantity}</span>
                                 <span class="item-total">${formatPrice(itemTotal)} ₴</span>
                             </div>
                         </div>
@@ -4736,17 +4499,26 @@ class OrderManager {
             for (const [productId, item] of Object.entries(order.items)) {
                 const product = products.find(p => p.id === productId);
                 if (product) {
-                    const itemTotal = product.price * item.quantity;
+                    const quantity = item.quantity;
+                    const comment = item.comment || '';
+                    const itemTotal = product.price * quantity;
                     total += itemTotal;
                     
                     itemsHTML += `
                         <tr>
                             <td>${product.title}</td>
                             <td>${product.brand || '-'}</td>
-                            <td>${item.quantity}</td>
+                            <td>${quantity}</td>
                             <td>${formatPrice(product.price)} ₴</td>
                             <td>${formatPrice(itemTotal)} ₴</td>
                         </tr>
+                        ${comment ? `
+                        <tr>
+                            <td colspan="5" style="background: #f8f9fa; padding: 8px; font-style: italic;">
+                                <strong>Коментар:</strong> ${comment}
+                            </td>
+                        </tr>
+                        ` : ''}
                     `;
                 }
             }
@@ -4755,7 +4527,7 @@ class OrderManager {
         // ДОБАВЛЕНО: комментарий в печатную версию
         const commentSection = order.comment ? `
             <div class="print-section">
-                <h3>Коментар клієнта</h3>
+                <h3>Коментар клієнта до замовлення</h3>
                 <p style="background: #f8f9fa; padding: 15px; border-radius: 6px; border-left: 4px solid #007bff;">
                     ${order.comment}
                 </p>
@@ -4940,9 +4712,6 @@ const orderManager = new OrderManager();
 const originalCloseModal = closeModal;
 closeModal = function() {
     orderManager.cleanup();
-    if (voiceSearch.isListening) {
-        stopVoiceSearch();
-    }
     originalCloseModal();
 };
 
@@ -4956,73 +4725,498 @@ function viewOrderDetails(orderId) {
     orderManager.viewOrderDetails(orderId);
 }
 
-// ===== ДОБАВЛЯЕМ СТИЛИ ДЛЯ КОММЕНТАРИЕВ =====
+// ===== ДОБАВЛЯЕМ НОВЫЕ СТИЛИ =====
 
-function addCartCommentStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-        .cart-item-comment {
-            margin: 10px 0;
-            position: relative;
-        }
-        
-        .comment-textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            resize: vertical;
-            min-height: 60px;
-            font-family: inherit;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
-        }
-        
-        .comment-textarea:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
-        }
-        
-        .comment-char-count {
-            font-size: 0.75em;
-            color: #666;
-            text-align: right;
-            margin-top: 5px;
-        }
-        
-        .order-item-comment {
-            background: #f8f9fa;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-top: 8px;
-            border-left: 3px solid #007bff;
-            font-size: 0.9em;
-            color: #555;
-        }
-        
-        .order-item-comment strong {
-            color: #333;
-        }
-        
-        .order-item-main {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        @media (max-width: 768px) {
-            .cart-item-comment {
-                margin: 8px 0;
+function addOrdersStyles() {
+    const styles = `
+        <style>
+            /* Стили для улучшенной системы заказов */
+            .orders-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #f0f0f0;
             }
             
-            .comment-textarea {
-                min-height: 50px;
-                font-size: 16px;
+            .orders-stats {
+                font-size: 0.9em;
+                color: #666;
             }
-        }
+            
+            .orders-count {
+                background: #007bff;
+                color: white;
+                padding: 4px 8px;
+                border-radius: 12px;
+                font-weight: bold;
+            }
+            
+            .orders-filter {
+                margin-bottom: 20px;
+            }
+            
+            .orders-filter select {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                background: white;
+            }
+            
+            .user-orders-list {
+                max-height: 60vh;
+                overflow-y: auto;
+                padding-right: 10px;
+            }
+            
+            .user-order-item {
+                border: 1px solid #e0e0e0;
+                border-radius: 12px;
+                padding: 20px;
+                margin-bottom: 15px;
+                background: white;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            .user-order-item:hover {
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                transform: translateY(-2px);
+            }
+            
+            .order-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 15px;
+            }
+            
+            .order-main-info h4 {
+                margin: 0 0 5px 0;
+                color: #333;
+                font-size: 1.1em;
+            }
+            
+            .order-date {
+                color: #666;
+                font-size: 0.85em;
+            }
+            
+            .order-status {
+                padding: 6px 12px;
+                border-radius: 20px;
+                font-size: 0.8em;
+                font-weight: bold;
+                white-space: nowrap;
+            }
+            
+            .status-new { background: #e3f2fd; color: #1976d2; }
+            .status-processing { background: #fff3e0; color: #f57c00; }
+            .status-shipped { background: #e8f5e8; color: #388e3c; }
+            .status-delivered { background: #e8f5e8; color: #388e3c; }
+            .status-cancelled { background: #ffebee; color: #d32f2f; }
+            
+            .summary-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 10px;
+                margin: 15px 0;
+            }
+            
+            .summary-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 0.9em;
+                color: #555;
+            }
+            
+            .user-order-actions {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                margin-top: 15px;
+            }
+            
+            .btn-outline {
+                background: transparent;
+                border: 1px solid #007bff;
+                color: #007bff;
+            }
+            
+            .btn-outline:hover {
+                background: #007bff;
+                color: white;
+            }
+            
+            .btn-danger {
+                background: #dc3545;
+                color: white;
+                border: none;
+            }
+            
+            .btn-danger:hover {
+                background: #c82333;
+            }
+            
+            .loading-spinner {
+                text-align: center;
+                padding: 40px 20px;
+                color: #666;
+            }
+            
+            .loading-spinner i {
+                font-size: 2em;
+                margin-bottom: 15px;
+                color: #007bff;
+            }
+            
+            .empty-orders, .error-loading {
+                text-align: center;
+                padding: 40px 20px;
+                color: #666;
+            }
+            
+            .empty-orders i, .error-loading i {
+                font-size: 3em;
+                margin-bottom: 20px;
+                color: #ddd;
+            }
+            
+            .no-orders-found {
+                text-align: center;
+                padding: 40px 20px;
+                color: #666;
+                border: 2px dashed #ddd;
+                border-radius: 12px;
+                margin: 20px 0;
+            }
+            
+            .order-details-container {
+                max-height: 80vh;
+                overflow-y: auto;
+                padding-right: 10px;
+            }
+            
+            .order-details-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 25px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #f0f0f0;
+            }
+            
+            .order-status-badge {
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-weight: bold;
+                font-size: 0.9em;
+            }
+            
+            .ttn-section, .customer-info-section, 
+            .order-meta-section, .delivery-info-section,
+            .admin-controls-section, .order-items-section {
+                background: #f8f9fa;
+                padding: 20px;
+                border-radius: 12px;
+                margin-bottom: 20px;
+                border-left: 4px solid #007bff;
+            }
+            
+            .ttn-section.no-ttn {
+                background: #fff3cd;
+                border-left-color: #ffc107;
+            }
+            
+            .ttn-info {
+                display: grid;
+                gap: 10px;
+                margin: 15px 0;
+            }
+            
+            .ttn-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 0;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .ttn-number {
+                font-family: monospace;
+                font-weight: bold;
+                color: #007bff;
+            }
+            
+            .btn-track {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: #28a745;
+                color: white;
+                padding: 10px 15px;
+                border-radius: 6px;
+                text-decoration: none;
+                margin-top: 10px;
+            }
+            
+            .btn-track:hover {
+                background: #218838;
+                color: white;
+            }
+            
+            .info-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .info-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 0;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .info-item.full-width {
+                grid-column: 1 / -1;
+            }
+            
+            .customer-comment {
+                background: #f8f9fa;
+                padding: 12px;
+                border-radius: 6px;
+                border-left: 3px solid #007bff;
+                font-style: italic;
+                margin-top: 8px;
+                white-space: pre-wrap;
+                word-break: break-word;
+                line-height: 1.4;
+            }
+            
+            .admin-controls-grid {
+                display: grid;
+                grid-template-columns: 1fr auto auto;
+                gap: 15px;
+                align-items: center;
+            }
+            
+            .order-items-container {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+            
+            .order-item-detail {
+                display: flex;
+                gap: 15px;
+                padding: 15px;
+                border: 1px solid #eee;
+                border-radius: 8px;
+                margin-bottom: 10px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            
+            .order-item-detail:hover {
+                background: #f8f9fa;
+                border-color: #007bff;
+            }
+            
+            .order-item-image {
+                width: 80px;
+                height: 80px;
+                object-fit: cover;
+                border-radius: 6px;
+            }
+            
+            .order-item-info {
+                flex: 1;
+            }
+            
+            .order-item-title {
+                margin: 0 0 8px 0;
+                font-size: 1em;
+                color: #333;
+            }
+            
+            .order-item-meta {
+                display: flex;
+                gap: 15px;
+                margin-bottom: 8px;
+                font-size: 0.85em;
+                color: #666;
+            }
+            
+            .item-brand {
+                background: #e9ecef;
+                padding: 2px 8px;
+                border-radius: 4px;
+            }
+            
+            .order-item-comment {
+                margin: 8px 0;
+                padding: 8px 12px;
+                background: #f8f9fa;
+                border-radius: 6px;
+                border-left: 3px solid #28a745;
+                font-size: 0.9em;
+                color: #555;
+            }
+            
+            .order-item-pricing {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .item-price {
+                color: #666;
+            }
+            
+            .item-total {
+                font-weight: bold;
+                color: #333;
+            }
+            
+            .order-total-section {
+                background: white;
+                padding: 20px;
+                border-radius: 12px;
+                border: 2px solid #f0f0f0;
+            }
+            
+            .total-line {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 0;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .total-line:last-child {
+                border-bottom: none;
+            }
+            
+            .delivery-cost {
+                color: #666;
+                font-style: italic;
+            }
+            
+            .final-total {
+                font-size: 1.1em;
+                font-weight: bold;
+                color: #333;
+                padding-top: 15px;
+                border-top: 2px solid #eee;
+            }
+            
+            .order-actions-footer {
+                display: flex;
+                gap: 10px;
+                justify-content: flex-end;
+                margin-top: 20px;
+                padding-top: 20px;
+                border-top: 1px solid #eee;
+            }
+            
+            .order-number {
+                font-family: monospace;
+                background: #f8f9fa;
+                padding: 4px 8px;
+                border-radius: 4px;
+                border: 1px solid #dee2e6;
+            }
+            
+            /* Стили для поля комментария */
+            .form-group textarea {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                resize: vertical;
+                min-height: 80px;
+                font-family: inherit;
+                font-size: 14px;
+                transition: border-color 0.3s ease;
+            }
+            
+            .form-group textarea:focus {
+                outline: none;
+                border-color: #007bff;
+                box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+            }
+            
+            .char-counter {
+                font-size: 0.8em;
+                color: #666;
+                text-align: right;
+                margin-top: 5px;
+            }
+            
+            .comment-section {
+                background: #f8f9fa;
+                border-radius: 8px;
+                padding: 15px;
+                margin: 15px 0;
+                border-left: 4px solid #007bff;
+            }
+            
+            @media (max-width: 768px) {
+                .orders-header {
+                    flex-direction: column;
+                    gap: 10px;
+                    align-items: flex-start;
+                }
+                
+                .order-header {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+                
+                .summary-grid {
+                    grid-template-columns: 1fr;
+                }
+                
+                .user-order-actions {
+                    flex-direction: column;
+                }
+                
+                .user-order-actions .btn {
+                    width: 100%;
+                    justify-content: center;
+                }
+                
+                .admin-controls-grid {
+                    grid-template-columns: 1fr;
+                }
+                
+                .order-item-detail {
+                    flex-direction: column;
+                    text-align: center;
+                }
+                
+                .order-item-pricing {
+                    flex-direction: column;
+                    gap: 5px;
+                }
+                
+                .order-actions-footer {
+                    flex-direction: column;
+                }
+                
+                .order-actions-footer .btn {
+                    width: 100%;
+                    justify-content: center;
+                }
+            }
+        </style>
     `;
-    document.head.appendChild(style);
+    
+    document.head.insertAdjacentHTML('beforeend', styles);
 }
 
 // ===== АДМИН-ПАНЕЛЬ =====
@@ -5092,7 +5286,7 @@ function loadAdminOrders() {
                     </div>
                     <div class="order-info">
                         <p><strong>Клієнт:</strong> ${order.userName} (${order.userEmail}, ${order.userPhone})</p>
-                        ${order.comment ? `<p><strong>Коментар:</strong> ${order.comment}</p>` : ''}
+                        ${order.comment ? `<p><strong>Коментар до замовлення:</strong> ${order.comment}</p>` : ''}
                         <p><strong>Сума:</strong> ${formatPrice(order.total)} ₴</p>
                         <p><strong>Доставка:</strong> ${order.delivery.service}</p>
                         <p><strong>Статус:</strong> <span class="order-status ${statusClass}">${statusText}</span></p>
@@ -5379,6 +5573,19 @@ function logout() {
         });
 }
 
+// Добавляем обработчик для закрытия голосового поиска при нажатии Esc
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && voiceSearch.isListening) {
+        stopVoiceSearch();
+        showNotification('Голосовий пошук скасовано', 'info');
+    }
+});
+
+// Инициализация при загрузке страницы
+document.addEventListener("DOMContentLoaded", function() {
+    initApp();
+});
+
 // Глобальные переменные для улучшенного поиска
 let searchIndexReady = false;
 let searchLoading = false;
@@ -5390,40 +5597,3 @@ const MAX_SEARCH_RESULTS = 1000;
 const ENHANCED_DEBOUNCE_DELAY = 200;
 const SEARCH_HISTORY_KEY = "fashionstore_search_history";
 const MAX_SEARCH_HISTORY = 10;
-
-// Обработчики для улучшения работы голосового поиска
-document.addEventListener('DOMContentLoaded', function() {
-    // Переинициализация при изменении видимости страницы
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden) {
-            reinitVoiceSearch();
-        }
-    });
-    
-    // Остановка голосового поиска при нажатии Escape
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && voiceSearch.isListening) {
-            stopVoiceSearch();
-            showNotification('Голосовий пошук скасовано', 'info');
-        }
-    });
-    
-    // Остановка голосового поиска при закрытии модальных окон
-    const originalCloseModal = closeModal;
-    window.closeModal = function() {
-        if (voiceSearch.isListening) {
-            stopVoiceSearch();
-        }
-        originalCloseModal();
-    };
-});
-
-// Экспортируем функции для глобального доступа
-window.reinitVoiceSearch = reinitVoiceSearch;
-window.startVoiceSearch = startVoiceSearch;
-window.stopVoiceSearch = stopVoiceSearch;
-
-// Инициализация при загрузке страницы
-document.addEventListener("DOMContentLoaded", function() {
-    initApp();
-});
