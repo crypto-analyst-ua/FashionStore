@@ -1006,8 +1006,159 @@ function calculateRelevance(product, searchTerms) {
     return score;
 }
 
-// Улучшенная предобработка товаров
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ПРЕДОБРАБОТКИ ТОВАРОВ =====
 function preprocessProducts(productsArray) {
+    console.log("🔧 Предобработка товаров с характеристиками...");
+    
+    const processedProducts = productsArray.map((product, index) => {
+        if (!product || typeof product !== 'object') return product;
+        
+        // Создаем уникальный ID если его нет
+        if (!product.id) {
+            product.id = `product_${Date.now()}_${index}`;
+        }
+        
+        // Обрабатываем характеристики
+        const specifications = processSpecifications(product);
+        
+        const searchFields = [
+            product.title || '',
+            product.brand || '',
+            product.category || '',
+            product.description || '',
+            specifications.searchText || '',
+            product.model || '',
+            product.sku || '',
+            product.article || '',
+            product.vendorCode || '',
+            product.size ? `размер:${product.size} size:${product.size} розмір:${product.size}` : '',
+            product.color ? `цвет:${product.color} color:${product.color} колір:${product.color}` : '',
+            product.material ? `материал:${product.material} material:${product.material} матеріал:${product.material}` : '',
+            product.season ? `сезон:${product.season} season:${product.season}` : '',
+            product.style ? `стиль:${product.style} style:${product.style}` : ''
+        ];
+        
+        const normalizedFields = searchFields.map(field => 
+            normalizeSearchTerm(String(field || ''))
+        );
+        
+        const searchIndex = normalizedFields.join(' ').toLowerCase();
+        
+        return {
+            ...product,
+            searchIndex,
+            title: product.title || 'Без назви',
+            brand: product.brand || '',
+            category: product.category || '',
+            description: product.description || '',
+            price: Number(product.price) || 0,
+            oldPrice: Number(product.oldPrice) || null,
+            image: product.image || '',
+            inStock: product.inStock !== undefined ? product.inStock : true,
+            discount: product.discount || 0,
+            isNew: product.isNew || false,
+            isPopular: product.isPopular || false,
+            
+            // Характеристики
+            specifications: specifications.formatted,
+            size: product.size || '',
+            color: product.color || '',
+            material: product.material || '',
+            season: product.season || '',
+            style: product.style || '',
+            
+            // Технические характеристики
+            model: product.model || '',
+            sku: product.sku || '',
+            article: product.article || '',
+            vendorCode: product.vendorCode || '',
+            composition: product.composition || '',
+            care: product.care || '',
+            country: product.country || '',
+            weight: product.weight || '',
+            dimensions: product.dimensions || '',
+            
+            // Для улучшенного поиска
+            rating: product.rating || 0,
+            reviewCount: product.reviewCount || 0
+        };
+    });
+    
+    console.log(`✅ Обработано ${processedProducts.length} товаров с характеристиками`);
+    return processedProducts;
+}
+
+// ===== ФУНКЦИЯ ОБРАБОТКИ ХАРАКТЕРИСТИК =====
+function processSpecifications(product) {
+    let specifications = {};
+    let searchText = '';
+    
+    // Если характеристики представлены как объект
+    if (typeof product.specifications === 'object' && product.specifications !== null) {
+        specifications = { ...product.specifications };
+    }
+    // Если характеристики представлены как строка
+    else if (typeof product.specifications === 'string') {
+        try {
+            // Пробуем распарсить JSON
+            specifications = JSON.parse(product.specifications);
+        } catch (e) {
+            // Если не JSON, разбиваем по строкам
+            const lines = product.specifications.split('\n').filter(line => line.trim());
+            lines.forEach(line => {
+                const [key, ...valueParts] = line.split(':');
+                if (key && valueParts.length > 0) {
+                    const value = valueParts.join(':').trim();
+                    specifications[key.trim()] = value;
+                }
+            });
+        }
+    }
+    
+    // Добавляем основные характеристики если их нет
+    const mainSpecs = {
+        'Розмір': product.size,
+        'Колір': product.color,
+        'Матеріал': product.material || product.composition,
+        'Сезон': product.season,
+        'Стиль': product.style,
+        'Бренд': product.brand,
+        'Країна виробник': product.country,
+        'Склад': product.composition,
+        'Догляд': product.care,
+        'Вага': product.weight,
+        'Розміри упаковки': product.dimensions
+    };
+    
+    Object.entries(mainSpecs).forEach(([key, value]) => {
+        if (value && !specifications[key]) {
+            specifications[key] = value;
+        }
+    });
+    
+    // Удаляем пустые характеристики
+    Object.keys(specifications).forEach(key => {
+        if (!specifications[key]) {
+            delete specifications[key];
+        } else {
+            searchText += ` ${key} ${specifications[key]}`;
+        }
+    });
+    
+    // Форматируем для отображения
+    const formattedSpecs = Object.entries(specifications)
+        .map(([key, value]) => `${key}: ${value}`)
+        .join('\n');
+    
+    return {
+        formatted: formattedSpecs,
+        object: specifications,
+        searchText: searchText
+    };
+}
+
+// Улучшенная предобработка товаров
+function preprocessProductsOld(productsArray) {
     console.log("🔧 Предобработка товаров для умного поиска...");
     
     const processedProducts = productsArray.map((product, index) => {
@@ -1865,6 +2016,81 @@ function setupPageCounter() {
     }
 }
 
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ЗАГРУЗКИ ТОВАРОВ С ХАРАКТЕРИСТИКАМИ =====
+function loadProductsFromJson() {
+    isProductsLoading = true;
+    renderProducts();
+    
+    const promises = PRODUCT_FILES.map(file => 
+        fetch(file)
+            .then(response => {
+                if (!response.ok) {
+                    console.warn(`Файл ${file} не знайдений, пропускаємо`);
+                    return [];
+                }
+                return response.json();
+            })
+            .then(productsArray => {
+                return productsArray.map(product => ({
+                    ...product,
+                    source: file,
+                    isPopular: product.isPopular || false,
+                    // Обеспечиваем наличие всех полей характеристик
+                    specifications: product.specifications || product.details || product.characteristics || '',
+                    size: product.size || '',
+                    color: product.color || '',
+                    material: product.material || '',
+                    brand: product.brand || '',
+                    category: product.category || '',
+                    season: product.season || '',
+                    style: product.style || '',
+                    // Добавляем поля для улучшенного поиска
+                    model: product.model || '',
+                    sku: product.sku || product.article || '',
+                    article: product.article || product.sku || '',
+                    vendorCode: product.vendorCode || '',
+                    // Дополнительные технические характеристики
+                    composition: product.composition || product.material || '',
+                    care: product.care || '',
+                    country: product.country || '',
+                    weight: product.weight || '',
+                    dimensions: product.dimensions || ''
+                }));
+            })
+            .catch(error => {
+                console.warn(`Помилка завантаження файлу ${file}:`, error);
+                return [];
+            })
+    );
+
+    return Promise.all(promises)
+        .then(results => {
+            let allProducts = [];
+            results.forEach(productsArray => {
+                if (Array.isArray(productsArray)) {
+                    allProducts = allProducts.concat(productsArray);
+                }
+            });
+            
+            if (allProducts.length === 0) {
+                const backup = localStorage.getItem('products_backup');
+                if (backup) {
+                    const backupProducts = JSON.parse(backup);
+                    isProductsLoading = false;
+                    return backupProducts;
+                }
+                throw new Error('Не вдалося завантажити товари з жодного файлу');
+            }
+            
+            isProductsLoading = false;
+            return shuffleArray(allProducts);
+        })
+        .catch(error => {
+            isProductsLoading = false;
+            throw error;
+        });
+}
+
 // ===== ОСНОВНЫЕ ФУНКЦИИ FASHION STORE =====
 
 // Инициализация приложения
@@ -1876,6 +2102,9 @@ function initApp() {
     
     // Добавляем стили для комментариев
     addCommentStyles();
+    
+    // Добавляем стили для характеристик
+    addSpecificationsStyles();
     
     // Предобработка товаров после загрузки
     if (products.length > 0) {
@@ -2258,61 +2487,6 @@ function loadProducts() {
         });
 }
 
-// Загрузка товаров из JSON
-function loadProductsFromJson() {
-    isProductsLoading = true;
-    renderProducts();
-    
-    const promises = PRODUCT_FILES.map(file => 
-        fetch(file)
-            .then(response => {
-                if (!response.ok) {
-                    console.warn(`Файл ${file} не знайдений, пропускаємо`);
-                    return [];
-                }
-                return response.json();
-            })
-            .then(productsArray => {
-                return productsArray.map(product => ({
-                    ...product,
-                    source: file,
-                    isPopular: product.isPopular || false
-                }));
-            })
-            .catch(error => {
-                console.warn(`Помилка завантаження файлу ${file}:`, error);
-                return [];
-            })
-    );
-
-    return Promise.all(promises)
-        .then(results => {
-            let allProducts = [];
-            results.forEach(productsArray => {
-                if (Array.isArray(productsArray)) {
-                    allProducts = allProducts.concat(productsArray);
-                }
-            });
-            
-            if (allProducts.length === 0) {
-                const backup = localStorage.getItem('products_backup');
-                if (backup) {
-                    const backupProducts = JSON.parse(backup);
-                    isProductsLoading = false;
-                    return backupProducts;
-                }
-                throw new Error('Не вдалося завантажити товари з жодного файлу');
-            }
-            
-            isProductsLoading = false;
-            return shuffleArray(allProducts);
-        })
-        .catch(error => {
-            isProductsLoading = false;
-            throw error;
-        });
-}
-
 // Показать скелетоны загрузки
 function showEnhancedLoadingSkeleton() {
     const grid = document.getElementById("product-grid");
@@ -2637,7 +2811,7 @@ function renderCategoriesList() {
             <div class="category-item" onclick="selectCategory('${category}')">
                 ${translateCategory(category)}
                 <span class="category-count">${categoryCounts[category]}</span>
-            </div>
+        </div>
         `;
         
         mobileCategoriesHTML += `
@@ -2865,40 +3039,108 @@ function setViewMode(mode) {
 
 let currentRating = 0;
 
-// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ПОКАЗА ДЕТАЛЕЙ ТОВАРА =====
+// ===== ФУНКЦИЯ ГЕНЕРАЦИИ HTML ДЛЯ ХАРАКТЕРИСТИК =====
+function generateSpecificationsHTML(product) {
+    if (!product.specifications && !product.size && !product.color && !product.material) {
+        return '<p>Характеристики відсутні</p>';
+    }
+    
+    let specsHTML = '';
+    
+    // Обрабатываем строку характеристик
+    if (typeof product.specifications === 'string' && product.specifications.trim()) {
+        const lines = product.specifications.split('\n').filter(line => line.trim());
+        specsHTML = lines.map(line => {
+            const [key, ...valueParts] = line.split(':');
+            if (key && valueParts.length > 0) {
+                const value = valueParts.join(':').trim();
+                return `
+                    <div class="spec-item">
+                        <span class="spec-key">${key.trim()}:</span>
+                        <span class="spec-value">${value}</span>
+                    </div>
+                `;
+            }
+            return '';
+        }).join('');
+    }
+    
+    // Добавляем основные характеристики если они не были включены
+    const mainSpecs = [
+        { key: 'Розмір', value: product.size },
+        { key: 'Колір', value: product.color },
+        { key: 'Матеріал', value: product.material },
+        { key: 'Сезонність', value: product.season },
+        { key: 'Стиль', value: product.style },
+        { key: 'Склад', value: product.composition },
+        { key: 'Країна виробник', value: product.country },
+        { key: 'Догляд', value: product.care }
+    ];
+    
+    mainSpecs.forEach(spec => {
+        if (spec.value && !specsHTML.includes(spec.key)) {
+            specsHTML += `
+                <div class="spec-item">
+                    <span class="spec-key">${spec.key}:</span>
+                    <span class="spec-value">${spec.value}</span>
+                </div>
+            `;
+        }
+    });
+    
+    return specsHTML || '<p>Характеристики відсутні</p>';
+}
+
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ПОКАЗА ДЕТАЛЕЙ ТОВАРА С ХАРАКТЕРИСТИКАМИ =====
 function showProductDetail(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
     
     const modalContent = document.getElementById("modal-content");
+    
+    // Формируем HTML для характеристик
+    const specificationsHTML = generateSpecificationsHTML(product);
+    
     modalContent.innerHTML = `
         <button class="modal-close" onclick="closeModal()" aria-label="Закрити"><i class="fas fa-times" aria-hidden="true"></i></button>
         <h3>${product.title}</h3>
         <div class="product-detail">
             <div class="product-image">
-                <img src="${product.image || 'https://via.placeholder.com/400x400?text=Fashion+Product'}" alt="${product.title}">
+                <img src="${product.image || 'https://via.placeholder.com/400x400?text=Fashion+Product'}" alt="${product.title}" loading="lazy">
             </div>
             <div class="product-info">
+                ${product.brand ? `<p class="product-brand"><strong>Бренд:</strong> ${product.brand}</p>` : ''}
+                
                 <div class="price-container">
                     <span class="detail-price">${formatPrice(product.price)} ₴</span>
                     ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)} ₴</span>` : ''}
+                    ${product.discount ? `<span class="discount-badge">-${product.discount}%</span>` : ''}
                 </div>
+                
                 <div class="product-description">
                     <h4>Опис</h4>
                     <p>${product.description || 'Опис відсутній'}</p>
                 </div>
-                <div class="product-specs">
-                    ${product.size ? `<p><strong>Розмір:</strong> ${product.size}</p>` : ''}
-                    ${product.color ? `<p><strong>Колір:</strong> ${product.color}</p>` : ''}
-                    <p><strong>Наявність:</strong> ${product.inStock ? 'В наявності' : 'Немає в наявності'}</p>
+                
+                <div class="product-specifications">
+                    <h4>Характеристики</h4>
+                    ${specificationsHTML}
                 </div>
+                
+                <div class="availability-status">
+                    <p><strong>Наявність:</strong> 
+                        <span class="${product.inStock ? 'in-stock' : 'out-of-stock'}">
+                            ${product.inStock ? 'В наявності' : 'Немає в наявності'}
+                        </span>
+                    </p>
+                </div>
+                
                 <div class="quantity-control">
                     <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
                     <input type="number" class="quantity-input" id="product-quantity" value="1" min="1">
                     <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
                 </div>
                 
-                <!-- ДОБАВЛЕНО: ПОЛЕ КОММЕНТАРИЯ ДЛЯ ЗАКАЗА -->
                 <div class="form-group">
                     <label for="product-comment">Додайте, будь ласка, розмір, та ваші побажання</label>
                     <textarea 
@@ -2913,8 +3155,9 @@ function showProductDetail(productId) {
                 </div>
                 
                 <div class="detail-actions">
-                    <button class="btn btn-buy" onclick="addToCartWithQuantity('${product.id}')">
-                        <i class="fas fa-shopping-cart"></i> Додати до кошика
+                    <button class="btn btn-buy" onclick="addToCartWithQuantity('${product.id}')" ${!product.inStock ? 'disabled' : ''}>
+                        <i class="fas fa-shopping-cart"></i> 
+                        ${product.inStock ? 'Додати до кошика' : 'Немає в наявності'}
                     </button>
                     <button class="btn-favorite ${favorites[product.id] ? 'active' : ''}" onclick="toggleFavorite('${product.id}')">
                         <i class="${favorites[product.id] ? 'fas' : 'far'} fa-heart"></i>
@@ -3740,6 +3983,104 @@ function addCommentStyles() {
             .cart-item-comment {
                 font-size: 0.85em;
                 padding: 6px 10px;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// ===== ДОБАВЛЕНИЕ СТИЛЕЙ ДЛЯ ХАРАКТЕРИСТИК =====
+function addSpecificationsStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .product-specifications {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .product-specifications h4 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+        
+        .spec-key {
+            font-weight: 600;
+            color: #495057;
+            min-width: 120px;
+            margin-right: 15px;
+        }
+        
+        .spec-value {
+            color: #6c757d;
+            text-align: right;
+            flex: 1;
+        }
+        
+        .product-brand {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 10px;
+            padding: 5px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .availability-status {
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 6px;
+            background: #f8f9fa;
+        }
+        
+        .in-stock {
+            color: #28a745;
+            font-weight: 600;
+        }
+        
+        .out-of-stock {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        
+        .discount-badge {
+            background: #dc3545;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .spec-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .spec-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+            
+            .product-specifications {
+                margin: 15px 0;
+                padding: 12px;
             }
         }
     `;
