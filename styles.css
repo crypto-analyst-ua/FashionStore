@@ -4423,3 +4423,65 @@ main {
     font-size: 0.9rem !important;
   }
 }
+
+/* Обновленные стили для иконок контактов в футере */
+.contact-info {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 10px;
+}
+.contact-info a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: white;
+    border-radius: 50%;
+    color: white;
+    font-size: 22px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+.contact-info a:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Цвета для WhatsApp - зеленый */
+.contact-info a:nth-child(1) {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+}
+.contact-info a:nth-child(1):hover {
+    background: linear-gradient(135deg, #1da851, #0d6d5a);
+}
+
+/* Цвета для Viber - фиолетовый */
+.contact-info a:nth-child(2) {
+    background: linear-gradient(135deg, #7360F2, #8B5CEB);
+}
+.contact-info a:nth-child(2):hover {
+    background: linear-gradient(135deg, #5a4bd8, #7148d6);
+}
+
+/* Цвета для Telegram - голубой */
+.contact-info a:nth-child(3) {
+    background: linear-gradient(135deg, #0088cc, #34b7f1);
+}
+.contact-info a:nth-child(3):hover {
+    background: linear-gradient(135deg, #0077b3, #2a9cd8);
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+    .contact-info {
+        gap: 12px;
+    }
+    .contact-info a {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+}

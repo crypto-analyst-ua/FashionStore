@@ -36,7 +36,7 @@
     <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#e91e63">
 
-    <!-- Стили для логотипа -->
+    <!-- Стили для логотипа и контактов -->
 <style>
     .logo-text .logo-name {
         color: #e91e63 !important;
@@ -48,6 +48,46 @@
         background: none !important;
         -webkit-background-clip: initial !important;
         -webkit-text-fill-color: #e91e63 !important;
+    }
+    
+    /* Стили для иконок контактов в футере */
+    .contact-info {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    .contact-info a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: #f5f5f5;
+        border-radius: 50%;
+        color: #333;
+        font-size: 20px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+    .contact-info a:hover {
+        background: #e91e63;
+        color: white;
+        transform: scale(1.1);
+    }
+    .contact-info a i {
+        margin: 0;
+    }
+    /* Для мобильных устройств */
+    @media (max-width: 768px) {
+        .contact-info {
+            gap: 10px;
+        }
+        .contact-info a {
+            width: 36px;
+            height: 36px;
+            font-size: 18px;
+        }
     }
 </style>
 
@@ -538,11 +578,19 @@
             </div>
         </div>
         
+        <!-- Обновленный блок контактов - только иконки мессенджеров -->
         <div class="footer-section">
             <h4>Контакти</h4>
             <div class="contact-info">
-                <div><i class="fab fa-whatsapp" aria-hidden="true"></i> <a href="https://wa.me/380684296978" target="_blank" rel="noopener">WhatsApp: +380684296978</a></div>
-                <div><i class="fab fa-viber" aria-hidden="true"></i> <a href="viber://chat?number=+380684296978" target="_blank" rel="noopener">Viber: +380684296978</a></div>
+                <a href="https://wa.me/380684296978" target="_blank" rel="noopener" aria-label="WhatsApp" title="Напишіть нам у WhatsApp">
+                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                </a>
+                <a href="viber://chat?number=+380684296978" target="_blank" rel="noopener" aria-label="Viber" title="Напишіть нам у Viber">
+                    <i class="fab fa-viber" aria-hidden="true"></i>
+                </a>
+                <a href="https://t.me/Voanarhes" target="_blank" rel="noopener" aria-label="Telegram" title="Напишіть нам у Telegram">
+                    <i class="fab fa-telegram" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
         
