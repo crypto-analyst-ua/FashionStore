@@ -3042,7 +3042,7 @@ let currentRating = 0;
 // ===== ФУНКЦИЯ ГЕНЕРАЦИИ HTML ДЛЯ ХАРАКТЕРИСТИК =====
 function generateSpecificationsHTML(product) {
     if (!product.specifications && !product.size && !product.color && !product.material) {
-        return '<p>Характеристики відсутні</p>';
+        return '<p></p>';
     }
     
     let specsHTML = '';
@@ -3088,7 +3088,7 @@ function generateSpecificationsHTML(product) {
         }
     });
     
-    return specsHTML || '<p>Характеристики відсутні</p>';
+    return specsHTML || '<p></p>';
 }
 
 // ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ПОКАЗА ДЕТАЛЕЙ ТОВАРА С ХАРАКТЕРИСТИКАМИ =====
@@ -3123,7 +3123,7 @@ function showProductDetail(productId) {
                 </div>
                 
                 <div class="product-specifications">
-                    <h4>Характеристики</h4>
+                    <h4></h4>
                     ${specificationsHTML}
                 </div>
                 
