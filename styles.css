@@ -1,41 +1,33 @@
 /* Подключение шрифтов */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;600;700&display=swap');
 
-/* Обновленная цветовая палитра - СВЕТЛАЯ ТЕМА */
+/* Обновленная цветовая палитра - СВЕТЛАЯ ТЕМА для зоомагазина */
 :root {
-  --primary: #1e3a8a;
-  --primary-light: #3b82f6;
-  --primary-dark: #1e40af;
-  --secondary: #dc2626;
-  --secondary-light: #ef4444;
-  --secondary-dark: #b91c1c;
-  --accent: #059669;
-  --accent-light: #10b981;
-  --accent-dark: #047857;
-  --success: #16a34a;
-  --warning: #d97706;
-  --danger: #dc2626;
-  --light: #f8fafc;
-  --dark: #1e293b;
-  --gray: #64748b;
-  --gray-light: #cbd5e1;
-  --gray-lighter: #e2e8f0;
-  --white: #ffffff;
-  --surface: #ffffff;
-  --surface-2: #f1f5f9;
+  --primary: #2a9d8f; /* Природный зеленый-бирюзовый для зоомагазина */
+  --primary-light: #4db6ac; /* Светлый бирюзовый */
+  --primary-dark: #21867a; /* Темный зеленый-бирюзовый */
+  --secondary: #e9c46a; /* Теплый песочный/золотистый */
+  --secondary-light: #f4d27e; /* Светлый песочный */
+  --secondary-dark: #d4b052; /* Темный песочный */
+  --accent: #e76f51; /* Теплый коралловый/оранжевый */
+  --accent-light: #f28469; /* Светлый коралловый */
+  --accent-dark: #d45a3d; /* Темный коралловый */
+  --success: #2a9d8f; /* Природный зеленый для успеха */
+  --warning: #e9c46a; /* Песочный для предупреждений */
+  --danger: #e76f51; /* Коралловый для опасности */
+  --light: #f8f9fa; /* Светлый фон */
+  --dark: #264653; /* Темный сине-зеленый для текста */
+  --gray: #6c757d; /* Нейтральный серый */
+  --gray-light: #dee2e6; /* Светло-серый */
+  --gray-lighter: #e9ecef; /* Очень светлый серый */
+  --white: #ffffff; /* Белый */
+  --surface: #ffffff; /* Поверхность */
+  --surface-2: #f8f9fa; /* Вторичная поверхность */
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --border-radius: 12px;
   --border-radius-lg: 16px;
-  --primary: #2c3e50;
-  --primary-dark: #1a252f;
-  --primary-light: #3498db;
-  --secondary: #e74c3c;
-  --accent: #f39c12;
-  --success: #27ae60;
-  --warning: #f1c40f;
-  --danger: #e74c3c;
 }
 
 /* Общие стили */
@@ -54,7 +46,7 @@ body {
   font-family: 'Roboto', sans-serif;
   line-height: 1.6;
   color: var(--dark);
-  background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 25%, #dbeafe 50%, #eff6ff 75%, #f8fafc 100%);
+  background: linear-gradient(135deg, #e9f5f3 0%, #f0f9f7 25%, #e3f2ef 50%, #edf7f5 75%, #f8f9fa 100%);
   background-attachment: fixed;
   background-size: cover;
   min-height: 100vh;
@@ -94,11 +86,11 @@ h3 {
 /* Хедер - разноцветный градиент */
 header {
   background: linear-gradient(135deg, 
-    #000000 0%, 
-    #1e3a8a 25%, 
-    #059669 50%, 
-    #dc2626 75%, 
-    #000000 100%);
+    #264653 0%, 
+    #2a9d8f 25%, 
+    #e9c46a 50%, 
+    #e76f51 75%, 
+    #264653 100%);
   color: var(--white);
   padding: 1rem;
   box-shadow: var(--shadow);
@@ -149,7 +141,7 @@ header {
 .search-container-mobile input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
 }
 
 .logo {
@@ -170,7 +162,7 @@ header {
   background: var(--primary-light);
   padding: 0.5rem;
   border-radius: 50%;
-  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 0 15px rgba(77, 182, 172, 0.4);
   animation: pulse 2s infinite;
   flex-shrink: 0;
 }
@@ -279,7 +271,7 @@ header {
 .search-container input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
 }
 
 .search-container:focus-within {
@@ -312,7 +304,7 @@ select {
 
 select:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
 }
 
 /* Кнопки */
@@ -343,7 +335,7 @@ select:focus {
 
 .btn-admin {
   background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
-  color: var(--white);
+  color: var(--dark);
 }
 
 .btn-admin:hover {
@@ -392,12 +384,12 @@ select:focus {
 }
 
 .btn-buy {
-  background: linear-gradient(135deg, var(--success) 0%, #0da76c 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
   color: var(--white);
 }
 
 .btn-buy:hover {
-  background: linear-gradient(135deg, #0da76c 0%, #059669 100%);
+  background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent) 100%);
 }
 
 .btn-favorite {
@@ -414,12 +406,12 @@ select:focus {
 }
 
 .btn-favorite:hover {
-  background: rgba(236, 72, 153, 0.1);
-  color: var(--secondary);
+  background: rgba(231, 111, 81, 0.1);
+  color: var(--accent);
 }
 
 .btn-favorite.active {
-  color: var(--secondary);
+  color: var(--accent);
 }
 
 /* Основной контент */
@@ -489,7 +481,7 @@ main {
 .filter-group select:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+  box-shadow: 0 0 0 3px rgba(231, 111, 81, 0.1);
 }
 
 .price-range {
@@ -654,8 +646,8 @@ main {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: var(--accent);
-  color: var(--white);
+  background: var(--secondary);
+  color: var(--dark);
   padding: 0.3rem 0.6rem;
   border-radius: var(--border-radius);
   font-size: 0.8rem;
@@ -666,7 +658,7 @@ main {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: var(--secondary);
+  background: var(--accent);
   color: var(--white);
   padding: 0.3rem 0.6rem;
   border-radius: var(--border-radius);
@@ -799,8 +791,8 @@ aside h3 {
 
 /* О магазине - СВЕТЛАЯ СЕКЦИЯ */
 .about-section {
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #ffffff 100%);
-  color: #1e293b;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
+  color: var(--dark);
   padding: 2.5rem 0;
   margin: 2rem 0;
   border: 1px solid #e2e8f0;
@@ -808,30 +800,30 @@ aside h3 {
 }
 
 .about-section h1 {
-  color: #1e40af;
+  color: var(--primary);
   margin-bottom: 1.5rem;
   font-size: clamp(1.8rem, 5vw, 2.5rem);
 }
 
 .about-section h2 {
-  color: #1e40af;
+  color: var(--primary);
   font-size: clamp(1.5rem, 4vw, 2rem);
   margin-bottom: 1rem;
 }
 
 .about-section h3 {
-  color: #1e40af;
+  color: var(--primary);
   margin: 1.5rem 0 1rem;
   font-size: clamp(1.2rem, 3vw, 1.5rem);
 }
 
 .about-section h4 {
-  color: #1e40af;
+  color: var(--primary);
   margin: 1.5rem 0 1rem;
 }
 
 .about-section p {
-  color: #374151;
+  color: var(--dark);
   margin-bottom: 1rem;
   line-height: 1.6;
 }
@@ -844,41 +836,41 @@ aside h3 {
 .about-section li {
   margin-bottom: 0.8rem;
   line-height: 1.6;
-  color: #374151;
+  color: var(--dark);
 }
 
 .about-section strong {
-  color: #059669;
+  color: var(--accent);
 }
 
 .about-section mark {
   background-color: #fef3c7;
-  color: #92400e;
+  color: var(--dark);
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
 }
 
 .about-section .highlight {
-  background: #f1f5f9;
+  background: var(--surface-2);
   padding: 1.5rem;
   border-radius: var(--border-radius);
-  border-left: 4px solid #3b82f6;
-  color: #374151;
+  border-left: 4px solid var(--primary-light);
+  color: var(--dark);
   margin: 1.5rem 0;
 }
 
 .about-section .container {
-  color: #374151;
+  color: var(--dark);
 }
 
 .about-section article {
-  color: #374151;
+  color: var(--dark);
   margin-bottom: 1.5rem;
 }
 
 .about-section ul li::before {
   content: "✓ ";
-  color: #059669;
+  color: var(--accent);
   font-weight: bold;
   margin-right: 0.5rem;
 }
@@ -944,6 +936,11 @@ footer {
 .contact-info i {
   color: var(--white);
 }
+
+.contact-info .fa-whatsapp { color: #25D366; }
+.contact-info .fa-viber { color: #7360F2; }
+.contact-info .fa-telegram { color: #0088cc; }
+.contact-info .fa-phone-alt { color: var(--primary); }
 
 .copyright {
   margin-top: 2rem;
@@ -1208,7 +1205,7 @@ footer {
 .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+  box-shadow: 0 0 0 3px rgba(231, 111, 81, 0.1);
 }
 
 .form-row {
@@ -1251,7 +1248,7 @@ footer {
 
 .notification.warning {
   background: var(--warning);
-  color: var(--light);
+  color: var(--dark);
 }
 
 /* Скелетоны */
@@ -1357,27 +1354,27 @@ footer {
 }
 
 .status-new {
-  background: rgba(37, 99, 235, 0.1);
+  background: rgba(42, 157, 143, 0.1);
   color: var(--primary);
 }
 
 .status-processing {
-  background: rgba(245, 158, 11, 0.1);
-  color: #d97706;
+  background: rgba(233, 196, 106, 0.1);
+  color: #d4b052;
 }
 
 .status-shipped {
-  background: rgba(6, 182, 212, 0.1);
+  background: rgba(231, 111, 81, 0.1);
   color: var(--accent);
 }
 
 .status-delivered {
-  background: rgba(16, 185, 129, 0.1);
-  color: #059669;
+  background: rgba(42, 157, 143, 0.2);
+  color: #21867a;
 }
 
 .status-cancelled {
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(231, 111, 81, 0.1);
   color: var(--danger);
 }
 
@@ -1395,7 +1392,7 @@ footer {
 
 /* Специальные эффекты */
 ::selection {
-  background: var(--accent-light);
+  background: var(--primary-light);
   color: var(--white);
 }
 
@@ -1636,7 +1633,7 @@ button:focus, input:focus, select:focus, textarea:focus {
 
 /* Стили для информации о доставке */
 .delivery-notice {
-  background: rgba(6, 182, 212, 0.1);
+  background: rgba(231, 111, 81, 0.1);
   padding: 1rem;
   border-radius: var(--border-radius);
   margin: 1rem 0;
@@ -2257,13 +2254,13 @@ button:focus, input:focus, select:focus, textarea:focus {
   padding: 15px;
   background-color: #f8f9fa;
   border-radius: 8px;
-  border-left: 4px solid #007bff;
+  border-left: 4px solid var(--primary-light);
   display: flex;
   align-items: center;
 }
 
 .manager-notice i {
-  color: #007bff;
+  color: var(--primary-light);
   margin-right: 10px;
   font-size: 1.2rem;
 }
@@ -2387,7 +2384,7 @@ button:focus, input:focus, select:focus, textarea:focus {
 }
 
 .btn-success {
-  background: #28a745;
+  background: var(--success);
   color: #fff;
 }
 
@@ -2525,22 +2522,22 @@ button:focus, input:focus, select:focus, textarea:focus {
 
 .ttn-info {
   background: #f0f8ff;
-  border-left-color: #007bff;
+  border-left-color: var(--primary-light);
 }
 
 .ttn-warning {
   background: #fff3cd;
-  border-left-color: #ffc107;
+  border-left-color: var(--warning);
 }
 
 /* Стили для кнопки ТТН */
 .btn-ttn {
-  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
   color: white;
 }
 
 .btn-ttn:hover {
-  background: linear-gradient(135deg, #138496 0%, #117a8b 100%);
+  background: linear-gradient(135deg, var(--primary-dark) 0%, #1a7568 100%);
 }
 
 /* Стили для ссылки отслеживания */
@@ -2548,16 +2545,16 @@ button:focus, input:focus, select:focus, textarea:focus {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #007bff;
+  color: var(--primary-light);
   text-decoration: none;
   padding: 0.5rem 1rem;
-  border: 1px solid #007bff;
+  border: 1px solid var(--primary-light);
   border-radius: var(--border-radius);
   transition: var(--transition);
 }
 
 .tracking-link:hover {
-  background: #007bff;
+  background: var(--primary-light);
   color: white;
   text-decoration: none;
 }
@@ -2911,13 +2908,13 @@ body.search-suggestions-open {
 
 .category-item:hover {
     background: #e9ecef;
-    border-color: #007bff;
+    border-color: var(--primary-light);
 }
 
 .category-item.active {
-    background: #007bff;
+    background: var(--primary);
     color: white;
-    border-color: #007bff;
+    border-color: var(--primary);
 }
 
 .category-item .category-count {
@@ -2956,9 +2953,9 @@ body.search-suggestions-open {
 }
 
 .btn-category:hover {
-    background: #007bff;
+    background: var(--primary);
     color: white;
-    border-color: #007bff;
+    border-color: var(--primary);
 }
 
 /* Стили для улучшенных скелетонов */
@@ -3033,7 +3030,7 @@ body.search-suggestions-open {
   width: 50px;
   height: 50px;
   border: 5px solid #f3f3f3;
-  border-top: 5px solid #3498db;
+  border-top: 5px solid var(--primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 20px;
@@ -3569,7 +3566,7 @@ main {
 
 .profile-avatar {
     font-size: 60px;
-    color: #3498db;
+    color: var(--primary);
 }
 
 .profile-details p {
@@ -3601,7 +3598,7 @@ main {
 
 .stat-item i {
     font-size: 24px;
-    color: #3498db;
+    color: var(--primary);
     margin-bottom: 8px;
 }
 
@@ -3609,7 +3606,7 @@ main {
     display: block;
     font-size: 24px;
     font-weight: bold;
-    color: #2c3e50;
+    color: var(--dark);
 }
 
 .stat-label {
@@ -3624,15 +3621,15 @@ main {
     padding: 20px;
     margin-bottom: 15px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    border-left: 4px solid #3498db;
+    border-left: 4px solid var(--primary);
 }
 
 .user-order-card.new {
-    border-left-color: #3498db;
+    border-left-color: var(--primary);
 }
 
 .user-order-card.processing {
-    border-left-color: #f39c12;
+    border-left-color: var(--warning);
 }
 
 .user-order-card.shipped {
@@ -3640,11 +3637,11 @@ main {
 }
 
 .user-order-card.delivered {
-    border-left-color: #27ae60;
+    border-left-color: var(--success);
 }
 
 .user-order-card.cancelled {
-    border-left-color: #e74c3c;
+    border-left-color: var(--danger);
 }
 
 .order-card-header {
@@ -3656,7 +3653,7 @@ main {
 
 .order-id {
     font-weight: bold;
-    color: #2c3e50;
+    color: var(--dark);
 }
 
 .order-date {
@@ -3679,34 +3676,34 @@ main {
 }
 
 .status-new {
-    background: #e3f2fd;
-    color: #1976d2;
+    background: rgba(42, 157, 143, 0.1);
+    color: var(--primary);
 }
 
 .status-processing {
-    background: #fff3e0;
-    color: #f57c00;
+    background: rgba(233, 196, 106, 0.1);
+    color: #d4b052;
 }
 
 .status-shipped {
-    background: #f3e5f5;
-    color: #7b1fa2;
+    background: rgba(231, 111, 81, 0.1);
+    color: var(--accent);
 }
 
 .status-delivered {
-    background: #e8f5e8;
-    color: #388e3c;
+    background: rgba(42, 157, 143, 0.2);
+    color: #21867a;
 }
 
 .status-cancelled {
-    background: #ffebee;
-    color: #d32f2f;
+    background: rgba(231, 111, 81, 0.1);
+    color: var(--danger);
 }
 
 .order-total {
     font-size: 18px;
     font-weight: bold;
-    color: #2c3e50;
+    color: var(--dark);
 }
 
 .order-card-delivery p {
@@ -3715,14 +3712,14 @@ main {
 }
 
 .order-ttn-info {
-    background: #e3f2fd;
+    background: rgba(42, 157, 143, 0.1);
     padding: 10px;
     border-radius: 6px;
     margin: 10px 0;
 }
 
 .track-link {
-    color: #1976d2;
+    color: var(--primary);
     text-decoration: none;
     font-size: 14px;
 }
@@ -3757,7 +3754,7 @@ main {
 .error-message {
     text-align: center;
     padding: 40px 20px;
-    color: #e74c3c;
+    color: var(--danger);
 }
 
 .error-message i {
@@ -3833,9 +3830,6 @@ main {
 
 .card-actions {
   padding: 0 0.8rem 0.8rem;
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
 }
 
 /* АДАПТИВНОСТЬ ДЛЯ УВЕЛИЧЕННЫХ ИЗОБРАЖЕНИЙ */
@@ -4422,66 +4416,4 @@ main {
   .user-btn i {
     font-size: 0.9rem !important;
   }
-}
-
-/* Обновленные стили для иконок контактов в футере */
-.contact-info {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 10px;
-}
-.contact-info a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    background: white;
-    border-radius: 50%;
-    color: white;
-    font-size: 22px;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-}
-.contact-info a:hover {
-    transform: translateY(-3px) scale(1.1);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-/* Цвета для WhatsApp - зеленый */
-.contact-info a:nth-child(1) {
-    background: linear-gradient(135deg, #25D366, #128C7E);
-}
-.contact-info a:nth-child(1):hover {
-    background: linear-gradient(135deg, #1da851, #0d6d5a);
-}
-
-/* Цвета для Viber - фиолетовый */
-.contact-info a:nth-child(2) {
-    background: linear-gradient(135deg, #7360F2, #8B5CEB);
-}
-.contact-info a:nth-child(2):hover {
-    background: linear-gradient(135deg, #5a4bd8, #7148d6);
-}
-
-/* Цвета для Telegram - голубой */
-.contact-info a:nth-child(3) {
-    background: linear-gradient(135deg, #0088cc, #34b7f1);
-}
-.contact-info a:nth-child(3):hover {
-    background: linear-gradient(135deg, #0077b3, #2a9cd8);
-}
-
-/* Для мобильных устройств */
-@media (max-width: 768px) {
-    .contact-info {
-        gap: 12px;
-    }
-    .contact-info a {
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-    }
 }
