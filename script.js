@@ -414,7 +414,7 @@ const FASHION_SEARCH_KNOWLEDGE = {
     'футболка': ['базовая', 'оверсайз', 'поло', 'лонгслив', 'с принтом', 'классическая'],
     'куртка': ['косуха', 'бомбер', 'анорак', 'ветровка', 'джинсовая', 'кожаная'],
     'обувь': ['повседневная', 'спортивная', 'вечерняя', 'офисная', 'пляжная'],
-    'сумка': ['повседневная', 'вечерняя', 'пляжная', 'деловая', ' кросс-боди']
+    'сумка': ['повседневная', 'вечерняя', 'пляжна', 'деловая', ' кросс-боди']
   },
   
   // Сезонность
@@ -2091,6 +2091,180 @@ function loadProductsFromJson() {
         });
 }
 
+// ===== ДОБАВЛЕНИЕ СТИЛЕЙ ДЛЯ МОБИЛЬНЫХ МОДАЛЬНЫХ ОКОН =====
+function addMobileModalStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        /* Адаптивные стили для модального окна на мобильных устройствах */
+        @media (max-width: 768px) {
+            #modal {
+                padding: 0;
+                align-items: flex-start;
+                padding-top: 20px;
+            }
+            
+            #modal.active .modal-content {
+                width: 95vw;
+                max-width: 95vw;
+                margin: 0 auto;
+                padding: 20px 15px;
+                max-height: 90vh;
+                overflow-y: auto;
+                border-radius: 12px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            }
+            
+            .product-detail {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .product-image {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .product-image img {
+                max-width: 100%;
+                max-height: 350px;
+                width: auto;
+                height: auto;
+            }
+            
+            .product-info {
+                width: 100%;
+                padding: 0;
+            }
+            
+            /* Улучшенные стили для характеристик */
+            .product-specifications {
+                max-height: 200px;
+                overflow-y: auto;
+                padding: 15px;
+            }
+            
+            .spec-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+                padding: 10px 0;
+            }
+            
+            .spec-value {
+                text-align: left;
+                word-break: break-word;
+            }
+            
+            /* Адаптивные кнопки */
+            .detail-actions {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .detail-actions .btn {
+                width: 100%;
+                padding: 14px;
+                font-size: 16px;
+            }
+            
+            .btn-favorite {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+            }
+            
+            /* Улучшенный инпут количества */
+            .quantity-control {
+                width: 100%;
+                justify-content: center;
+                margin: 20px 0;
+            }
+            
+            .quantity-control .quantity-input {
+                width: 60px;
+                text-align: center;
+            }
+            
+            /* Улучшенные отзывы */
+            .product-reviews {
+                max-height: 300px;
+                overflow-y: auto;
+                margin-top: 20px;
+                padding-top: 20px;
+                border-top: 1px solid #eee;
+            }
+            
+            /* Закрывающая кнопка на мобильных */
+            .modal-close {
+                position: fixed;
+                top: 10px;
+                right: 15px;
+                z-index: 1001;
+                background: rgba(255,255,255,0.9);
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+        
+        /* Для очень маленьких экранов */
+        @media (max-width: 375px) {
+            #modal.active .modal-content {
+                width: 98vw;
+                max-width: 98vw;
+                padding: 15px 12px;
+            }
+            
+            .product-image img {
+                max-height: 280px;
+            }
+            
+            h3 {
+                font-size: 1.3em;
+                margin-bottom: 15px;
+            }
+            
+            .detail-price {
+                font-size: 1.5em;
+            }
+            
+            .form-group textarea {
+                font-size: 16px;
+                min-height: 100px;
+            }
+        }
+        
+        /* Ландшафтная ориентация */
+        @media (max-width: 768px) and (orientation: landscape) {
+            #modal.active .modal-content {
+                max-height: 85vh;
+                padding: 15px;
+            }
+            
+            .product-detail {
+                flex-direction: row;
+                gap: 15px;
+            }
+            
+            .product-image {
+                width: 40%;
+            }
+            
+            .product-info {
+                width: 60%;
+            }
+            
+            .product-image img {
+                max-height: 250px;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
 // ===== ОСНОВНЫЕ ФУНКЦИИ FASHION STORE =====
 
 // Инициализация приложения
@@ -2105,6 +2279,9 @@ function initApp() {
     
     // Добавляем стили для характеристик
     addSpecificationsStyles();
+    
+    // Добавляем стили для мобильных модальных окон
+    addMobileModalStyles();
     
     // Предобработка товаров после загрузки
     if (products.length > 0) {
@@ -2248,6 +2425,9 @@ function initApp() {
     
     // Инициализация счетчика просмотров
     setupPageCounter();
+    
+    // Добавляем стили для полноэкранного просмотра изображений
+    addFullscreenImageStyles();
 }
 
 // Функція відкриття профілю користувача
@@ -2564,7 +2744,14 @@ function renderProducts() {
         card.innerHTML = `
             ${product.discount ? `<div class="card-discount">-${product.discount}%</div>` : ''}
             ${product.isNew ? '<div class="card-badge">Новинка</div>' : ''}
-            <img src="${product.image || 'https://via.placeholder.com/300x300?text=Fashion+Store'}" alt="${product.title}" loading="lazy">
+            <img src="${product.image || 'https://via.placeholder.com/300x300?text=Fashion+Store'}" 
+                 alt="${product.title}" 
+                 loading="lazy"
+                 onclick="openFullscreenImage('${product.image || 'https://via.placeholder.com/300x300?text=Fashion+Store'}')"
+                 style="cursor: pointer; transition: transform 0.3s ease;"
+                 onmouseover="this.style.transform='scale(1.03)'"
+                 onmouseout="this.style.transform='scale(1)'"
+                 title="Натисніть для перегляду в повному розмірі">
             <h3>${product.title}</h3>
             <div class="price-container">
                 <span class="price">${formatPrice(product.price)} ₴</span>
@@ -3106,7 +3293,17 @@ function showProductDetail(productId) {
         <h3>${product.title}</h3>
         <div class="product-detail">
             <div class="product-image">
-                <img src="${product.image || 'https://via.placeholder.com/400x400?text=Fashion+Product'}" alt="${product.title}" loading="lazy">
+                <img src="${product.image || 'https://via.placeholder.com/400x400?text=Fashion+Product'}" 
+                     alt="${product.title}" 
+                     loading="lazy"
+                     onclick="openFullscreenImage('${product.image || 'https://via.placeholder.com/400x400?text=Fashion+Product'}')"
+                     style="cursor: pointer; transition: transform 0.3s ease;"
+                     onmouseover="this.style.transform='scale(1.02)'"
+                     onmouseout="this.style.transform='scale(1)'"
+                     title="Натисніть для перегляду в повному розмірі">
+                <div class="image-hint" style="text-align: center; margin-top: 10px; color: #666; font-size: 0.9em;">
+                    <i class="fas fa-expand-arrows-alt"></i> Натисніть на зображення для перегляду в повному розмірі
+                </div>
             </div>
             <div class="product-info">
                 ${product.brand ? `<p class="product-brand"><strong>Бренд:</strong> ${product.brand}</p>` : ''}
@@ -3123,7 +3320,7 @@ function showProductDetail(productId) {
                 </div>
                 
                 <div class="product-specifications">
-                    <h4></h4>
+                    <h4>Характеристики</h4>
                     ${specificationsHTML}
                 </div>
                 
@@ -5920,10 +6117,172 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Инициализация при загрузке страницы
-document.addEventListener("DOMContentLoaded", function() {
-    initApp();
-});
+// ===== ФУНКЦИЯ ОТКРЫТИЯ ИЗОБРАЖЕНИЯ НА ВЕСЬ ЭКРАН =====
+function openFullscreenImage(imageUrl) {
+    const modalContent = document.getElementById("modal-content");
+    
+    modalContent.innerHTML = `
+        <button class="modal-close" onclick="closeModal()" aria-label="Закрити">
+            <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+        <div class="fullscreen-image-container">
+            <img src="${imageUrl}" alt="Зображення товару" class="fullscreen-image" id="fullscreen-img">
+            <div class="image-actions">
+                <button class="btn" onclick="zoomImage(1.2)">
+                    <i class="fas fa-search-plus"></i>
+                </button>
+                <button class="btn" onclick="zoomImage(0.8)">
+                    <i class="fas fa-search-minus"></i>
+                </button>
+                <button class="btn" onclick="resetImageZoom()">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <button class="btn" onclick="downloadImage('${imageUrl}')">
+                    <i class="fas fa-download"></i>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    openModal();
+}
+
+// Функция зума изображения
+function zoomImage(factor) {
+    const img = document.getElementById('fullscreen-img');
+    if (!img) return;
+    
+    const currentScale = parseFloat(img.style.transform.replace('scale(', '').replace(')', '')) || 1;
+    const newScale = currentScale * factor;
+    
+    // Ограничиваем масштаб
+    if (newScale < 0.5 || newScale > 3) return;
+    
+    img.style.transform = `scale(${newScale})`;
+    img.style.transition = 'transform 0.3s ease';
+}
+
+// Сброс зума
+function resetImageZoom() {
+    const img = document.getElementById('fullscreen-img');
+    if (img) {
+        img.style.transform = 'scale(1)';
+        img.style.transition = 'transform 0.3s ease';
+    }
+}
+
+// Скачивание изображения
+function downloadImage(imageUrl) {
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = 'fashionstore-product.jpg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showNotification('Зображення завантажується...');
+}
+
+// Стили для полноэкранного просмотра изображения
+function addFullscreenImageStyles() {
+    const styleId = 'fullscreen-image-styles';
+    if (document.getElementById(styleId)) return;
+    
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.textContent = `
+        .fullscreen-image-container {
+            width: 100%;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .fullscreen-image {
+            max-width: 95%;
+            max-height: 85vh;
+            object-fit: contain;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .fullscreen-image:hover {
+            transform: scale(1.02);
+        }
+        
+        .image-actions {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            margin: 0 auto;
+            width: fit-content;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+        }
+        
+        .image-actions .btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 1px solid #ddd;
+            font-size: 18px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .image-actions .btn:hover {
+            background: #007bff;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .fullscreen-image {
+                max-width: 100%;
+                max-height: 80vh;
+            }
+            
+            .image-actions {
+                bottom: 10px;
+                padding: 10px;
+            }
+            
+            .image-actions .btn {
+                width: 45px;
+                height: 45px;
+                font-size: 16px;
+            }
+        }
+        
+        /* Анимация появления */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .fullscreen-image-container {
+            animation: fadeIn 0.3s ease;
+        }
+    `;
+    document.head.appendChild(style);
+}
 
 // Глобальные переменные для улучшенного поиска
 let searchIndexReady = false;
@@ -5936,3 +6295,8 @@ const MAX_SEARCH_RESULTS = 1000;
 const ENHANCED_DEBOUNCE_DELAY = 200;
 const SEARCH_HISTORY_KEY = "fashionstore_search_history";
 const MAX_SEARCH_HISTORY = 10;
+
+// Инициализация при загрузке страницы
+document.addEventListener("DOMContentLoaded", function() {
+    initApp();
+});
