@@ -3320,7 +3320,7 @@ function showProductDetail(productId) {
                 </div>
                 
                 <div class="product-specifications">
-                    <h4>Характеристики</h4>
+                    <h4></h4>
                     ${specificationsHTML}
                 </div>
                 
