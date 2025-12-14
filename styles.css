@@ -4425,3 +4425,99 @@ main {
     font-size: 0.9rem !important;
   }
 }
+    
+    /* Обновленные стили для цветных иконок контактов */
+    .contact-info {
+        display: flex;
+        flex-direction: row; /* Горизонтальное расположение */
+        gap: 12px;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .contact-info a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        font-size: 22px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        background: white;
+    }
+    
+    /* Убираем стандартный серый фон и делаем иконки цветными */
+    .contact-info a:hover {
+        transform: translateY(-3px) scale(1.1);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    /* Цветные иконки по брендам */
+    .contact-info a[href*="facebook"] i {
+        color: #1877F2; /* Facebook blue */
+    }
+    
+    .contact-info a[href*="instagram"] i {
+        color: #E4405F; /* Instagram pink/red */
+    }
+    
+    .contact-info a[href*="whatsapp"] i {
+        color: #25D366; /* WhatsApp green */
+    }
+    
+    .contact-info a[href*="viber"] i {
+        color: #7360F2; /* Viber purple */
+    }
+    
+    .contact-info a[href*="telegram"] i {
+        color: #0088CC; /* Telegram blue */
+    }
+    
+    /* Эффект при наведении - затемнение цвета */
+    .contact-info a[href*="facebook"]:hover i {
+        color: #166FE5;
+    }
+    
+    .contact-info a[href*="instagram"]:hover i {
+        color: #C13584;
+    }
+    
+    .contact-info a[href*="whatsapp"]:hover i {
+        color: #128C7E;
+    }
+    
+    .contact-info a[href*="viber"]:hover i {
+        color: #665BCF;
+    }
+    
+    .contact-info a[href*="telegram"]:hover i {
+        color: #0077B5;
+    }
+    
+    /* Для мобильных устройств */
+    @media (max-width: 768px) {
+        .contact-info {
+            gap: 10px;
+        }
+        .contact-info a {
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .contact-info {
+            gap: 8px;
+        }
+        .contact-info a {
+            width: 36px;
+            height: 36px;
+            font-size: 18px;
+        }
+    }
