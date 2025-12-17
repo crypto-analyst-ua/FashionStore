@@ -4521,3 +4521,8 @@ main {
             font-size: 18px;
         }
     }
+    
+    /* Скрыть вкладку "Администратор" в модальном окне авторизации */
+.auth-tabs .auth-tab:nth-child(3) {
+    display: none !important;
+}

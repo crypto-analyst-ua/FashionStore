@@ -175,7 +175,7 @@ function handleVoiceSearchResult(transcript) {
 
   const cleanTranscript = transcript.trim();
 
-  // Определяем, какое поле поиска активно
+  // Определяем, какое поле поиска активное
   const searchInput = document.getElementById('search');
   const searchMobileInput = document.getElementById('search-mobile');
   let activeInput = null;
@@ -429,7 +429,7 @@ const FASHION_SEARCH_KNOWLEDGE = {
   styles: {
     'повседневный': ['кэжуал', 'ежедневный', 'расслабленный'],
     'офисный': ['деловой', 'бизнес', 'формальный', 'строгий'],
-    'вечерний': ['нарядный', 'гламурный', 'торжественный'],
+    'вечерний': ['нарядный', 'гламурный', ' торжественный'],
     'спортивный': ['спорт-шик', 'активный', 'тренировочный']
   }
 };
@@ -2265,12 +2265,671 @@ function addMobileModalStyles() {
   document.head.appendChild(style);
 }
 
+// ===== ДОБАВЛЕНИЕ GOOGLE AUTH =====
+
+function setupGoogleAuth() {
+  // Создаем провайдер Google
+  const googleProvider = new firebase.auth.GoogleAuthProvider();
+  
+  // Добавляем дополнительные scope если нужно
+  googleProvider.addScope('profile');
+  googleProvider.addScope('email');
+  
+  // Настраиваем язык
+  googleProvider.setCustomParameters({
+    'login_hint': 'user@example.com',
+    'prompt': 'select_account'
+  });
+  
+  return googleProvider;
+}
+
+// Функция входа через Google
+function loginWithGoogle() {
+  const googleProvider = setupGoogleAuth();
+  
+  auth.signInWithPopup(googleProvider)
+    .then((result) => {
+      // Успешный вход
+      const user = result.user;
+      console.log('Google login successful:', user);
+      showNotification('Вхід через Google успішний');
+      closeModal();
+      
+      // Проверяем админские права если есть в localStorage
+      checkAdminStatus(user.uid);
+    })
+    .catch((error) => {
+      // Обработка ошибок
+      console.error('Google login error:', error);
+      
+      let errorMessage = 'Помилка входу через Google';
+      
+      switch (error.code) {
+        case 'auth/account-exists-with-different-credential':
+          errorMessage = 'Акаунт з таким email вже існує з іншим способом входу';
+          break;
+        case 'auth/popup-blocked':
+          errorMessage = 'Вспливаюче вікно було заблоковано. Дозвольте спливаючі вікна для цього сайту';
+          break;
+        case 'auth/popup-closed-by-user':
+          errorMessage = 'Вхід через Google було скасовано';
+          break;
+        case 'auth/unauthorized-domain':
+          errorMessage = 'Цей домен не авторизований для входу через Google';
+          break;
+        case 'auth/cancelled-popup-request':
+          errorMessage = 'Вхід через Google було скасовано';
+          break;
+        default:
+          errorMessage = `Помилка: ${error.message}`;
+      }
+      
+      showNotification(errorMessage, 'error');
+    });
+}
+
+// Функция регистрации через Google
+function registerWithGoogle() {
+  loginWithGoogle(); // Регистрация и вход через Google - это один процесс
+}
+
+// Функция переключения видимости пароля
+function togglePassword(inputId) {
+  const input = document.getElementById(inputId);
+  const button = input.parentElement.querySelector('.toggle-password-btn i');
+  
+  if (input.type === 'password') {
+    input.type = 'text';
+    button.className = 'fas fa-eye-slash';
+  } else {
+    input.type = 'password';
+    button.className = 'fas fa-eye';
+  }
+}
+
+// Функция открытия формы восстановления пароля
+function openPasswordReset() {
+  const loginForm = document.getElementById("login-form");
+  const registerForm = document.getElementById("register-form");
+  const adminForm = document.getElementById("admin-auth-form");
+  const resetForm = document.getElementById("password-reset-form");
+  const tabs = document.querySelectorAll(".auth-tab");
+
+  tabs.forEach(tab => tab.classList.remove('active'));
+
+  loginForm.style.display = 'none';
+  registerForm.style.display = 'none';
+  adminForm.style.display = 'none';
+  resetForm.style.display = 'block';
+}
+
+// Функция отправки email для восстановления пароля
+function sendPasswordResetEmail() {
+  const email = document.getElementById('reset-email').value.trim();
+  
+  if (!email) {
+    showNotification('Будь ласка, введіть email', 'error');
+    return;
+  }
+
+  auth.sendPasswordResetEmail(email)
+    .then(() => {
+      showNotification('Посилання для відновлення пароля надіслано на вашу email адресу');
+      switchAuthTab('login');
+    })
+    .catch(error => {
+      let errorMessage = 'Помилка відправки email';
+      
+      switch (error.code) {
+        case 'auth/user-not-found':
+          errorMessage = 'Користувача з таким email не знайдено';
+          break;
+        case 'auth/invalid-email':
+          errorMessage = 'Невірний формат email';
+          break;
+        case 'auth/too-many-requests':
+          errorMessage = 'Забагато запитів. Спробуйте пізніше';
+          break;
+      }
+      
+      showNotification(errorMessage, 'error');
+    });
+}
+
+// Функция открытия модального окна с условиями
+function openTermsModal() {
+  const modalContent = document.getElementById("modal-content");
+  modalContent.innerHTML = `
+    <button class="modal-close" onclick="closeModal()" aria-label="Закрити"><i class="fas fa-times" aria-hidden="true"></i></button>
+    <h3>Умови використання</h3>
+    <div class="terms-content">
+      <p>Ласкаво просимо до FashionStore! Використовуючи наш сайт, ви погоджуєтеся з наступними умовами:</p>
+      
+      <h4>1. Загальні положення</h4>
+      <p>1.1. FashionStore надає послуги з продажу модного одягу, взуття та аксесуарів.</p>
+      <p>1.2. Використовуючи наш сайт, ви підтверджуєте, що маєте повне право укладати угоди.</p>
+      
+      <h4>2. Реєстрація та обліковий запис</h4>
+      <p>2.1. Для здійснення покупок необхідно створити обліковий запис.</p>
+      <p>2.2. Ви несете відповідальність за безпеку вашого пароля.</p>
+      <p>2.3. Ми зберігаємо вашу персональну інформацію відповідно до нашої Політики конфіденційності.</p>
+      
+      <h4>3. Замовлення та доставка</h4>
+      <p>3.1. Ціни на товари вказані в гривнях (₴) та включають ПДВ.</p>
+      <p>3.2. Доставка здійснюється службами "Нова Пошта" та "Укрпошта".</p>
+      <p>3.3. Вартість доставки оплачується додатково при отриманні замовлення.</p>
+      
+      <h4>4. Повернення та обмін</h4>
+      <p>4.1. Ви маєте право повернути товар протягом 14 днів з моменту отримання.</p>
+      <p>4.2. Товар повинен бути в оригінальній упаковці без слідів використання.</p>
+      
+      <h4>5. Інтелектуальна власність</h4>
+      <p>5.1. Весь контент сайту (тексти, зображення, логотипи) є власністю FashionStore.</p>
+      
+      <h4>6. Контактна інформація</h4>
+      <p>Email: voanarhes@gmail.com</p>
+      
+      <p>Дата останнього оновлення: ${new Date().toLocaleDateString('uk-UA')}</p>
+    </div>
+    <div class="terms-actions">
+      <button class="btn btn-detail" onclick="openAuthModal()">Назад до реєстрації</button>
+      <button class="btn" onclick="closeModal()">Закрити</button>
+    </div>
+  `;
+}
+
+// Функция открытия модального окна с политикой конфиденциальности
+function openPrivacyModal() {
+  const modalContent = document.getElementById("modal-content");
+  modalContent.innerHTML = `
+    <button class="modal-close" onclick="closeModal()" aria-label="Закрити"><i class="fas fa-times" aria-hidden="true"></i></button>
+    <h3>Політика конфіденційності</h3>
+    <div class="privacy-content">
+      <p>Ми поважаємо вашу конфіденційність та прагнемо захистити вашу персональну інформацію.</p>
+      
+      <h4>1. Яку інформацію ми збираємо</h4>
+      <p>1.1. Інформацію, яку ви надаєте при реєстрації: ім'я, email, телефон.</p>
+      <p>1.2. Інформацію про замовлення: адреса доставки, історія покупок.</p>
+      <p>1.3. Технічну інформацію: IP-адреса, тип браузера, час відвідування.</p>
+      
+      <h4>2. Як ми використовуємо вашу інформацію</h4>
+      <p>2.1. Для обробки та доставки ваших замовлень.</p>
+      <p>2.2. Для комунікації з вами щодо замовлень та акцій.</p>
+      <p>2.3. Для покращення якості наших послуг.</p>
+      
+      <h4>3. Захист інформації</h4>
+      <p>3.1. Ми використовуємо сучасні методи шифрування для захисту даних.</p>
+      <p>3.2. Ваші паролі зберігаються у захешованому вигляді.</p>
+      
+      <h4>4. Cookies</h4>
+      <p>4.1. Ми використовуємо cookies для покращення роботи сайту.</p>
+      <p>4.2. Ви можете відключити cookies у налаштуваннях браузера.</p>
+      
+      <h4>5. Ваші права</h4>
+      <p>5.1. Ви маєте право на доступ до вашої персональної інформації.</p>
+      <p>5.2. Ви маєте право вимагати виправлення або видалення ваших даних.</p>
+      <p>5.3. Ви можете відмовитися від маркетингових розсилок.</p>
+      
+      <h4>6. Контакти</h4>
+      <p>З питань конфіденційності звертайтесь:</p>
+      <p>Email: voanarhes@gmail.com</p>
+      
+      <p>Дата останнього оновлення: ${new Date().toLocaleDateString('uk-UA')}</p>
+    </div>
+    <div class="privacy-actions">
+      <button class="btn btn-detail" onclick="openAuthModal()">Назад до реєстрації</button>
+      <button class="btn" onclick="closeModal()">Закрити</button>
+    </div>
+  `;
+}
+
+// ===== ДОБАВЛЯЕМ СТИЛИ ДЛЯ GOOGLE AUTH =====
+
+function addGoogleAuthStyles() {
+  const style = document.createElement('style');
+  style.textContent = `
+    /* Стили для кнопок социальной аутентификации */
+    .social-auth {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .btn-google {
+      background: #ffffff;
+      color: #757575;
+      border: 1px solid #dadce0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-weight: 500;
+      padding: 12px 20px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-google:hover {
+      background: #f8f9fa;
+      border-color: #c6c6c6;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transform: translateY(-1px);
+    }
+    
+    .btn-google i {
+      font-size: 18px;
+      color: #4285F4;
+    }
+    
+    .auth-separator {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 20px 0;
+      color: #666;
+    }
+    
+    .auth-separator::before,
+    .auth-separator::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #dee2e6;
+    }
+    
+    .auth-separator span {
+      padding: 0 15px;
+      font-size: 0.9em;
+    }
+    
+    /* Стили для чекбоксов и ссылок */
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 0.9em;
+      color: #555;
+    }
+    
+    .checkbox-label input[type="checkbox"] {
+      margin: 0;
+      width: 16px;
+      height: 16px;
+      accent-color: #007bff;
+    }
+    
+    .forgot-password {
+      font-size: 0.9em;
+      color: #007bff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .forgot-password:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+    
+    .btn-block {
+      width: 100%;
+      display: block;
+      text-align: center;
+    }
+    
+    /* Стили для переключателя видимости пароля */
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    
+    .toggle-password-btn {
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      padding: 5px;
+      font-size: 16px;
+    }
+    
+    .toggle-password-btn:hover {
+      color: #007bff;
+    }
+    
+    .form-group {
+      position: relative;
+    }
+    
+    /* Стили для содержания условий и политики */
+    .terms-content, .privacy-content {
+      max-height: 60vh;
+      overflow-y: auto;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin: 15px 0;
+      line-height: 1.6;
+    }
+    
+    .terms-content h4, .privacy-content h4 {
+      color: #333;
+      margin: 20px 0 10px 0;
+    }
+    
+    .terms-content p, .privacy-content p {
+      margin-bottom: 10px;
+      color: #555;
+    }
+    
+    .terms-actions, .privacy-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background: #5a6268;
+    }
+    
+    /* Стили для индикатора загрузки при аутентификации */
+    .auth-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    
+    .auth-loading i {
+      font-size: 3em;
+      color: #007bff;
+      margin-bottom: 20px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Адаптивные стили */
+    @media (max-width: 768px) {
+      .social-auth {
+        gap: 10px;
+      }
+      
+      .btn-google {
+        padding: 10px 16px;
+        font-size: 0.9em;
+      }
+      
+      .form-options {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      
+      .terms-content, .privacy-content {
+        max-height: 50vh;
+        font-size: 0.9em;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ОТКРЫТИЯ МОДАЛЬНОГО ОКНА АВТОРИЗАЦИИ С GOOGLE =====
+function openAuthModal() {
+  const modalContent = document.getElementById("modal-content");
+  modalContent.innerHTML = `
+    <button class="modal-close" onclick="closeModal()" aria-label="Закрити"><i class="fas fa-times" aria-hidden="true"></i></button>
+    <h3>Вхід в систему</h3>
+    
+    <!-- Кнопки быстрого входа через соцсети -->
+    <div class="social-auth">
+      <button class="btn btn-google" onclick="loginWithGoogle()">
+        <i class="fab fa-google"></i> Увійти через Google
+      </button>
+    </div>
+    
+    <div class="auth-separator">
+      <span>або</span>
+    </div>
+    
+    <div class="auth-tabs">
+      <div class="auth-tab active" onclick="switchAuthTab('login')">Вхід</div>
+      <div class="auth-tab" onclick="switchAuthTab('register')">Реєстрація</div>
+      <div class="auth-tab" onclick="switchAuthTab('admin')">Адміністратор</div>
+    </div>
+    
+    <!-- Форма обычного входа -->
+    <form id="login-form" onsubmit="login(event)">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="login-email" required>
+      </div>
+      <div class="form-group">
+        <label>Пароль</label>
+        <input type="password" id="login-password" required>
+        <div class="password-toggle">
+          <button type="button" class="toggle-password-btn" onclick="togglePassword('login-password')">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+      </div>
+      <div class="form-options">
+        <label class="checkbox-label">
+          <input type="checkbox" id="remember-me">
+          <span>Запам'ятати мене</span>
+        </label>
+        <a href="#" onclick="openPasswordReset()" class="forgot-password">Забули пароль?</a>
+      </div>
+      <button type="submit" class="btn btn-detail btn-block">Увійти</button>
+    </form>
+    
+    <!-- Форма регистрации -->
+    <form id="register-form" style="display:none;" onsubmit="register(event)">
+      <div class="form-group">
+        <label>Ім'я та прізвище*</label>
+        <input type="text" id="register-name" required>
+      </div>
+      <div class="form-group">
+        <label>Email*</label>
+        <input type="email" id="register-email" required>
+      </div>
+      <div class="form-group">
+        <label>Пароль*</label>
+        <input type="password" id="register-password" required minlength="6">
+        <div class="password-toggle">
+          <button type="button" class="toggle-password-btn" onclick="togglePassword('register-password')">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+        <small class="form-hint">Мінімум 6 символів</small>
+      </div>
+      <div class="form-group">
+        <label>Підтвердіть пароль*</label>
+        <input type="password" id="register-password-confirm" required minlength="6">
+        <div class="password-toggle">
+          <button type="button" class="toggle-password-btn" onclick="togglePassword('register-password-confirm')">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="accept-terms" required>
+          <span>Я погоджуюсь з <a href="#" onclick="openTermsModal()">умовами використання</a> та <a href="#" onclick="openPrivacyModal()">політикою конфіденційності</a>*</span>
+        </label>
+      </div>
+      <button type="submit" class="btn btn-detail btn-block">Зареєструватися</button>
+    </form>
+    
+    <!-- Форма админа -->
+    <div id="admin-auth-form" style="display:none;">
+      <p>Для доступу до панелі адміністратора введіть пароль:</p>
+      <div class="form-group">
+        <label>Пароль адміністратора</label>
+        <input type="password" id="admin-password" required>
+        <div class="password-toggle">
+          <button type="button" class="toggle-password-btn" onclick="togglePassword('admin-password')">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+      </div>
+      <button class="btn btn-admin btn-block" onclick="verifyAdminPassword()">Отримати права адміністратора</button>
+    </div>
+    
+    <!-- Ссылка на восстановление пароля -->
+    <div id="password-reset-form" style="display:none;">
+      <h4>Відновлення пароля</h4>
+      <div class="form-group">
+        <label>Введіть ваш email</label>
+        <input type="email" id="reset-email" required>
+      </div>
+      <button class="btn btn-detail" onclick="sendPasswordResetEmail()">Надіслати посилання</button>
+      <button class="btn btn-secondary" onclick="switchAuthTab('login')">Назад до входу</button>
+    </div>
+  `;
+
+  openModal();
+}
+
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ЛОГИНА =====
+function login(event) {
+  event.preventDefault();
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+  const rememberMe = document.getElementById('remember-me')?.checked;
+
+  // Настраиваем persistence (запоминание сессии)
+  const persistence = rememberMe ? 
+    firebase.auth.Auth.Persistence.LOCAL : 
+    firebase.auth.Auth.Persistence.SESSION;
+
+  auth.setPersistence(persistence)
+    .then(() => {
+      return auth.signInWithEmailAndPassword(email, password);
+    })
+    .then(() => {
+      showNotification("Вхід виконано успішно");
+      closeModal();
+    })
+    .catch(error => {
+      let message = "Помилка входу";
+      switch (error.code) {
+        case 'auth/user-not-found':
+          message = "Користувач не знайдений";
+          break;
+        case 'auth/wrong-password':
+          message = "Невірний пароль";
+          break;
+        case 'auth/user-disabled':
+          message = "Акаунт заблоковано";
+          break;
+        case 'auth/invalid-email':
+          message = "Невірний формат email";
+          break;
+        case 'auth/too-many-requests':
+          message = "Забагато невдалих спроб. Спробуйте пізніше";
+          break;
+      }
+      showNotification(message, "error");
+    });
+}
+
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ РЕГИСТРАЦИИ =====
+function register(event) {
+  event.preventDefault();
+  const name = document.getElementById('register-name').value;
+  const email = document.getElementById('register-email').value;
+  const password = document.getElementById('register-password').value;
+  const passwordConfirm = document.getElementById('register-password-confirm').value;
+  const acceptTerms = document.getElementById('accept-terms').checked;
+
+  // Валидация
+  if (!acceptTerms) {
+    showNotification('Будь ласка, прийміть умови використання', 'error');
+    return;
+  }
+
+  if (password !== passwordConfirm) {
+    showNotification('Паролі не співпадають', 'error');
+    return;
+  }
+
+  if (password.length < 6) {
+    showNotification('Пароль повинен містити мінімум 6 символів', 'error');
+    return;
+  }
+
+  auth.createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      return userCredential.user.updateProfile({
+        displayName: name
+      });
+    })
+    .then(() => {
+      showNotification("Реєстрація виконана успішно");
+      closeModal();
+      
+      // Отправляем email подтверждения (опционально)
+      auth.currentUser.sendEmailVerification()
+        .then(() => {
+          console.log('Email verification sent');
+        })
+        .catch(error => {
+          console.error('Error sending verification email:', error);
+        });
+    })
+    .catch(error => {
+      console.error("Помилка реєстрації: ", error);
+      let errorMessage = "Помилка реєстрації";
+      
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          errorMessage = 'Цей email вже використовується';
+          break;
+        case 'auth/invalid-email':
+          errorMessage = 'Невірний формат email';
+          break;
+        case 'auth/operation-not-allowed':
+          errorMessage = 'Реєстрація вимкнена для цього проекту';
+          break;
+        case 'auth/weak-password':
+          errorMessage = 'Пароль занадто слабкий';
+          break;
+      }
+      
+      showNotification(errorMessage, "error");
+    });
+}
+
 // ===== ОСНОВНЫЕ ФУНКЦИИ FASHION STORE =====
 
 // Инициализация приложения
 function initApp() {
   emailjs.init(EMAILJS_USER_ID);
 
+  // Добавляем стили для Google Auth
+  addGoogleAuthStyles();
+  
   // Инициализация голосового поиска ДО добавления кнопок
   initVoiceSearch();
 
@@ -2306,7 +2965,13 @@ function initApp() {
       document.getElementById('admin-access-btn').style.display = 'inline-block';
       document.getElementById('user-name').textContent = user.displayName || user.email;
 
+      // Проверяем, является ли пользователь администратором
       checkAdminStatus(user.uid);
+      
+      // Показываем источник аутентификации (если есть)
+      if (user.providerData && user.providerData.length > 0) {
+        console.log('User authenticated via:', user.providerData[0].providerId);
+      }
     } else {
       currentUser = null;
       document.getElementById('login-btn').style.display = 'inline-block';
@@ -5901,59 +6566,12 @@ function closeModal() {
   }
 }
 
-function openAuthModal() {
-  const modalContent = document.getElementById("modal-content");
-  modalContent.innerHTML = `
-    <button class="modal-close" onclick="closeModal()" aria-label="Закрити"><i class="fas fa-times" aria-hidden="true"></i></button>
-    <h3>Вхід в систему</h3>
-    <div class="auth-tabs">
-      <div class="auth-tab active" onclick="switchAuthTab('login')">Вхід</div>
-      <div class="auth-tab" onclick="switchAuthTab('register')">Реєстрація</div>
-      <div class="auth-tab" onclick="switchAuthTab('admin')">Адміністратор</div>
-    </div>
-    <form id="login-form" onsubmit="login(event)">
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" required>
-      </div>
-      <div class="form-group">
-        <label>Пароль</label>
-        <input type="password" required>
-      </div>
-      <button type="submit" class="btn btn-detail">Увійти</button>
-    </form>
-    <form id="register-form" style="display:none;" onsubmit="register(event)">
-      <div class="form-group">
-        <label>Ім'я</label>
-        <input type="text" required>
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" required>
-      </div>
-      <div class="form-group">
-        <label>Пароль</label>
-        <input type="password" required minlength="6">
-      </div>
-      <button type="submit" class="btn btn-detail">Зареєструватися</button>
-    </form>
-    <div id="admin-auth-form" style="display:none;">
-      <p>Для доступу до панелі адміністратора введіть пароль:</p>
-      <div class="form-group">
-        <label>Пароль адміністратора</label>
-        <input type="password" id="admin-password" required>
-      </div>
-      <button class="btn btn-admin" onclick="verifyAdminPassword()">Отримати права адміністратора</button>
-    </div>
-  `;
-
-  openModal();
-}
-
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ ВКЛАДОК АВТОРИЗАЦИИ =====
 function switchAuthTab(tab) {
   const loginForm = document.getElementById("login-form");
   const registerForm = document.getElementById("register-form");
   const adminForm = document.getElementById("admin-auth-form");
+  const resetForm = document.getElementById("password-reset-form");
   const tabs = document.querySelectorAll(".auth-tab");
 
   tabs.forEach(tab => tab.classList.remove('active'));
@@ -5962,66 +6580,24 @@ function switchAuthTab(tab) {
     loginForm.style.display = 'block';
     registerForm.style.display = 'none';
     adminForm.style.display = 'none';
+    resetForm.style.display = 'none';
     tabs[0].classList.add('active');
   } else if (tab === 'register') {
     loginForm.style.display = 'none';
     registerForm.style.display = 'block';
     adminForm.style.display = 'none';
+    resetForm.style.display = 'none';
     tabs[1].classList.add('active');
   } else if (tab === 'admin') {
     loginForm.style.display = 'none';
     registerForm.style.display = 'none';
     adminForm.style.display = 'block';
+    resetForm.style.display = 'none';
     tabs[2].classList.add('active');
   }
 }
 
-function login(event) {
-  event.preventDefault();
-  const email = event.target.querySelector('input[type="email"]').value;
-  const password = event.target.querySelector('input[type="password"]').value;
-
-  auth.signInWithEmailAndPassword(email, password)
-    .then(() => {
-      showNotification("Вхід виконано успішно");
-      closeModal();
-    })
-    .catch(error => {
-      let message = "Помилка входу";
-      switch (error.code) {
-        case 'auth/user-not-found':
-          message = "Користувач не знайдений";
-          break;
-        case 'auth/wrong-password':
-          message = "Невірний пароль";
-          break;
-      }
-      showNotification(message, "error");
-    });
-}
-
-function register(event) {
-  event.preventDefault();
-  const name = event.target.querySelector('input[type="text"]').value;
-  const email = event.target.querySelector('input[type="email"]').value;
-  const password = event.target.querySelector('input[type="password"]').value;
-
-  auth.createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      return userCredential.user.updateProfile({
-        displayName: name
-      });
-    })
-    .then(() => {
-      showNotification("Реєстрація виконана успішно");
-      closeModal();
-    })
-    .catch(error => {
-      console.error("Помилка реєстрації: ", error);
-      showNotification("Помилка реєстрації: " + error.message, "error");
-    });
-}
-
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ВЕРИФИКАЦИИ АДМИН-ПАРОЛЯ =====
 function verifyAdminPassword() {
   const password = document.getElementById("admin-password").value;
   if (password === ADMIN_PASSWORD) {
