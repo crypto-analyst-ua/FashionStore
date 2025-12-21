@@ -4249,7 +4249,7 @@ function openCart() {
               <div class="cart-item-price">${formatPrice(product.price)} ₴ x ${quantity} = ${formatPrice(itemTotal)} ₴</div>
               ${comment ? `
                 <div class="cart-item-comment">
-                  <strong>Ваш коментар:</strong> ${comment}
+                  <strong>Ваш розмір:</strong> ${comment}
                 </div>
               ` : ''}
               <div class="cart-item-actions">
