@@ -89,6 +89,101 @@
             font-size: 18px;
         }
     }
+
+    /* Стили для карточек категорий */
+    .category-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin: 20px 0;
+        justify-content: center;
+    }
+    
+    .category-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 120px;
+        height: 120px;
+        border: 2px solid #e91e63;
+        border-radius: 10px;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        border-color: #c2185b;
+    }
+    
+    .category-card.active {
+        background: linear-gradient(135deg, #e91e63, #c2185b);
+        color: white;
+        border-color: #c2185b;
+    }
+    
+    .category-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        color: #e91e63;
+    }
+    
+    .category-card.active .category-icon {
+        color: white;
+    }
+    
+    .category-name {
+        font-size: 0.9rem;
+        text-align: center;
+        font-weight: bold;
+        line-height: 1.2;
+    }
+    
+    /* Для мобильных устройств */
+    @media (max-width: 768px) {
+        .category-cards {
+            gap: 10px;
+        }
+        
+        .category-card {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .category-icon {
+            font-size: 2rem;
+        }
+        
+        .category-name {
+            font-size: 0.8rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .category-cards {
+            gap: 8px;
+        }
+        
+        .category-card {
+            width: 85px;
+            height: 85px;
+            padding: 5px;
+        }
+        
+        .category-icon {
+            font-size: 1.7rem;
+            margin-bottom: 5px;
+        }
+        
+        .category-name {
+            font-size: 0.7rem;
+        }
+    }
 </style>
 
     <!-- Объединенная JSON-LD Schema -->
@@ -314,14 +409,52 @@
         <section role="main">
             <div class="products-header">
                 <h1 id="products-title">Модний одяг, взуття та аксесуари - купити в Україні з доставкою</h1>
-                <div class="source-tabs" role="tablist">
-                    <button class="source-tab active" role="tab" onclick="switchSource('all')" aria-selected="true">Всі товари</button>
-                    <button class="source-tab" role="tab" onclick="switchSource('women.json')" aria-selected="false">Жіночий одяг</button>
-                    <button class="source-tab" role="tab" onclick="switchSource('men.json')" aria-selected="false">Чоловічий одяг</button>
-                    <button class="source-tab" role="tab" onclick="switchSource('kids.json')" aria-selected="false">Дитячий одяг</button>
-                    <button class="source-tab" role="tab" onclick="switchSource('shoes.json')" aria-selected="false">Взуття</button>
-                    <button class="source-tab" role="tab" onclick="switchSource('accessories.json')" aria-selected="false">Аксесуари</button>
+                
+                <!-- Карточки категорий вместо кнопок -->
+                <div class="category-cards" role="tablist">
+                    <button class="category-card active" role="tab" onclick="switchSource('all')" aria-selected="true">
+                        <div class="category-icon">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <div class="category-name">Всі товари</div>
+                    </button>
+                    
+                    <button class="category-card" role="tab" onclick="switchSource('women.json')" aria-selected="false">
+                        <div class="category-icon">
+                            <i class="fas fa-female"></i>
+                        </div>
+                        <div class="category-name">Жіночий одяг</div>
+                    </button>
+                    
+                    <button class="category-card" role="tab" onclick="switchSource('men.json')" aria-selected="false">
+                        <div class="category-icon">
+                            <i class="fas fa-male"></i>
+                        </div>
+                        <div class="category-name">Чоловічий одяг</div>
+                    </button>
+                    
+                    <button class="category-card" role="tab" onclick="switchSource('kids.json')" aria-selected="false">
+                        <div class="category-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <div class="category-name">Дитячий одяг</div>
+                    </button>
+                    
+                    <button class="category-card" role="tab" onclick="switchSource('shoes.json')" aria-selected="false">
+                        <div class="category-icon">
+                            <i class="fas fa-shoe-prints"></i>
+                        </div>
+                        <div class="category-name">Взуття</div>
+                    </button>
+                    
+                    <button class="category-card" role="tab" onclick="switchSource('accessories.json')" aria-selected="false">
+                        <div class="category-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <div class="category-name">Аксесуари</div>
+                    </button>
                 </div>
+                
                 <div class="products-info">
                     <span id="products-count" aria-live="polite"></span>
                     <div class="view-options">
