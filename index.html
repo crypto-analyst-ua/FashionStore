@@ -412,42 +412,42 @@
                 
                 <!-- Карточки категорий вместо кнопок -->
                 <div class="category-cards" role="tablist">
-                    <button class="category-card active" role="tab" onclick="switchSource('all')" aria-selected="true">
+                    <button class="category-card active" role="tab" onclick="switchCategory('all')" aria-selected="true" id="cat-all">
                         <div class="category-icon">
                             <i class="fas fa-th-large"></i>
                         </div>
                         <div class="category-name">Всі товари</div>
                     </button>
                     
-                    <button class="category-card" role="tab" onclick="switchSource('women.json')" aria-selected="false">
+                    <button class="category-card" role="tab" onclick="switchCategory('women')" aria-selected="false" id="cat-women">
                         <div class="category-icon">
                             <i class="fas fa-female"></i>
                         </div>
                         <div class="category-name">Жіночий одяг</div>
                     </button>
                     
-                    <button class="category-card" role="tab" onclick="switchSource('men.json')" aria-selected="false">
+                    <button class="category-card" role="tab" onclick="switchCategory('men')" aria-selected="false" id="cat-men">
                         <div class="category-icon">
                             <i class="fas fa-male"></i>
                         </div>
                         <div class="category-name">Чоловічий одяг</div>
                     </button>
                     
-                    <button class="category-card" role="tab" onclick="switchSource('kids.json')" aria-selected="false">
+                    <button class="category-card" role="tab" onclick="switchCategory('kids')" aria-selected="false" id="cat-kids">
                         <div class="category-icon">
                             <i class="fas fa-child"></i>
                         </div>
                         <div class="category-name">Дитячий одяг</div>
                     </button>
                     
-                    <button class="category-card" role="tab" onclick="switchSource('shoes.json')" aria-selected="false">
+                    <button class="category-card" role="tab" onclick="switchCategory('shoes')" aria-selected="false" id="cat-shoes">
                         <div class="category-icon">
                             <i class="fas fa-shoe-prints"></i>
                         </div>
                         <div class="category-name">Взуття</div>
                     </button>
                     
-                    <button class="category-card" role="tab" onclick="switchSource('accessories.json')" aria-selected="false">
+                    <button class="category-card" role="tab" onclick="switchCategory('accessories')" aria-selected="false" id="cat-accessories">
                         <div class="category-icon">
                             <i class="fas fa-gem"></i>
                         </div>
@@ -871,5 +871,119 @@
     <!-- Добавьте этот скрипт перед вашим script.js -->
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
     <script src="script.js"></script>
+
+    <script>
+        // Функция для переключения категорий и обновления активной карточки
+        function switchCategory(category) {
+            // Удаляем класс active у всех карточек
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('active');
+                card.setAttribute('aria-selected', 'false');
+            });
+            
+            // Добавляем класс active выбранной карточке
+            const selectedCard = document.getElementById(`cat-${category}`);
+            if (selectedCard) {
+                selectedCard.classList.add('active');
+                selectedCard.setAttribute('aria-selected', 'true');
+            }
+            
+            // Определяем имя файла для загрузки на основе выбранной категории
+            let fileName = 'all';
+            switch(category) {
+                case 'women':
+                    fileName = 'women.json';
+                    break;
+                case 'men':
+                    fileName = 'men.json';
+                    break;
+                case 'kids':
+                    fileName = 'kids.json';
+                    break;
+                case 'shoes':
+                    fileName = 'shoes.json';
+                    break;
+                case 'accessories':
+                    fileName = 'accessories.json';
+                    break;
+                default:
+                    fileName = 'all';
+            }
+            
+            // Вызываем существующую функцию загрузки товаров
+            if (typeof window.switchSource === 'function') {
+                window.switchSource(fileName);
+            }
+        }
+        
+        // Обновляем существующую функцию switchSource для поддержки карточек
+        // Сохраняем оригинальную функцию
+        const originalSwitchSource = window.switchSource;
+        
+        // Переопределяем функцию switchSource для обновления активной карточки
+        if (typeof originalSwitchSource === 'function') {
+            window.switchSource = function(fileName) {
+                // Вызываем оригинальную функцию
+                originalSwitchSource(fileName);
+                
+                // Определяем категорию на основе имени файла
+                let category = 'all';
+                switch(fileName) {
+                    case 'women.json':
+                        category = 'women';
+                        break;
+                    case 'men.json':
+                        category = 'men';
+                        break;
+                    case 'kids.json':
+                        category = 'kids';
+                        break;
+                    case 'shoes.json':
+                        category = 'shoes';
+                        break;
+                    case 'accessories.json':
+                        category = 'accessories';
+                        break;
+                    default:
+                        category = 'all';
+                }
+                
+                // Обновляем активную карточку
+                document.querySelectorAll('.category-card').forEach(card => {
+                    card.classList.remove('active');
+                    card.setAttribute('aria-selected', 'false');
+                });
+                
+                const selectedCard = document.getElementById(`cat-${category}`);
+                if (selectedCard) {
+                    selectedCard.classList.add('active');
+                    selectedCard.setAttribute('aria-selected', 'true');
+                }
+            }
+        }
+        
+        // Функция для инициализации состояния карточек при загрузке страницы
+        function initCategoryCards() {
+            // Устанавливаем активную карточку "Все товары" по умолчанию
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('active');
+                card.setAttribute('aria-selected', 'false');
+            });
+            
+            const defaultCard = document.getElementById('cat-all');
+            if (defaultCard) {
+                defaultCard.classList.add('active');
+                defaultCard.setAttribute('aria-selected', 'true');
+            }
+        }
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            initCategoryCards();
+            
+            // Обновляем год в футере
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+    </script>
 </body>
 </html>
