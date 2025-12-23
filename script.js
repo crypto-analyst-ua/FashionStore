@@ -429,7 +429,7 @@ const FASHION_SEARCH_KNOWLEDGE = {
   styles: {
     'повседневный': ['кэжуал', 'ежедневный', 'расслабленный'],
     'офисный': ['деловой', 'бизнес', 'формальный', 'строгий'],
-    'вечерний': ['нарядный', 'гламурный', ' торжественный'],
+    'вечерний': ['нарядный', 'гламур', 'торжественный'],
     'спортивный': ['спорт-шик', 'активный', 'тренировочный']
   }
 };
@@ -836,7 +836,7 @@ const searchTypos = {
   'брюки': ['брюк', 'брюки', 'брюков'],
   'шорты': ['шорт', 'шортов', 'шорты'],
   'пальто': ['пальт', 'пальта', 'пальто'],
-  'кроссовки': ['кросовки', ' кроссовк', 'кроссовки'],
+  'кроссовки': ['кросовки', 'кроссовк', 'кроссовки'],
   'туфли': ['туфл', 'туфлей', 'туфель'],
   'сапоги': ['сапог', 'сапогов', 'сапоги'],
   'украшения': ['украшение', 'украшений', 'украшения'],
@@ -883,7 +883,7 @@ const searchSynonyms = {
   'обувь': ['туфли', 'ботинки', 'кроссовки', 'сапоги', 'босоножки'],
   'сумка': ['сумки', 'рюкзак', 'рюкзаки', 'клатч', 'портфель'],
   'аксессуар': ['аксессуары', 'украшение', 'украшения', 'бижутерия'],
-  'свитер': ['свитера', 'свитеров', ' кофта', 'кофты', 'джемпер'],
+  'свитер': ['свитера', 'свитеров', 'кофта', 'кофты', 'джемпер'],
   'юбка': ['юбки', 'юбок'],
   'брюки': ['брюки', 'штаны', 'штанов'],
   'шорты': ['шорты', 'шорт'],
@@ -1021,6 +1021,22 @@ function preprocessProducts(productsArray) {
     // Обрабатываем характеристики
     const specifications = processSpecifications(product);
 
+    // Парсим доступные размеры и цвета
+    let sizeOptions = '';
+    let colorOptions = '';
+    
+    if (product.size) {
+      // Пытаемся разобрать размеры из разных форматов
+      const sizes = product.size.split(/[,;|/]/).map(s => s.trim()).filter(s => s);
+      sizeOptions = sizes.join(',');
+    }
+    
+    if (product.color) {
+      // Пытаемся разобрать цвета из разных форматов
+      const colors = product.color.split(/[,;|/]/).map(c => c.trim()).filter(c => c);
+      colorOptions = colors.join(',');
+    }
+
     const searchFields = [
       product.title || '',
       product.brand || '',
@@ -1061,8 +1077,8 @@ function preprocessProducts(productsArray) {
 
       // Характеристики
       specifications: specifications.formatted,
-      size: product.size || '',
-      color: product.color || '',
+      size: sizeOptions, // Сохраняем как строку с вариантами
+      color: colorOptions, // Сохраняем как строку с вариантами
       material: product.material || '',
       season: product.season || '',
       style: product.style || '',
@@ -2942,6 +2958,9 @@ function initApp() {
   // Добавляем стили для мобильных модальных окон
   addMobileModalStyles();
 
+  // Добавляем стили для выбора размера и цвета
+  addSizeColorStyles();
+
   // Предобработка товаров после загрузки
   if (products.length > 0) {
     products = preprocessProducts(products);
@@ -3761,15 +3780,8 @@ function showNotification(message, type = "success") {
 
 // Корзина и избранное
 function addToCart(productId) {
-  if (!cart[productId]) {
-    cart[productId] = { quantity: 0, comment: '' };
-  }
-  cart[productId].quantity++;
-
-  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-
-  updateCartCount();
-  showNotification("Товар додано до кошика");
+  // Показываем детали товара для выбора размера и цвета
+  showProductDetail(productId);
 }
 
 function updateCartCount() {
@@ -3943,7 +3955,40 @@ function generateSpecificationsHTML(product) {
   return specsHTML || '<p></p>';
 }
 
-// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ПОКАЗА ДЕТАЛЕЙ ТОВАРА С ХАРАКТЕРИСТИКАМИ =====
+// Функция для получения кода цвета по названию
+function getColorCode(colorName) {
+  const colorMap = {
+    'Черный': '#000000',
+    'Белый': '#FFFFFF',
+    'Красный': '#FF0000',
+    'Синий': '#0000FF',
+    'Зеленый': '#00FF00',
+    'Желтый': '#FFFF00',
+    'Розовый': '#FFC0CB',
+    'Серый': '#808080',
+    'Коричневый': '#A52A2A',
+    'Оранжевый': '#FFA500',
+    'Фиолетовый': '#800080',
+    'Голубой': '#00FFFF',
+    // Украинские названия
+    'Чорний': '#000000',
+    'Білий': '#FFFFFF',
+    'Червоний': '#FF0000',
+    'Синій': '#0000FF',
+    'Зелений': '#00FF00',
+    'Жовтий': '#FFFF00',
+    'Рожевий': '#FFC0CB',
+    'Сірий': '#808080',
+    'Коричневий': '#A52A2A',
+    'Помаранчевий': '#FFA500',
+    'Фіолетовий': '#800080',
+    'Блакитний': '#00FFFF'
+  };
+
+  return colorMap[colorName] || '#CCCCCC';
+}
+
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ПОКАЗА ДЕТАЛЕЙ ТОВАРА С ВЫБОРОМ РАЗМЕРА И ЦВЕТА =====
 function showProductDetail(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
@@ -3952,6 +3997,47 @@ function showProductDetail(productId) {
 
   // Формируем HTML для характеристик
   const specificationsHTML = generateSpecificationsHTML(product);
+
+  // Парсим доступные размеры и цвета
+  const availableSizes = product.size ? product.size.split(',').map(s => s.trim()).filter(s => s) : [];
+  const availableColors = product.color ? product.color.split(',').map(c => c.trim()).filter(c => c) : [];
+
+  // Генерация HTML для выбора размера
+  let sizeSelectHTML = '';
+  if (availableSizes.length > 0) {
+    sizeSelectHTML = `
+      <div class="form-group">
+        <label for="product-size">Розмір${availableSizes.length > 1 ? ' (оберіть)' : ''}</label>
+        <div class="size-options">
+          ${availableSizes.map((size, index) => `
+            <label class="size-option">
+              <input type="radio" name="product-size" value="${size}" ${index === 0 ? 'checked' : ''}>
+              <span class="size-label">${size}</span>
+            </label>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // Генерация HTML для выбора цвета
+  let colorSelectHTML = '';
+  if (availableColors.length > 0) {
+    colorSelectHTML = `
+      <div class="form-group">
+        <label for="product-color">Колір${availableColors.length > 1 ? ' (оберіть)' : ''}</label>
+        <div class="color-options">
+          ${availableColors.map((color, index) => `
+            <label class="color-option">
+              <input type="radio" name="product-color" value="${color}" ${index === 0 ? 'checked' : ''}>
+              <span class="color-label" style="background-color: ${getColorCode(color)}" title="${color}"></span>
+              <span class="color-name">${color}</span>
+            </label>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
 
   modalContent.innerHTML = `
     <button class="modal-close" onclick="closeModal()" aria-label="Закрити"><i class="fas fa-times" aria-hidden="true"></i></button>
@@ -3997,6 +4083,10 @@ function showProductDetail(productId) {
           </p>
         </div>
         
+        <!-- Выбор размера и цвета -->
+        ${sizeSelectHTML}
+        ${colorSelectHTML}
+        
         <div class="quantity-control">
           <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
           <input type="number" class="quantity-input" id="product-quantity" value="1" min="1">
@@ -4004,20 +4094,20 @@ function showProductDetail(productId) {
         </div>
         
         <div class="form-group">
-          <label for="product-comment">Додайте, будь ласка, розмір, та ваші побажання</label>
+          <label for="product-comment">👉 Просимо зазначити бажаний розмір та колір товару в коментарі до замовлення.</label>
           <textarea 
             id="product-comment" 
-            placeholder="Наприклад, бажаний розмір, або інші побажання щодо товару..."
-            rows="3"
-            maxlength="500"
+            placeholder="Наприклад, особливі побажання щодо товару..."
+            rows="2"
+            maxlength="200"
           ></textarea>
           <div class="char-counter" style="text-align: right; font-size: 0.8em; color: #666;">
-            <span id="product-comment-chars">0</span>/500 символів
+            <span id="product-comment-chars">0</span>/200 символів
           </div>
         </div>
         
         <div class="detail-actions">
-          <button class="btn btn-buy" onclick="addToCartWithQuantity('${product.id}')" ${!product.inStock ? 'disabled' : ''}>
+          <button class="btn btn-buy" onclick="addToCartWithSizeColor('${product.id}')" ${!product.inStock ? 'disabled' : ''}>
             <i class="fas fa-shopping-cart"></i> 
             ${product.inStock ? 'Додати до кошика' : 'Немає в наявності'}
           </button>
@@ -4071,9 +4161,9 @@ function showProductDetail(productId) {
       const length = this.value.length;
       charCounter.textContent = length;
 
-      if (length > 450) {
+      if (length > 180) {
         charCounter.style.color = '#e74c3c';
-      } else if (length > 400) {
+      } else if (length > 150) {
         charCounter.style.color = '#f39c12';
       } else {
         charCounter.style.color = '#666';
@@ -4181,19 +4271,62 @@ function addReview(event, productId) {
     });
 }
 
-// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ДОБАВЛЕНИЯ В КОРЗИНУ С КОММЕНТАРИЕМ =====
-function addToCartWithQuantity(productId) {
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ДОБАВЛЕНИЯ В КОРЗИНУ С РАЗМЕРОМ И ЦВЕТОМ =====
+function addToCartWithSizeColor(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+
+  // Получаем выбранные размер и цвет
+  let selectedSize = '';
+  let selectedColor = '';
+
+  // Проверяем, есть ли выбор размера
+  const sizeInputs = document.querySelectorAll('input[name="product-size"]:checked');
+  if (sizeInputs.length > 0) {
+    selectedSize = sizeInputs[0].value;
+  }
+
+  // Проверяем, есть ли выбор цвета
+  const colorInputs = document.querySelectorAll('input[name="product-color"]:checked');
+  if (colorInputs.length > 0) {
+    selectedColor = colorInputs[0].value;
+  }
+
+  // Проверяем обязательные поля (если есть варианты выбора)
+  const availableSizes = product.size ? product.size.split(',').map(s => s.trim()).filter(s => s) : [];
+  const availableColors = product.color ? product.color.split(',').map(c => c.trim()).filter(c => c) : [];
+
+  if (availableSizes.length > 0 && !selectedSize) {
+    showNotification('Будь ласка, оберіть розмір', 'warning');
+    return;
+  }
+
+  if (availableColors.length > 0 && !selectedColor) {
+    showNotification('Будь ласка, оберіть колір', 'warning');
+    return;
+  }
+
   const quantity = parseInt(document.getElementById("product-quantity").value) || 1;
   const comment = document.getElementById("product-comment")?.value.trim() || '';
 
-  if (!cart[productId]) {
-    cart[productId] = { quantity: 0, comment: '' };
-  }
-  cart[productId].quantity += quantity;
+  // Создаем уникальный ключ для корзины с учетом размера и цвета
+  const cartKey = `${productId}_${selectedSize}_${selectedColor}`;
 
-  // Сохраняем комментарий (если товар уже был в корзине, комментарий обновится)
+  if (!cart[cartKey]) {
+    cart[cartKey] = {
+      productId: productId,
+      quantity: 0,
+      comment: '',
+      size: selectedSize,
+      color: selectedColor
+    };
+  }
+  
+  cart[cartKey].quantity += quantity;
+
+  // Сохраняем комментарий
   if (comment) {
-    cart[productId].comment = comment;
+    cart[cartKey].comment = comment;
   }
 
   localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
@@ -4215,7 +4348,7 @@ function changeQuantity(delta) {
 
 // ===== КОРЗИНА И ОФОРМЛЕНИЕ ЗАКАЗА =====
 
-// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ОТКРЫТИЯ КОРЗИНЫ С УЧЕТОМ КОММЕНТАРИЕВ =====
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ОТКРЫТИЯ КОРЗИНЫ С РАЗМЕРОМ И ЦВЕТОМ =====
 function openCart() {
   const modalContent = document.getElementById("modal-content");
 
@@ -4233,30 +4366,46 @@ function openCart() {
     let total = 0;
     let cartItemsHTML = '';
 
-    for (const [productId, item] of Object.entries(cart)) {
-      const product = products.find(p => p.id === productId);
+    for (const [cartKey, item] of Object.entries(cart)) {
+      const product = products.find(p => p.id === item.productId);
       if (product) {
         const quantity = item.quantity;
         const comment = item.comment || '';
+        const size = item.size || '';
+        const color = item.color || '';
         const itemTotal = product.price * quantity;
         total += itemTotal;
 
+        // Формируем информацию о размере и цвете
+        let sizeColorInfo = '';
+        if (size || color) {
+          sizeColorInfo = `
+            <div class="cart-item-attributes">
+              ${size ? `<div class="cart-item-size"><strong>Розмір:</strong> ${size}</div>` : ''}
+              ${color ? `<div class="cart-item-color"><strong>Колір:</strong> ${color}</div>` : ''}
+            </div>
+          `;
+        }
+
         cartItemsHTML += `
           <div class="cart-item">
-            <img src="${product.image || 'https://via.placeholder.com/80x80?text=Fashion'}" alt="${product.title}" class="cart-item-image">
+            <img src="${product.image || 'https://via.placeholder.com/80x80?text=Fashion'}" 
+                 alt="${product.title}" 
+                 class="cart-item-image">
             <div class="cart-item-details">
               <h4 class="cart-item-title">${product.title}</h4>
+              ${sizeColorInfo}
               <div class="cart-item-price">${formatPrice(product.price)} ₴ x ${quantity} = ${formatPrice(itemTotal)} ₴</div>
               ${comment ? `
                 <div class="cart-item-comment">
-                  <strong>Ваш розмір:</strong> ${comment}
+                  <strong>Коментар:</strong> ${comment}
                 </div>
               ` : ''}
               <div class="cart-item-actions">
-                <button class="btn" onclick="changeCartQuantity('${productId}', -1)">-</button>
+                <button class="btn" onclick="changeCartQuantity('${cartKey}', -1)">-</button>
                 <span>${quantity}</span>
-                <button class="btn" onclick="changeCartQuantity('${productId}', 1)">+</button>
-                <button class="btn" onclick="removeFromCart('${productId}')"><i class="fas fa-trash"></i></button>
+                <button class="btn" onclick="changeCartQuantity('${cartKey}', 1)">+</button>
+                <button class="btn" onclick="removeFromCart('${cartKey}')"><i class="fas fa-trash"></i></button>
               </div>
             </div>
           </div>
@@ -4280,13 +4429,14 @@ function openCart() {
   openModal();
 }
 
-function changeCartQuantity(productId, delta) {
-  if (!cart[productId] && delta < 1) return;
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ИЗМЕНЕНИЯ КОЛИЧЕСТВА В КОРЗИНЕ =====
+function changeCartQuantity(cartKey, delta) {
+  if (!cart[cartKey] && delta < 1) return;
 
-  cart[productId].quantity += delta;
+  cart[cartKey].quantity += delta;
 
-  if (cart[productId].quantity < 1) {
-    delete cart[productId];
+  if (cart[cartKey].quantity < 1) {
+    delete cart[cartKey];
   }
 
   localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
@@ -4295,12 +4445,182 @@ function changeCartQuantity(productId, delta) {
   openCart();
 }
 
-function removeFromCart(productId) {
-  delete cart[productId];
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ УДАЛЕНИЯ ИЗ КОРЗИНЫ =====
+function removeFromCart(cartKey) {
+  delete cart[cartKey];
 
   localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
 
   updateCartCount();
+  openCart();
+}
+
+// ===== ФУНКЦИЯ ОБНОВЛЕНИЯ РАЗМЕРА И ЦВЕТА В КОРЗИНЕ =====
+function updateCartItemSizeColor(cartKey) {
+  const item = cart[cartKey];
+  if (!item) return;
+
+  // Находим товар
+  const product = products.find(p => p.id === item.productId);
+  if (!product) return;
+
+  // Парсим доступные размеры и цвета
+  const availableSizes = product.size ? product.size.split(',').map(s => s.trim()).filter(s => s) : [];
+  const availableColors = product.color ? product.color.split(',').map(c => c.trim()).filter(c => c) : [];
+
+  // Создаем модальное окно для обновления размера и цвета
+  const modalContent = document.getElementById("modal-content");
+
+  // Генерация HTML для выбора размера
+  let sizeSelectHTML = '';
+  if (availableSizes.length > 0) {
+    sizeSelectHTML = `
+      <div class="form-group">
+        <label for="update-product-size">Розмір${availableSizes.length > 1 ? ' (оберіть)' : ''}</label>
+        <div class="size-options">
+          ${availableSizes.map((size) => `
+            <label class="size-option">
+              <input type="radio" name="update-product-size" value="${size}" ${item.size === size ? 'checked' : ''}>
+              <span class="size-label">${size}</span>
+            </label>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // Генерация HTML для выбора цвета
+  let colorSelectHTML = '';
+  if (availableColors.length > 0) {
+    colorSelectHTML = `
+      <div class="form-group">
+        <label for="update-product-color">Колір${availableColors.length > 1 ? ' (оберіть)' : ''}</label>
+        <div class="color-options">
+          ${availableColors.map((color) => `
+            <label class="color-option">
+              <input type="radio" name="update-product-color" value="${color}" ${item.color === color ? 'checked' : ''}>
+              <span class="color-label" style="background-color: ${getColorCode(color)}" title="${color}"></span>
+              <span class="color-name">${color}</span>
+            </label>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  modalContent.innerHTML = `
+    <button class="modal-close" onclick="closeModal()" aria-label="Закрити"><i class="fas fa-times" aria-hidden="true"></i></button>
+    <h3>Змінити розмір та колір</h3>
+    <div class="update-size-color-form">
+      <div class="product-preview">
+        <img src="${product.image || 'https://via.placeholder.com/80x80?text=Fashion'}" 
+             alt="${product.title}" 
+             class="preview-image">
+        <div class="preview-info">
+          <h4>${product.title}</h4>
+          <p>Поточний розмір: <strong>${item.size || 'Не вказано'}</strong></p>
+          <p>Поточний колір: <strong>${item.color || 'Не вказано'}</strong></p>
+        </div>
+      </div>
+      
+      ${sizeSelectHTML}
+      ${colorSelectHTML}
+      
+      <div class="form-group">
+        <label for="update-product-comment">Коментар (необов'язково)</label>
+        <textarea 
+          id="update-product-comment" 
+          placeholder="Ваші побажання..."
+          rows="2"
+          maxlength="200"
+        >${item.comment || ''}</textarea>
+        <div class="char-counter" style="text-align: right; font-size: 0.8em; color: #666;">
+          <span id="update-comment-chars">${item.comment ? item.comment.length : 0}</span>/200 символів
+        </div>
+      </div>
+      
+      <div class="update-actions">
+        <button class="btn btn-buy" onclick="saveUpdatedSizeColor('${cartKey}')">Зберегти зміни</button>
+        <button class="btn" onclick="openCart()">Скасувати</button>
+      </div>
+    </div>
+  `;
+
+  // Добавляем обработчик для подсчета символов
+  const commentField = document.getElementById('update-product-comment');
+  const charCounter = document.getElementById('update-comment-chars');
+
+  if (commentField && charCounter) {
+    commentField.addEventListener('input', function () {
+      const length = this.value.length;
+      charCounter.textContent = length;
+
+      if (length > 180) {
+        charCounter.style.color = '#e74c3c';
+      } else if (length > 150) {
+        charCounter.style.color = '#f39c12';
+      } else {
+        charCounter.style.color = '#666';
+      }
+    });
+  }
+
+  openModal();
+}
+
+// ===== ФУНКЦИЯ СОХРАНЕНИЯ ОБНОВЛЕННЫХ РАЗМЕРА И ЦВЕТА =====
+function saveUpdatedSizeColor(oldCartKey) {
+  const item = cart[oldCartKey];
+  if (!item) return;
+
+  // Получаем выбранные размер и цвет
+  let selectedSize = '';
+  let selectedColor = '';
+
+  // Проверяем, есть ли выбор размера
+  const sizeInputs = document.querySelectorAll('input[name="update-product-size"]:checked');
+  if (sizeInputs.length > 0) {
+    selectedSize = sizeInputs[0].value;
+  }
+
+  // Проверяем, есть ли выбор цвета
+  const colorInputs = document.querySelectorAll('input[name="update-product-color"]:checked');
+  if (colorInputs.length > 0) {
+    selectedColor = colorInputs[0].value;
+  }
+
+  // Получаем комментарий
+  const comment = document.getElementById('update-product-comment')?.value.trim() || '';
+
+  // Создаем новый ключ с обновленными размером и цветом
+  const newCartKey = `${item.productId}_${selectedSize}_${selectedColor}`;
+
+  // Если ключ изменился, удаляем старую запись и создаем новую
+  if (oldCartKey !== newCartKey) {
+    // Сохраняем количество товара
+    const quantity = item.quantity;
+    
+    // Удаляем старую запись
+    delete cart[oldCartKey];
+    
+    // Создаем новую запись
+    cart[newCartKey] = {
+      productId: item.productId,
+      quantity: quantity,
+      comment: comment,
+      size: selectedSize,
+      color: selectedColor
+    };
+  } else {
+    // Если ключ не изменился, просто обновляем комментарий
+    cart[oldCartKey].comment = comment;
+    if (selectedSize) cart[oldCartKey].size = selectedSize;
+    if (selectedColor) cart[oldCartKey].color = selectedColor;
+  }
+
+  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+
+  showNotification("Розмір та колір оновлено");
   openCart();
 }
 
@@ -4627,22 +4947,27 @@ function placeOrder(event) {
 
 function sendOrderEmail(orderId, order) {
   let itemsList = '';
-  for (const [productId, item] of Object.entries(order.items)) {
-    const product = products.find(p => p.id === productId);
+  for (const [cartKey, item] of Object.entries(order.items)) {
+    const product = products.find(p => p.id === item.productId);
     if (product) {
       const quantity = item.quantity;
       const comment = item.comment || '';
+      const size = item.size || '';
+      const color = item.color || '';
+      
       itemsList += `
         <tr>
           <td>${product.title}</td>
+          <td>${size || '-'}</td>
+          <td>${color || '-'}</td>
           <td>${quantity}</td>
           <td>${formatPrice(product.price)} ₴</td>
           <td>${formatPrice(product.price * quantity)} ₴</td>
         </tr>
         ${comment ? `
         <tr>
-          <td colspan="4" style="background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6;">
-            <strong>Коментар:</strong> ${comment}
+          <td colspan="6" style="background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6;">
+            <strong>Коментар клієнта:</strong> ${comment}
           </td>
         </tr>
         ` : ''}
@@ -4653,7 +4978,7 @@ function sendOrderEmail(orderId, order) {
   // ДОБАВЛЕНО: информация о комментарии в email
   const commentInfo = order.comment ? `
     <tr>
-      <td colspan="4" style="background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6;">
+      <td colspan="6" style="background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6;">
         <strong>Коментар клієнта до замовлення:</strong><br>
         ${order.comment}
       </td>
@@ -4666,14 +4991,14 @@ function sendOrderEmail(orderId, order) {
     customer_name: order.userName,
     customer_email: order.userEmail,
     customer_phone: order.userPhone,
-    customer_comment: order.comment || 'Не вказано', // ДОБАВЛЕНО
+    customer_comment: order.comment || 'Не вказано',
     delivery_service: order.delivery.service,
     delivery_city: order.delivery.city,
     delivery_warehouse: order.delivery.warehouse,
     delivery_index: order.delivery.index || '',
     payment_method: order.paymentMethod === 'cash' ? 'Готівкою при отриманні' : 'Онлайн-оплата карткою',
     total_amount: formatPrice(order.total),
-    items: itemsList + commentInfo, // ДОБАВЛЕНО комментарий в список товаров
+    items: itemsList + commentInfo,
     order_date: new Date().toLocaleString('uk-UA')
   };
 
@@ -4685,15 +5010,17 @@ function sendOrderEmail(orderId, order) {
     });
 }
 
-// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ГЕНЕРАЦИИ СВОДКИ ЗАКАЗА С УЧЕТОМ КОММЕНТАРИЕВ =====
+// ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ГЕНЕРАЦИИ СВОДКИ ЗАКАЗА С УЧЕТОМ РАЗМЕРА И ЦВЕТА =====
 function generateOrderSummary() {
   let summaryHTML = '';
 
-  for (const [productId, item] of Object.entries(cart)) {
-    const product = products.find(p => p.id === productId);
+  for (const [cartKey, item] of Object.entries(cart)) {
+    const product = products.find(p => p.id === item.productId);
     if (product) {
       const quantity = item.quantity;
       const comment = item.comment || '';
+      const size = item.size || '';
+      const color = item.color || '';
 
       summaryHTML += `
         <div class="order-item">
@@ -4701,6 +5028,12 @@ function generateOrderSummary() {
             <span>${product.title} x${quantity}</span>
             <span>${formatPrice(product.price * quantity)} ₴</span>
           </div>
+          ${size || color ? `
+            <div class="order-item-attributes">
+              ${size ? `<div><strong>Розмір:</strong> ${size}</div>` : ''}
+              ${color ? `<div><strong>Колір:</strong> ${color}</div>` : ''}
+            </div>
+          ` : ''}
           ${comment ? `
             <div class="order-item-comment">
               <em>Коментар: "${comment}"</em>
@@ -4715,8 +5048,8 @@ function generateOrderSummary() {
 }
 
 function calculateCartTotal() {
-  return Object.entries(cart).reduce((sum, [productId, item]) => {
-    const product = products.find(p => p.id === productId);
+  return Object.entries(cart).reduce((sum, [cartKey, item]) => {
+    const product = products.find(p => p.id === item.productId);
     return sum + (product ? product.price * item.quantity : 0);
   }, 0);
 }
@@ -4764,7 +5097,7 @@ function showOrderConfirmation(orderId, order) {
         <p><strong>Ім'я:</strong> ${order.userName}</p>
         <p><strong>Телефон:</strong> ${order.userPhone}</p>
         <p><strong>Email:</strong> ${order.userEmail}</p>
-        ${commentInfo} <!-- ДОБАВЛЕНО: отображаем комментарий -->
+        ${commentInfo}
         ${deliveryInfo}
         <div class="delivery-notice">
           <i class="fas fa-info-circle"></i>
@@ -4846,6 +5179,234 @@ function addCommentStyles() {
         font-size: 0.85em;
         padding: 6px 10px;
       }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// ===== ДОБАВЛЕНИЕ СТИЛЕЙ ДЛЯ ВЫБОРА РАЗМЕРА И ЦВЕТА =====
+function addSizeColorStyles() {
+  const style = document.createElement('style');
+  style.textContent = `
+    /* Стили для выбора размера */
+    .size-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 5px;
+    }
+    
+    .size-option {
+      position: relative;
+    }
+    
+    .size-option input[type="radio"] {
+      display: none;
+    }
+    
+    .size-label {
+      display: inline-block;
+      padding: 8px 12px;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      min-width: 40px;
+    }
+    
+    .size-option input[type="radio"]:checked + .size-label {
+      border-color: #007bff;
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .size-option:hover .size-label {
+      border-color: #0056b3;
+    }
+    
+    /* Стили для выбора цвета */
+    .color-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 5px;
+    }
+    
+    .color-option {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    
+    .color-option input[type="radio"] {
+      display: none;
+    }
+    
+    .color-label {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid #ddd;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .color-option input[type="radio"]:checked + .color-label {
+      border-color: #007bff;
+      transform: scale(1.1);
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+    }
+    
+    .color-option input[type="radio"]:checked + .color-label::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-weight: bold;
+      font-size: 12px;
+      text-shadow: 0 0 2px rgba(0,0,0,0.5);
+    }
+    
+    .color-name {
+      font-size: 0.9em;
+      color: #666;
+    }
+    
+    .color-option:hover .color-label {
+      transform: scale(1.05);
+      border-color: #0056b3;
+    }
+    
+    /* Стили для отображения размера и цвета в корзине */
+    .cart-item-attributes {
+      margin: 5px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .cart-item-size, .cart-item-color {
+      font-size: 0.9em;
+      padding: 3px 8px;
+      background: #f8f9fa;
+      border-radius: 4px;
+      border-left: 3px solid #007bff;
+    }
+    
+    .cart-item-color {
+      border-left-color: #28a745;
+    }
+    
+    /* Стили для формы обновления размера и цвета */
+    .update-size-color-form {
+      padding: 20px;
+    }
+    
+    .product-preview {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    
+    .preview-image {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    
+    .preview-info h4 {
+      margin: 0 0 10px 0;
+      font-size: 1.1em;
+    }
+    
+    .preview-info p {
+      margin: 5px 0;
+      font-size: 0.9em;
+      color: #666;
+    }
+    
+    .update-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    /* Адаптивные стили */
+    @media (max-width: 768px) {
+      .size-options {
+        gap: 5px;
+      }
+      
+      .size-label {
+        padding: 6px 10px;
+        min-width: 35px;
+        font-size: 0.9em;
+      }
+      
+      .color-options {
+        gap: 8px;
+      }
+      
+      .color-label {
+        width: 25px;
+        height: 25px;
+      }
+      
+      .cart-item-attributes {
+        flex-direction: column;
+        gap: 5px;
+      }
+      
+      .product-preview {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .update-actions {
+        flex-direction: column;
+      }
+      
+      .update-actions .btn {
+        width: 100%;
+      }
+    }
+    
+    /* Индикатор выбора в карточке товара */
+    .card-size-indicator {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 123, 255, 0.9);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 0.8em;
+      font-weight: bold;
+      z-index: 2;
+    }
+    
+    .card-color-indicator {
+      position: absolute;
+      top: 35px;
+      right: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 0 3px rgba(0,0,0,0.3);
+      z-index: 2;
     }
   `;
   document.head.appendChild(style);
@@ -5577,11 +6138,13 @@ class OrderManager {
     let itemsHTML = '';
     let totalAmount = 0;
 
-    for (const [productId, item] of Object.entries(order.items)) {
-      const product = products.find(p => p.id === productId);
+    for (const [cartKey, item] of Object.entries(order.items)) {
+      const product = products.find(p => p.id === item.productId);
       if (product) {
         const quantity = item.quantity;
         const comment = item.comment || '';
+        const size = item.size || '';
+        const color = item.color || '';
         const itemTotal = product.price * quantity;
         totalAmount += itemTotal;
 
@@ -5595,7 +6158,8 @@ class OrderManager {
               <div class="order-item-meta">
                 ${product.brand ? `<span class="item-brand">${product.brand}</span>` : ''}
                 <span class="item-quantity">Кількість: ${quantity}</span>
-                ${product.size ? `<span class="item-size">Розмір: ${product.size}</span>` : ''}
+                ${size ? `<span class="item-size">Розмір: ${size}</span>` : ''}
+                ${color ? `<span class="item-color">Колір: ${color}</span>` : ''}
               </div>
               ${comment ? `
                 <div class="order-item-comment">
@@ -5641,8 +6205,8 @@ class OrderManager {
   calculateOrderTotal(items) {
     if (!items) return 0;
 
-    return Object.entries(items).reduce((sum, [productId, item]) => {
-      const product = products.find(p => p.id === productId);
+    return Object.entries(items).reduce((sum, [cartKey, item]) => {
+      const product = products.find(p => p.id === item.productId);
       return sum + (product ? product.price * item.quantity : 0);
     }, 0);
   }
@@ -5697,11 +6261,13 @@ class OrderManager {
     let total = 0;
 
     if (order.items) {
-      for (const [productId, item] of Object.entries(order.items)) {
-        const product = products.find(p => p.id === productId);
+      for (const [cartKey, item] of Object.entries(order.items)) {
+        const product = products.find(p => p.id === item.productId);
         if (product) {
           const quantity = item.quantity;
           const comment = item.comment || '';
+          const size = item.size || '';
+          const color = item.color || '';
           const itemTotal = product.price * quantity;
           total += itemTotal;
 
@@ -5709,13 +6275,15 @@ class OrderManager {
             <tr>
               <td>${product.title}</td>
               <td>${product.brand || '-'}</td>
+              <td>${size || '-'}</td>
+              <td>${color || '-'}</td>
               <td>${quantity}</td>
               <td>${formatPrice(product.price)} ₴</td>
               <td>${formatPrice(itemTotal)} ₴</td>
             </tr>
             ${comment ? `
             <tr>
-              <td colspan="5" style="background: #f8f9fa; padding: 8px; font-style: italic;">
+              <td colspan="7" style="background: #f8f9fa; padding: 8px; font-style: italic;">
                 <strong>Коментар:</strong> ${comment}
               </td>
             </tr>
@@ -5767,6 +6335,8 @@ class OrderManager {
             <tr>
               <th>Товар</th>
               <th>Бренд</th>
+              <th>Розмір</th>
+              <th>Колір</th>
               <th>Кількість</th>
               <th>Ціна</th>
               <th>Сума</th>
@@ -6256,6 +6826,13 @@ function addOrdersStyles() {
         background: #e9ecef;
         padding: 2px 8px;
         border-radius: 4px;
+      }
+      
+      .item-size, .item-color {
+        background: #e3f2fd;
+        padding: 2px 8px;
+        border-radius: 4px;
+        color: #1976d2;
       }
       
       .order-item-comment {
