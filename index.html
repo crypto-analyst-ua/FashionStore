@@ -184,6 +184,92 @@
             font-size: 0.7rem;
         }
     }
+
+    /* Стили для рекламного баннера */
+    .ad-banner {
+        background: linear-gradient(135deg, #34D399, #22D3EE);
+        color: #FFFFFF;
+        padding: 15px 20px;
+        margin: 0 20px 20px 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .ad-banner-content {
+        flex: 1;
+        padding-right: 20px;
+    }
+
+    .ad-banner h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+    }
+
+    .ad-banner p {
+        margin-bottom: 0;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    .ad-banner-close {
+        background: transparent;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #FFFFFF;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+    }
+
+    .ad-banner-close:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Для мобильных устройств */
+    @media (max-width: 768px) {
+        .ad-banner {
+            flex-direction: column;
+            text-align: center;
+            margin: 0 10px 10px 10px;
+            padding: 15px;
+        }
+        
+        .ad-banner-content {
+            padding-right: 0;
+            margin-bottom: 15px;
+        }
+        
+        .ad-banner h3 {
+            font-size: 1.1rem;
+        }
+        
+        .ad-banner p {
+            font-size: 0.9rem;
+        }
+    }
 </style>
 
     <!-- Объединенная JSON-LD Schema -->
@@ -333,6 +419,15 @@
             <div class="search-suggestions" id="search-suggestions-mobile"></div>
         </div>
     </header>
+
+    <!-- Рекламный баннер -->
+    <div id="ad-banner" class="ad-banner">
+        <div class="ad-banner-content">
+            <h3>🔒 Безпечна покупка та швидка доставка</h3>
+            <p>🛡️ Ви нічим не ризикуєте: спочатку отримуєте та перевіряєте товар — і лише потім оплачуєте. 🏭 Прямі поставки від виробників та офіційних постачальників. 🚚 Доставка Новою Поштою та Укрпоштою по всій Україні. 💰 Чесні ціни без завищень. 📄 Повернення протягом 14 днів без зайвих питань — ви захищені законом.</p>
+        </div>
+        <button class="ad-banner-close" onclick="closeAdBanner()" aria-label="Закрити банер">×</button>
+    </div>
 
     <!-- Breadcrumb Navigation -->
     <nav aria-label="Навігацію по сайту" class="breadcrumb">
@@ -976,6 +1071,16 @@
                 defaultCard.setAttribute('aria-selected', 'true');
             }
         }
+
+        // Функция для закрытия рекламного баннера
+        function closeAdBanner() {
+            const banner = document.getElementById('ad-banner');
+            if (banner) {
+                banner.style.display = 'none';
+                // Сохраняем в localStorage, что баннер закрыт
+                localStorage.setItem('adBannerClosed', 'true');
+            }
+        }
         
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
@@ -983,6 +1088,15 @@
             
             // Обновляем год в футере
             document.getElementById('year').textContent = new Date().getFullYear();
+            
+            // Проверяем, не закрыт ли баннер ранее
+            const isBannerClosed = localStorage.getItem('adBannerClosed');
+            if (isBannerClosed) {
+                const banner = document.getElementById('ad-banner');
+                if (banner) {
+                    banner.style.display = 'none';
+                }
+            }
         });
     </script>
 </body>
