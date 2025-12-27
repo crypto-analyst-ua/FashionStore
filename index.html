@@ -185,40 +185,34 @@
         }
     }
 
-    /* Стили для рекламного баннера */
+    /* Обновленные стили для рекламного баннера с полным отображением изображения */
     .ad-banner {
-        background: linear-gradient(135deg, #34D399, #22D3EE);
-        color: #FFFFFF;
-        padding: 15px 20px;
         margin: 0 20px 20px 20px;
         border-radius: 10px;
+        overflow: hidden;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         position: relative;
         animation: fadeIn 0.5s ease-in-out;
+        background: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .ad-banner-content {
-        flex: 1;
-        padding-right: 20px;
-    }
-
-    .ad-banner h3 {
-        margin-top: 0;
-        margin-bottom: 10px;
-        font-size: 1.2rem;
-    }
-
-    .ad-banner p {
-        margin-bottom: 0;
-        font-size: 1rem;
-        line-height: 1.5;
+    .ad-banner img {
+        width: 100%;
+        height: auto;
+        display: block;
+        max-width: 100%;
+        object-fit: contain; /* Изменено с cover на contain */
+        border-radius: 10px;
     }
 
     .ad-banner-close {
-        background: transparent;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.5);
         border: none;
         font-size: 24px;
         cursor: pointer;
@@ -231,10 +225,11 @@
         justify-content: center;
         border-radius: 50%;
         transition: background-color 0.3s;
+        z-index: 10;
     }
 
     .ad-banner-close:hover {
-        background-color: rgba(255, 255, 255, 0.2);
+        background-color: rgba(0, 0, 0, 0.7);
     }
 
     @keyframes fadeIn {
@@ -251,23 +246,20 @@
     /* Для мобильных устройств */
     @media (max-width: 768px) {
         .ad-banner {
-            flex-direction: column;
-            text-align: center;
             margin: 0 10px 10px 10px;
-            padding: 15px;
         }
         
-        .ad-banner-content {
-            padding-right: 0;
-            margin-bottom: 15px;
+        .ad-banner img {
+            width: 100%;
+            height: auto;
         }
         
-        .ad-banner h3 {
-            font-size: 1.1rem;
-        }
-        
-        .ad-banner p {
-            font-size: 0.9rem;
+        .ad-banner-close {
+            top: 5px;
+            right: 5px;
+            width: 25px;
+            height: 25px;
+            font-size: 20px;
         }
     }
 </style>
@@ -420,12 +412,9 @@
         </div>
     </header>
 
-    <!-- Рекламный баннер -->
+    <!-- Рекламный баннер - заменен на изображение -->
     <div id="ad-banner" class="ad-banner">
-        <div class="ad-banner-content">
-            <h3>🔒 Безпечна покупка та швидка доставка</h3>
-            <p>🛡️ Ви нічим не ризикуєте: спочатку отримуєте та перевіряєте товар — і лише потім оплачуєте. 🏭 Прямі поставки від виробників та офіційних постачальників. 🚚 Доставка Новою Поштою та Укрпоштою по всій Україні. 💰 Чесні ціни без завищень. 📄 Повернення протягом 14 днів без зайвих питань — ви захищені законом.</p>
-        </div>
+        <img src="file_00000000364c72439a4b7a15eaab1d04.png" alt="Безпечна покупка в магазині одягу та взуття">
         <button class="ad-banner-close" onclick="closeAdBanner()" aria-label="Закрити банер">×</button>
     </div>
 
