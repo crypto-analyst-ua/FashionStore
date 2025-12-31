@@ -90,7 +90,7 @@
         }
     }
 
-    /* Стили для карточек категорий (оставлены, так как они уникальные и нет аналогов в CSS) */
+    /* Стили для карточек категорий */
     .category-cards {
         display: flex;
         flex-wrap: wrap;
@@ -185,7 +185,7 @@
         }
     }
 
-    /* Обновленные стили для рекламного баннера с полным отображением изображения */
+    /* Обновленные стили для рекламного баннера */
     .ad-banner {
         margin: 0 20px 20px 20px;
         border-radius: 10px;
@@ -204,7 +204,7 @@
         height: auto;
         display: block;
         max-width: 100%;
-        object-fit: contain; /* Изменено с cover на contain */
+        object-fit: contain;
         border-radius: 10px;
     }
 
@@ -222,7 +222,7 @@
         height: 30px;
         display: flex;
         align-items: center;
-                        justify-content: center;
+        justify-content: center;
         border-radius: 50%;
         transition: background-color 0.3s;
         z-index: 10;
@@ -262,6 +262,177 @@
             font-size: 20px;
         }
     }
+
+    /* Улучшенные стили для анимации загрузки с реальными фото */
+    #fashion-show {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        z-index: 9998;
+        overflow: hidden;
+    }
+
+    .fashion-show-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 1200px;
+        text-align: center;
+        padding: 30px;
+        box-sizing: border-box;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(233, 30, 99, 0.1);
+    }
+
+    .fashion-show-content h2 {
+        color: #e91e63;
+        margin-bottom: 30px;
+        font-size: 32px;
+        font-weight: 700;
+        text-shadow: none;
+    }
+
+    .product-showcase {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin: 30px 0;
+        max-height: 500px;
+        overflow-y: auto;
+        padding: 10px;
+    }
+
+    .image-preview {
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        background: white;
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideIn 0.5s ease forwards;
+        aspect-ratio: 1 / 1; /* Квадратное изображение */
+    }
+
+    .image-preview:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 8px 25px rgba(233, 30, 99, 0.15);
+    }
+
+    .image-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .image-preview:hover img {
+        transform: scale(1.1);
+    }
+
+    .fashion-timer {
+        color: #666;
+        margin-top: 25px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .timer-subtitle {
+        color: #888;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .skip-show-btn {
+        margin-top: 30px;
+        padding: 14px 35px;
+        background: linear-gradient(135deg, #e91e63, #c2185b);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(233, 30, 99, 0.2);
+    }
+
+    .skip-show-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(233, 30, 99, 0.3);
+        background: linear-gradient(135deg, #c2185b, #e91e63);
+    }
+
+    .loading-bar {
+        width: 100%;
+        height: 6px;
+        background: #e0e0e0;
+        border-radius: 3px;
+        margin: 20px 0;
+        overflow: hidden;
+    }
+
+    .loading-progress {
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(90deg, #e91e63, #c2185b);
+        border-radius: 3px;
+        transition: width 0.3s ease;
+    }
+
+    @keyframes slideIn {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 0.7; }
+        50% { opacity: 1; }
+    }
+
+    /* Для мобильных устройств */
+    @media (max-width: 768px) {
+        .fashion-show-content {
+            width: 95%;
+            padding: 20px;
+        }
+        
+        .fashion-show-content h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .product-showcase {
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            max-height: 350px;
+        }
+        
+        .image-preview {
+            border-radius: 8px;
+        }
+        
+        .skip-show-btn {
+            padding: 12px 25px;
+            font-size: 14px;
+        }
+    }
+
+    /* Удалены стили для .popular-products-title, .product-info, .product-title, .product-price */
 </style>
 
     <!-- Объединенная JSON-LD Schema -->
@@ -412,7 +583,7 @@
         </div>
     </header>
 
-    <!-- Рекламный баннер - заменен на изображение -->
+    <!-- Рекламный баннер -->
     <div id="ad-banner" class="ad-banner">
         <img src="file_00000000364c72439a4b7a15eaab1d04.png" alt="Безпечна покупка в магазині одягу та взуття">
         <button class="ad-banner-close" onclick="closeAdBanner()" aria-label="Закрити банер">×</button>
@@ -701,9 +872,33 @@
 <div class="highlight about-section">
     <div class="container">
         <p>FashionStore — це більше ніж просто магазин одягу. Це ваш стильний помічник у створенні іміджу та вираженні індивідуальності.</p>
-                <p>Незалежно від того, чи шукаєте ви повсякденний одяг, діловий костюм чи особливий наряд для свята, у FashionStore ви знайдете саме те, що шукаєте.</p>
+        <p>Незалежно від того, чи шукаєте ви повсякденний одяг, діловий костюм чи особливий наряд для свята, у FashionStore ви знайдете саме те, що шукаєте.</p>
+    </div>
+</div>
+
+    <!-- Улучшенная анимация загрузки с только изображениями -->
+    <div id="fashion-show">
+        <div class="fashion-show-content">
+            <h2>✨ Завантажуємо наймодніші товари для вас...</h2>
+            
+            <div id="product-showcase" class="product-showcase">
+                <!-- Изображения будут добавляться динамически -->
             </div>
+            
+            <div class="loading-bar">
+                <div class="loading-progress" id="loading-progress"></div>
+            </div>
+            
+            <div class="fashion-timer">
+                <i class="fas fa-spinner fa-spin" style="color: #e91e63;"></i>
+                <div>Залишилось: <span id="timer">3</span> сек</div>
+            </div>
+            
+            <button onclick="closeFashionShow()" class="skip-show-btn">
+                Пропустити та перейти до товарів
+            </button>
         </div>
+    </div>
 
     <!-- Мобильная версия фильтров -->
     <div id="mobile-filters" class="mobile-filters-overlay">
@@ -842,7 +1037,7 @@
         </div>
     </div>
 
-    <!-- Додамо модальне вікно для правил після існуючого модального вікна -->
+    <!-- Модальное окно для правил -->
     <div id="rules-modal" class="modal">
         <div class="modal-content" style="max-width: 800px; max-height: 80vh; overflow-y: auto;">
             <button class="modal-close" onclick="closeRulesModal()" aria-label="Закрити"><i class="fas fa-times" aria-hidden="true"></i></button>
@@ -925,7 +1120,7 @@
                     <h2>7. Персональні дані та конфіденційність</h2>
                     <ul>
                         <li>7.1. Магазин обробляє персональні дані Покупців відповідно до законодавства про захист персональних даних.</li>
-                        <li>7.2. Інформація використовується для обробки замовлень, доставки та зворотного зв'язку, а також може використовуватися для розсилки акцій за згодою Покупця.</li>
+                        <li>7.2. Інформація використовується для обмотки замовлень, доставки та зворотного зв'язку, а також може використовуватися для розсилки акцій за згодою Покупця.</li>
                         <li>7.3. Магазин не передає персональні дані третім особам без згоди Покупця, за винятком випадків, передбачених законом (наприклад, передача транспортним компаніям для доставки).</li>
                     </ul>
                 </section>
@@ -960,6 +1155,85 @@
     <script src="script.js"></script>
 
     <script>
+        // Глобальные переменные для анимации загрузки с фото товаров
+        let fashionShowInterval;
+        let timerInterval;
+        
+        // Массив с 10 изображениями товаров (просто фото)
+        const productShowcaseImages = [
+            'file1.jpeg',
+            'file2.jpeg',
+            'file3.jpeg',
+            'file4.jpeg',
+            'file5.jpeg',
+            'file6.jpeg',
+            'file7.jpeg',
+            'file8.jpeg',
+            'file9.jpeg',
+            'file10.jpeg'
+        ];
+
+        // Функция для показа анимации загрузки с фото товаров
+        function showFashionShow() {
+            const fashionShow = document.getElementById('fashion-show');
+            const showcase = document.getElementById('product-showcase');
+            
+            fashionShow.style.display = 'block';
+            showcase.innerHTML = '';
+            
+            // Перемешиваем массив изображений для случайного порядка
+            const shuffledImages = [...productShowcaseImages].sort(() => Math.random() - 0.5);
+            
+            // Создаем элементы для каждого изображения
+            shuffledImages.forEach((image, index) => {
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'image-preview';
+                imageDiv.style.animationDelay = `${index * 0.1}s`;
+                
+                imageDiv.innerHTML = `
+                    <img src="${image}" alt="Модний товар ${index + 1}" 
+                         onerror="this.src='https://via.placeholder.com/300x200?text=Фото+модного+товару'">
+                `;
+                
+                showcase.appendChild(imageDiv);
+            });
+            
+            // Анимация прогресс-бара
+            const progressBar = document.getElementById('loading-progress');
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 3;
+                progressBar.style.width = `${progress}%`;
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                }
+            }, 50);
+            
+            // Таймер
+            let timeLeft = 3;
+            document.getElementById('timer').textContent = timeLeft;
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    closeFashionShow();
+                }
+            }, 1000);
+        }
+
+        // Функция для закрытия анимации загрузки
+        function closeFashionShow() {
+            const fashionShow = document.getElementById('fashion-show');
+            fashionShow.style.display = 'none';
+            clearInterval(timerInterval);
+            
+            // Сбрасываем прогресс-бар
+            const progressBar = document.getElementById('loading-progress');
+            progressBar.style.width = '0%';
+        }
+
         // Функция для переключения категорий и обновления активной карточки
         function switchCategory(category) {
             // Удаляем класс active у всех карточек
@@ -997,9 +1271,18 @@
                     fileName = 'all';
             }
             
+            // Показываем анимацию с фото товаров перед загрузкой
+            showFashionShow();
+            
             // Вызываем существующую функцию загрузки товаров
             if (typeof window.switchSource === 'function') {
-                window.switchSource(fileName);
+                setTimeout(() => {
+                    window.switchSource(fileName);
+                    // Автоматически закрываем анимацию через 3 секунды
+                    setTimeout(() => {
+                        closeFashionShow();
+                    }, 3000);
+                }, 500);
             }
         }
         
@@ -1010,6 +1293,9 @@
         // Переопределяем функцию switchSource для обновления активной карточки
         if (typeof originalSwitchSource === 'function') {
             window.switchSource = function(fileName) {
+                // Показываем анимацию с фото товаров перед загрузкой
+                showFashionShow();
+                
                 // Вызываем оригинальную функцию
                 originalSwitchSource(fileName);
                 
@@ -1046,6 +1332,11 @@
                     selectedCard.classList.add('active');
                     selectedCard.setAttribute('aria-selected', 'true');
                 }
+                
+                // Автоматически закрываем анимацию через 3 секунды
+                setTimeout(() => {
+                    closeFashionShow();
+                }, 3000);
             }
         }
         
@@ -1089,7 +1380,30 @@
                     banner.style.display = 'none';
                 }
             }
+            
+            // Показываем анимацию с фото товаров при первой загрузке товаров
+            const productGrid = document.getElementById('product-grid');
+            if (productGrid && productGrid.querySelector('.skeleton-item')) {
+                setTimeout(() => {
+                    showFashionShow();
+                    // Автоматически закрываем через 3 секунды
+                    setTimeout(() => {
+                        closeFashionShow();
+                    }, 3000);
+                }, 1000);
+            }
         });
+
+        // Функция для предзагрузки изображений товаров
+        function preloadProductImages() {
+            productShowcaseImages.forEach(image => {
+                const img = new Image();
+                img.src = image;
+            });
+        }
+
+        // Предзагружаем изображения при загрузке страницы
+        window.addEventListener('load', preloadProductImages);
     </script>
 </body>
 </html>
