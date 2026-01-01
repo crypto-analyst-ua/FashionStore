@@ -8,7 +8,7 @@
     
     <!-- Изображение 1 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-women-clothing-ukraine-2025.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file1.jpeg</image:loc>
       <image:title>Модний жіночий одяг 2025 - FashionStore Україна</image:title>
       <image:caption>Купити модний жіночий одяг, взуття та аксесуари в інтернет-магазині FashionStore. Безкоштовна доставка від 4000 грн.</image:caption>
       <image:geo_location>Україна</image:geo_location>
@@ -16,135 +16,135 @@
     
     <!-- Изображение 2 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-men-clothing-shoes-ukraine.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file2.jpeg</image:loc>
       <image:title>Чоловічий одяг та взуття - FashionStore Україна</image:title>
       <image:caption>Стильний чоловічий одяг, костюми, джинси та взуття з доставкою по Україні. Новинки сезону 2025.</image:caption>
     </image:image>
     
     <!-- Изображение 3 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-kids-clothing-children-ukraine.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file3.jpeg</image:loc>
       <image:title>Дитячий одяг для дітей - FashionStore Україна</image:title>
       <image:caption>Якісний дитячий одяг для різного віку. Одяг для немовлят, дітей дошкільного та шкільного віку.</image:caption>
     </image:image>
     
     <!-- Изображение 4 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-shoes-footwear-ukraine-2025.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file4.jpeg</image:loc>
       <image:title>Модне взуття 2025 - купити онлайн в Україні</image:title>
       <image:caption>Кросівки, туфлі, черевики, босоніжки, ботінки для жінок, чоловіків та дітей. Великий вибір взуття.</image:caption>
     </image:image>
     
     <!-- Изображение 5 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-accessories-bags-jewelry.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file5.jpeg</image:loc>
       <image:title>Аксесуари та сумки - купити в Україні | FashionStore</image:title>
       <image:caption>Модні сумки, рюкзаки, ремені, біжутерія, капелюхи та інші аксесуари для завершення образу.</image:caption>
     </image:image>
     
     <!-- Изображение 6 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-summer-dresses-women-2025.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file6.jpeg</image:loc>
       <image:title>Літні сукні для жінок 2025 - купити в Україні</image:title>
       <image:caption>Модні літні сукні, спідниці, блузки та футболки. Свіжі колекції літнього одягу.</image:caption>
     </image:image>
     
     <!-- Изображение 7 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-winter-clothing-coats-jackets.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file7.jpeg</image:loc>
       <image:title>Зимовий одяг - куртки, пальто, пуховики | FashionStore</image:title>
       <image:caption>Теплий зимовий одяг для всієї родини. Куртки, пальто, пуховики, теплі штани та аксесуари.</image:caption>
     </image:image>
     
     <!-- Изображение 8 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-sportswear-sneakers-activewear.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file8.jpeg</image:loc>
       <image:title>Спортивний одяг та кросівки - купити в Україні</image:title>
       <image:caption>Спортивний одяг для фітнесу, бігу, тренувань. Кросівки, штани, футболки, светри.</image:caption>
     </image:image>
     
     <!-- Изображение 9 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-evening-dresses-party-wear.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file9.jpeg</image:loc>
       <image:title>Вечірні сукни та одяг для свят - FashionStore</image:title>
       <image:caption>Елегантні вечірні сукни, костюми та одяг для особливих випадків. Весільні та вечірні наряди.</image:caption>
     </image:image>
     
     <!-- Изображение 10 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-business-suits-office-wear.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file10.jpeg</image:loc>
       <image:title>Діловий одяг та костюми для офісу | FashionStore</image:title>
       <image:caption>Елегантні костюми, сорочки, блузки та інший діловий одяг для роботи та бізнесу.</image:caption>
     </image:image>
     
     <!-- Изображение 11 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-jeans-denim-clothing-ukraine.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file11.jpeg</image:loc>
       <image:title>Джинси та денім - купити в Україні | FashionStore</image:title>
       <image:caption>Якісні джинси різних фасонів та кольорів. Денім одяг для чоловіків, жінок та дітей.</image:caption>
     </image:image>
     
     <!-- Изображение 12 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-homewear-pajamas-loungewear.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file12.jpeg</image:loc>
       <image:title>Домашній одяг та піжами - купити онлайн</image:title>
       <image:caption>Зручний домашній одяг, піжами, халати та одяг для відпочинку вдома.</image:caption>
     </image:image>
     
     <!-- Изображение 13 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-swimwear-beachwear-ukraine.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file13.jpeg</image:loc>
       <image:title>Купальники та пляжний одяг - купити в Україні</image:title>
       <image:caption>Модні купальники, пляжні сукни, парео та аксесуари для відпочинку на морі.</image:caption>
     </image:image>
     
     <!-- Изображение 14 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-school-uniforms-kids-clothing.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file14.jpeg</image:loc>
       <image:title>Шкільний одяг та форма для дітей | FashionStore</image:title>
       <image:caption>Шкільна форма, одяг для школи, ранці та аксесуари для учнів різного віку.</image:caption>
     </image:image>
     
     <!-- Изображение 15 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-wedding-dresses-bride-ukraine.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file15.jpeg</image:loc>
       <image:title>Весільні сукни для нареченої - купити в Україні</image:title>
       <image:caption>Елегантні весільні сукни, аксесуари для наречених та весільний одяг.</image:caption>
     </image:image>
     
     <!-- Изображение 16 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-maternity-clothing-pregnant-women.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file16.jpeg</image:loc>
       <image:title>Одяг для вагітних жінок - купити в Україні</image:title>
       <image:caption>Зручний та стильний одяг для вагітних жінок. Спеціальні колекції для майбутніх мам.</image:caption>
     </image:image>
     
     <!-- Изображение 17 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-jackets-coats-outerwear.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file17.jpeg</image:loc>
       <image:title>Куртки та верхній одяг - купити в Україні</image:title>
       <image:caption>Куртки, пальто, плащі, ветровки та інший верхній одяг для різних сезонів.</image:caption>
     </image:image>
     
     <!-- Изображение 18 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-sweaters-knitwear-ukraine.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file18.jpeg</image:loc>
       <image:title>Светри та трикотаж - купити онлайн | FashionStore</image:title>
       <image:caption>Теплі светри, кардигани, кофти та трикотажний одяг для холодної пори року.</image:caption>
     </image:image>
     
     <!-- Изображение 19 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-t-shirts-tops-basics.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file19.jpeg</image:loc>
       <image:title>Футболки та топи - базовий одяг | FashionStore</image:title>
       <image:caption>Базові футболки, топи, майки різних кольорів та фасонів. Основна білизна гардеробу.</image:caption>
     </image:image>
     
     <!-- Изображение 20 -->
     <image:image>
-      <image:loc>https://fashionstore-ua.web.app/fashion-sunglasses-accessories-ukraine.jpg</image:loc>
+      <image:loc>https://fashionstore-ua.web.app/file20.jpeg</image:loc>
       <image:title>Сонцезахисні окуляри та аксесуари | FashionStore</image:title>
       <image:caption>Модні сонцезахисні окуляри, ремені, капелюхи та інші аксесуари для стильного образу.</image:caption>
     </image:image>
   </url>
-</urlset>
+</urlset> 
