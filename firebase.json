@@ -4,8 +4,73 @@
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "package.json",
+      "package-lock.json",
+      "README.md"
     ],
-    "cleanUrls": true
+    "cleanUrls": true,
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(js|css|jpg|jpeg|gif|png|svg|ico|eot|otf|ttf|woff|woff2)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(json)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=3600"
+          },
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex, nofollow"
+          }
+        ]
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/women",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/men",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/kids",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/shoes",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/accessories",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/sale",
+        "destination": "/",
+        "type": 301
+      }
+    ]
   }
-}
+} 

@@ -4,20 +4,60 @@ Disallow: /admin/
 Disallow: /private/
 Disallow: /tmp/
 Disallow: /*.json$
-Disallow: /*.xml$
+
+# Разрешить индексацию изображений
+Allow: /*.jpeg$
+Allow: /*.jpg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.svg$
 
 Sitemap: https://fashionstore-ua.web.app/sitemap.xml
+Sitemap: https://fashionstore-ua.web.app/sitemap-images.xml
 
-# Разрешить индексацию основных разделов
-Allow: /women/
-Allow: /men/
-Allow: /kids/
-Allow: /shoes/
-Allow: /accessories/
-Allow: /sale/
-
-# Скорость сканирования (запросов в секунду)
+# User-agent для поисковых систем
+User-agent: Googlebot
+Allow: /
 Crawl-delay: 1
 
-# Предпочтительный хост
-Host: https://fashionstore-ua.web.app
+User-agent: Googlebot-Image
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 2
+
+# Блокировка агрессивных ботов
+User-agent: AhrefsBot
+Disallow: /
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Disallow: /
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /
+Crawl-delay: 10
+
+User-agent: DotBot
+Disallow: /
+Crawl-delay: 10
+
+# Для социальных сетей
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Pinterestbot
+Allow: /
+
+# Обновлено: 2025-01-02
+# Версия: 2.0
