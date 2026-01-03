@@ -175,8 +175,8 @@ header {
 
 .logo h1 {
   font-size: clamp(1.3rem, 4vw, 1.8rem);
-  color: var(--white);
-  -webkit-text-fill-color: var(--white);
+  color: #FFD700 !important; /* Золотистый цвет для названия сайта */
+  -webkit-text-fill-color: #FFD700 !important; /* Золотистый цвет */
   text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
   margin-bottom: 0;
   white-space: nowrap;
@@ -1962,10 +1962,12 @@ button:focus, input:focus, select:focus, textarea:focus {
   
   .logo-text {
     font-size: 1.1rem;
+    color: #FFD700 !important; /* Золотистый цвет */
   }
   
   .logo-subtitle {
     font-size: 0.7rem;
+    color: #DAA520 !important; /* Более темный золотистый */
   }
 }
 
@@ -2180,10 +2182,12 @@ button:focus, input:focus, select:focus, textarea:focus {
   
   .logo-text {
     font-size: 1rem;
+    color: #FFD700 !important; /* Золотистый цвет */
   }
   
   .logo-subtitle {
     font-size: 0.6rem;
+    color: #DAA520 !important; /* Более темный золотистый */
   }
 }
 
@@ -2473,16 +2477,21 @@ button:focus, input:focus, select:focus, textarea:focus {
   }
 }
 
+/* Стили для логотипа с золотистым цветом текста */
 .logo-text {
     font-family: 'Arial', sans-serif;
     font-size: 28px;
     font-weight: 700;
-    color: var(--light);
+    color: #FFD700 !important; /* Золотистый цвет */
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin: 0;
     position: relative;
     display: inline-block;
+    text-shadow: 
+        0 0 5px rgba(255, 215, 0, 0.5),
+        0 0 10px rgba(255, 215, 0, 0.3) !important;
+    -webkit-text-stroke: 0.5px #B8860B !important; /* Темно-золотая обводка */
 }
 
 .logo-text::after {
@@ -2492,8 +2501,20 @@ button:focus, input:focus, select:focus, textarea:focus {
     left: 0;
     width: 100%;
     height: 3px;
-    background: linear-gradient(90deg, var(--primary-light), var(--accent-light));
+    background: linear-gradient(90deg, #FFD700, #DAA520); /* Золотистый градиент */
     border-radius: 2px;
+}
+
+.logo-text .logo-name {
+    color: #FFD700 !important; /* Золотистый цвет */
+    font-weight: 700;
+    text-shadow: 
+        0 0 5px rgba(255, 215, 0, 0.5),
+        0 0 10px rgba(255, 215, 0, 0.3) !important;
+    -webkit-text-stroke: 0.5px #B8860B !important; /* Темно-золотая обводка */
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: #FFD700 !important; /* Золотистый цвет */
 }
 
 .logo-subtitle {
@@ -2502,7 +2523,7 @@ button:focus, input:focus, select:focus, textarea:focus {
     font-weight: 400;
     text-transform: none;
     letter-spacing: 0.5px;
-    color: var(--gray-light);
+    color: #DAA520 !important; /* Более темный золотистый для подзаголовка */
     margin-top: 2px;
 }
 
@@ -2510,10 +2531,24 @@ button:focus, input:focus, select:focus, textarea:focus {
     .logo-text {
         font-size: 22px;
         letter-spacing: 1px;
+        color: #FFD700 !important; /* Золотистый цвет */
     }
     
     .logo-subtitle {
         font-size: 9px;
+        color: #DAA520 !important; /* Более темный золотистый */
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-text {
+        font-size: 1.1rem;
+        color: #FFD700 !important; /* Золотистый цвет */
+    }
+    
+    .logo-subtitle {
+        font-size: 0.7rem;
+        color: #DAA520 !important; /* Более темный золотистый */
     }
 }
 
@@ -3265,23 +3300,6 @@ body.search-suggestions-open {
   }
 }
 
-/* Стили для черного текста с белой обводкой в логотипе */
-.logo-text .logo-name {
-    color: #ffffff !important;
-    font-weight: 700;
-    text-shadow: 
-        0 0 5px #000000,
-        0 0 10px #000000,
-        0 0 15px #000000,
-        0 0 20px #000000,
-        0 0 25px #000000,
-        0 0 30px #000000 !important;
-    -webkit-text-stroke: 1px #000000 !important;
-    background: none !important;
-    -webkit-background-clip: initial !important;
-    -webkit-text-fill-color: #ffffff !important;
-}
-
 /* Скрытие кнопки администратора */
 #admin-access-btn {
     display: none !important;
@@ -3491,10 +3509,12 @@ main {
 @media (max-width: 320px) {
   .logo h1 {
     font-size: 0.7rem !important;
+    color: #FFD700 !important; /* Золотистый цвет */
   }
   
   .short-title {
     font-size: 0.7rem;
+    color: #FFD700 !important; /* Золотистый цвет */
   }
   
   header {
@@ -3538,7 +3558,7 @@ main {
   }
 }
 
-/* Для очень маленьких экранов */
+/* Улучшение для очень маленьких экранов */
 @media (max-width: 480px) {
   .header-top {
     gap: 0.3rem;
@@ -3553,14 +3573,6 @@ main {
   
   .btn-small i {
     font-size: 0.8rem !important;
-  }
-  
-  .logo-text {
-    font-size: 1.1rem;
-  }
-  
-  .logo-subtitle {
-    font-size: 0.7rem;
   }
 }
 
