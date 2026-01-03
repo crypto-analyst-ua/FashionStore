@@ -36,6 +36,7 @@ const FEED_URL_KEY = "fashionstore_feed_url";
 const FEED_UPDATE_TIME_KEY = "fashionstore_feed_update";
 const VIEW_MODE_KEY = "fashionstore_view_mode";
 const ADMINS_STORAGE_KEY = "fashionstore_admins";
+const WHATSAPP_NUMBER = "+380684296978"; // Замените на ваш номер телефона
 
 // ===== СЛОВНИК ПЕРЕКЛАДУ КАТЕГОРІЙ ДЛЯ FASHION STORE =====
 const categoryTranslations = {
@@ -429,7 +430,7 @@ const FASHION_SEARCH_KNOWLEDGE = {
   styles: {
     'повседневный': ['кэжуал', 'ежедневный', 'расслабленный'],
     'офисный': ['деловой', 'бизнес', 'формальный', 'строгий'],
-    'вечерний': ['нарядный', 'гламур', 'торжественный'],
+    'вечерний': ['нарядный', 'гламур', ' торжественный'],
     'спортивный': ['спорт-шик', 'активный', 'тренировочный']
   }
 };
@@ -2710,6 +2711,78 @@ function addGoogleAuthStyles() {
   document.head.appendChild(style);
 }
 
+// ===== ДОБАВЛЯЕМ СТИЛИ ДЛЯ КНОПКИ WHATSAPP =====
+
+function addWhatsAppButtonStyles() {
+  const style = document.createElement('style');
+  style.textContent = `
+    .btn-whatsapp {
+      background-color: #25D366;
+      color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .btn-whatsapp:hover {
+      background-color: #128C7E;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+    }
+    
+    .btn-whatsapp i {
+      font-size: 18px;
+    }
+    
+    .cart-action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    @media (max-width: 768px) {
+      .cart-action-buttons {
+        flex-direction: column;
+      }
+      
+      .btn-whatsapp, .btn-buy {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+      }
+    }
+    
+    @media (min-width: 769px) {
+      .cart-action-buttons {
+        flex-direction: row;
+      }
+      
+      .btn-whatsapp, .btn-buy {
+        flex: 1;
+      }
+    }
+    
+    /* Анимация для кнопки WhatsApp */
+    @keyframes pulse-whatsapp {
+      0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    }
+    
+    .btn-whatsapp {
+      animation: pulse-whatsapp 2s infinite;
+    }
+    
+    .btn-whatsapp:hover {
+      animation: none;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
 // ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ОТКРЫТИЯ МОДАЛЬНОГО ОКНА АВТОРИЗАЦИИ С GOOGLE =====
 function openAuthModal() {
   const modalContent = document.getElementById("modal-content");
@@ -2791,7 +2864,7 @@ function openAuthModal() {
       <div class="form-group">
         <label class="checkbox-label">
           <input type="checkbox" id="accept-terms" required>
-          <span>Я погоджуюсь з <a href="#" onclick="openTermsModal()">умовами використання</a> та <a href="#" onclick="openPrivacyModal()">політикою конфіденційності</a>*</span>
+          <span>Я погоджуюсь з <a href="#" onclick="openTermsModal()">умовами використанства</a> та <a href="#" onclick="openPrivacyModal()">політикою конфіденційності</a>*</span>
         </label>
       </div>
       <button type="submit" class="btn btn-detail btn-block">Зареєструватися</button>
@@ -2945,6 +3018,9 @@ function initApp() {
 
   // Добавляем стили для Google Auth
   addGoogleAuthStyles();
+  
+  // Добавляем стили для кнопки WhatsApp
+  addWhatsAppButtonStyles();
   
   // Инициализация голосового поиска ДО добавления кнопок
   initVoiceSearch();
@@ -4421,12 +4497,85 @@ function openCart() {
       </div>
       <div class="cart-footer">
         <div class="cart-total">Разом: ${formatPrice(total)} ₴</div>
-        <button class="btn btn-buy" onclick="checkout()">Оформити замовлення</button>
+        <div class="cart-action-buttons">
+          <button class="btn btn-buy" onclick="checkout()">Оформити замовлення</button>
+          <button class="btn btn-whatsapp" onclick="orderViaWhatsApp()">
+            <i class="fab fa-whatsapp"></i> Замовити через WhatsApp
+          </button>
+        </div>
       </div>
     `;
   }
 
   openModal();
+}
+
+// ===== ФУНКЦИЯ ЗАКАЗА ЧЕРЕЗ WHATSAPP =====
+function orderViaWhatsApp() {
+  if (Object.keys(cart).length === 0) {
+    showNotification("Кошик порожній", "error");
+    return;
+  }
+
+  // Формируем сообщение для WhatsApp
+  let message = "🛍️ *Нове замовлення з FashionStore* 🛍️\n\n";
+  message += "*Замовлення:*\n";
+
+  let total = 0;
+  let itemCount = 0;
+
+  for (const [cartKey, item] of Object.entries(cart)) {
+    const product = products.find(p => p.id === item.productId);
+    if (product) {
+      itemCount++;
+      const quantity = item.quantity;
+      const comment = item.comment || '';
+      const size = item.size || '';
+      const color = item.color || '';
+      const itemTotal = product.price * quantity;
+      total += itemTotal;
+
+      message += `\n${itemCount}. ${product.title}`;
+      if (size) message += `, Розмір: ${size}`;
+      if (color) message += `, Колір: ${color}`;
+      message += `\n   Кількість: ${quantity}`;
+      message += `\n   Ціна: ${formatPrice(product.price)} ₴`;
+      message += `\n   Сума: ${formatPrice(itemTotal)} ₴`;
+      
+      if (comment) {
+        message += `\n   📝 Коментар: ${comment}`;
+      }
+      message += `\n`;
+    }
+  }
+
+  message += `\n══════════════════════════\n`;
+  message += `*Загальна сума:* ${formatPrice(total)} ₴\n`;
+  message += `*Кількість товарів:* ${itemCount} шт.\n\n`;
+  
+  // Добавляем информацию о доставке
+  message += `*Інформація про доставку:*\n`;
+  message += `📦 Доставка: Нова Пошта / Укрпошта\n`;
+  message += `💰 Оплата: Готівкою при отриманні\n`;
+  message += `⏱️ Термін доставки: 1-3 дні\n\n`;
+  
+  message += `Для оформлення замовлення, будь ласка, вкажіть:\n`;
+  message += `1. Ваше ім'я та прізвище\n`;
+  message += `2. Місто та відділення доставки\n`;
+  message += `3. Номер телефону для зв'язку\n\n`;
+  message += `Дякуємо за замовлення! 🎉`;
+
+  // Кодируем сообщение для URL
+  const encodedMessage = encodeURIComponent(message);
+  
+  // Создаем ссылку WhatsApp
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+  
+  // Открываем WhatsApp в новом окне
+  window.open(whatsappUrl, '_blank');
+  
+  // Показываем уведомление
+  showNotification("Відкривається WhatsApp для відправки замовлення");
 }
 
 // ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ИЗМЕНЕНИЯ КОЛИЧЕСТВА В КОРЗИНЕ =====
