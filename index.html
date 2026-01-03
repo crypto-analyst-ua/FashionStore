@@ -371,7 +371,7 @@
         }
     }
 
-    /* Улучшенная анимация загрузки с адаптацией для мобильных устройств */
+    /* ⚡ УЛУЧШЕННАЯ АНИМАЦИЯ ЗАГРУЗКИ - БЫСТРАЯ И С РАЗНОЦВЕТНЫМИ ОГНЯМИ ⚡ */
     #fashion-show {
         display: none;
         position: fixed;
@@ -390,7 +390,38 @@
         box-sizing: border-box;
     }
 
-    /* Анимированный фон с частицами */
+    /* Быстрая анимированная сетка огней */
+    .lights-grid {
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        top: -50%;
+        left: -50%;
+        pointer-events: none;
+        opacity: 0.8;
+        animation: lightsGridMove 20s linear infinite;
+        background-image: 
+            radial-gradient(circle at 10% 20%, rgba(255, 64, 129, 0.3) 0%, transparent 20%),
+            radial-gradient(circle at 90% 40%, rgba(33, 150, 243, 0.3) 0%, transparent 20%),
+            radial-gradient(circle at 50% 80%, rgba(76, 175, 80, 0.3) 0%, transparent 20%),
+            radial-gradient(circle at 30% 60%, rgba(255, 193, 7, 0.3) 0%, transparent 20%),
+            radial-gradient(circle at 70% 30%, rgba(156, 39, 176, 0.3) 0%, transparent 20%),
+            radial-gradient(circle at 20% 70%, rgba(233, 30, 99, 0.3) 0%, transparent 20%),
+            radial-gradient(circle at 80% 10%, rgba(0, 188, 212, 0.3) 0%, transparent 20%),
+            radial-gradient(circle at 40% 90%, rgba(255, 152, 0, 0.3) 0%, transparent 20%);
+        background-size: 400px 400px;
+    }
+
+    @keyframes lightsGridMove {
+        0% {
+            transform: translate(0, 0);
+        }
+        100% {
+            transform: translate(200px, 200px);
+        }
+    }
+
+    /* Анимированные разноцветные частицы */
     .particles {
         position: absolute;
         width: 100%;
@@ -400,29 +431,30 @@
 
     .particle {
         position: absolute;
-        background: linear-gradient(45deg, #e91e63, #9c27b0);
         border-radius: 50%;
-        animation: float 15s infinite linear;
-        opacity: 0.7;
+        animation: particleFloat 8s infinite linear;
+        opacity: 0;
+        filter: blur(1px);
     }
 
-    @keyframes float {
+    @keyframes particleFloat {
         0% {
-            transform: translate(0, 0) rotate(0deg);
+            transform: translate(0, 0) rotate(0deg) scale(0.5);
             opacity: 0;
         }
         10% {
-            opacity: 0.7;
+            opacity: 0.8;
         }
         90% {
-            opacity: 0.7;
+            opacity: 0.8;
         }
         100% {
-            transform: translate(var(--tx), var(--ty)) rotate(360deg);
+            transform: translate(var(--tx), var(--ty)) rotate(360deg) scale(1.5);
             opacity: 0;
         }
     }
 
+    /* Основной контейнер анимации */
     .fashion-show-content {
         position: fixed;
         top: 50%;
@@ -433,42 +465,46 @@
         max-height: calc(100vh - 40px);
         overflow-y: auto;
         text-align: center;
-        padding: 30px 20px;
+        padding: 25px 15px;
         box-sizing: border-box;
-        background: rgba(25, 20, 30, 0.95);
+        background: rgba(15, 10, 20, 0.92);
         border-radius: 20px;
         box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.5),
-            0 0 80px rgba(233, 30, 99, 0.1),
-            inset 0 0 60px rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(233, 30, 99, 0.3);
-        backdrop-filter: blur(15px);
+            0 15px 35px rgba(0, 0, 0, 0.6),
+            0 0 60px rgba(233, 30, 99, 0.2),
+            inset 0 0 40px rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
         color: #ffffff;
         z-index: 2;
         -webkit-overflow-scrolling: touch;
     }
 
-    /* Анимированная рамка */
+    /* Неоновая анимированная рамка */
     .fashion-show-content::before {
         content: '';
         position: absolute;
-        top: -2px;
-        left: -2px;
-        right: -2px;
-        bottom: -2px;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
         background: linear-gradient(45deg, 
             #ff4081, #e91e63, #9c27b0, 
-            #673ab7, #3f51b5, #2196f3);
-        border-radius: 22px;
+            #673ab7, #3f51b5, #2196f3,
+            #00bcd4, #009688, #4caf50,
+            #8bc34a, #cddc39, #ffeb3b,
+            #ffc107, #ff9800, #ff5722);
+        border-radius: 23px;
         z-index: -1;
-        animation: borderGlow 3s linear infinite;
+        animation: neonBorder 3s linear infinite;
         background-size: 400% 400%;
+        filter: blur(2px);
     }
 
-    @keyframes borderGlow {
+    @keyframes neonBorder {
         0% {
             background-position: 0% 50%;
-            opacity: 0.5;
+            opacity: 0.7;
         }
         50% {
             background-position: 100% 50%;
@@ -476,70 +512,84 @@
         }
         100% {
             background-position: 0% 50%;
-            opacity: 0.5;
+            opacity: 0.7;
         }
     }
 
     .fashion-show-content h2 {
         color: #fff;
-        margin: 0 0 25px 0;
-        font-size: 32px;
+        margin: 0 0 20px 0;
+        font-size: 28px;
         font-weight: 800;
         text-shadow: 
-            0 0 20px rgba(255, 64, 129, 0.8),
-            0 0 40px rgba(233, 30, 99, 0.5);
-        background: linear-gradient(45deg, #ff4081, #e91e63, #ff4081);
+            0 0 15px rgba(255, 64, 129, 0.9),
+            0 0 30px rgba(233, 30, 99, 0.7),
+            0 0 45px rgba(156, 39, 176, 0.5);
+        background: linear-gradient(45deg, 
+            #ff4081, #e91e63, #ff4081,
+            #2196f3, #00bcd4, #4caf50,
+            #ffeb3b, #ff9800, #ff4081);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        background-size: 300% 300%;
         letter-spacing: 0.5px;
         position: relative;
-        animation: titlePulse 2s ease-in-out infinite;
-        padding: 0 10px;
+        animation: titleColorShift 2s linear infinite;
     }
 
-    @keyframes titlePulse {
-        0%, 100% {
+    @keyframes titleColorShift {
+        0% {
+            background-position: 0% 50%;
             transform: scale(1);
             text-shadow: 
-                0 0 20px rgba(255, 64, 129, 0.8),
-                0 0 40px rgba(233, 30, 99, 0.5);
+                0 0 15px rgba(255, 64, 129, 0.9),
+                0 0 30px rgba(233, 30, 99, 0.7);
         }
         50% {
-            transform: scale(1.02);
+            background-position: 100% 50%;
+            transform: scale(1.03);
             text-shadow: 
-                0 0 30px rgba(255, 64, 129, 1),
-                0 0 60px rgba(233, 30, 99, 0.7);
+                0 0 20px rgba(33, 150, 243, 0.9),
+                0 0 40px rgba(0, 188, 212, 0.7);
+        }
+        100% {
+            background-position: 0% 50%;
+            transform: scale(1);
+            text-shadow: 
+                0 0 15px rgba(255, 64, 129, 0.9),
+                0 0 30px rgba(233, 30, 99, 0.7);
         }
     }
 
+    /* Быстрая галерея товаров */
     .product-showcase {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 15px;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 12px;
         margin: 20px 0;
-        max-height: 300px;
+        max-height: 250px;
         overflow-y: auto;
-        padding: 15px;
+        padding: 12px;
         background: rgba(255, 255, 255, 0.03);
-        border-radius: 15px;
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
         -webkit-overflow-scrolling: touch;
     }
 
     .image-preview {
         position: relative;
-        border-radius: 12px;
+        border-radius: 10px;
         overflow: hidden;
         box-shadow: 
-            0 8px 20px rgba(0, 0, 0, 0.4),
-            0 0 15px rgba(233, 30, 99, 0.2);
+            0 6px 15px rgba(0, 0, 0, 0.4),
+            0 0 10px rgba(233, 30, 99, 0.2);
         background: linear-gradient(45deg, #2a2a2a, #1a1a1a);
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         opacity: 0;
-        transform: translateY(20px) scale(0.95);
-        animation: slideInUp 0.6s ease forwards;
+        transform: translateY(15px) scale(0.95);
+        animation: fastSlideIn 0.4s ease forwards;
         aspect-ratio: 1 / 1;
         border: 1px solid transparent;
     }
@@ -553,7 +603,7 @@
         bottom: 0;
         background: linear-gradient(45deg, 
             transparent, 
-            rgba(233, 30, 99, 0.1), 
+            rgba(233, 30, 99, 0.15), 
             transparent);
         z-index: 1;
         opacity: 0;
@@ -565,10 +615,10 @@
     }
 
     .image-preview:hover {
-        transform: translateY(-8px) scale(1.05);
+        transform: translateY(-5px) scale(1.05);
         box-shadow: 
-            0 15px 35px rgba(233, 30, 99, 0.4),
-            0 0 30px rgba(233, 30, 99, 0.3);
+            0 12px 25px rgba(233, 30, 99, 0.4),
+            0 0 20px rgba(233, 30, 99, 0.3);
         border-color: rgba(233, 30, 99, 0.6);
         z-index: 10;
     }
@@ -577,39 +627,39 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.8s ease, filter 0.3s ease;
+        transition: transform 0.5s ease, filter 0.3s ease;
         filter: brightness(0.9);
     }
 
     .image-preview:hover img {
-        transform: scale(1.15);
+        transform: scale(1.1);
         filter: brightness(1.1);
     }
 
-    @keyframes slideInUp {
+    @keyframes fastSlideIn {
         to {
             opacity: 1;
             transform: translateY(0) scale(1);
         }
     }
 
-    /* Прогресс-бар с градиентом и анимацией */
+    /* Быстрый прогресс-бар */
     .loading-container {
-        margin: 25px 0;
+        margin: 20px 0;
         padding: 0 10px;
         position: relative;
     }
 
     .loading-bar {
         width: 100%;
-        height: 8px;
+        height: 6px;
         background: rgba(255, 255, 255, 0.1);
-        border-radius: 4px;
+        border-radius: 3px;
         overflow: hidden;
         position: relative;
         box-shadow: 
-            inset 0 2px 8px rgba(0, 0, 0, 0.5),
-            0 4px 15px rgba(0, 0, 0, 0.3);
+            inset 0 1px 5px rgba(0, 0, 0, 0.5),
+            0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
     .loading-bar::before {
@@ -621,20 +671,20 @@
         height: 100%;
         background: linear-gradient(90deg, 
             transparent, 
-            rgba(255, 255, 255, 0.2), 
+            rgba(255, 255, 255, 0.3), 
             transparent);
-        animation: shine 2s linear infinite;
+        animation: shine 1.5s linear infinite;
     }
 
     .loading-progress {
         width: 0%;
         height: 100%;
         background: linear-gradient(90deg, 
-            #ff4081, 
-            #e91e63, 
-            #9c27b0);
-        border-radius: 4px;
-        transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            #ff4081, #e91e63, #9c27b0, 
+            #673ab7, #3f51b5, #2196f3,
+            #00bcd4, #009688, #4caf50);
+        border-radius: 3px;
+        transition: width 0.2s linear;
         position: relative;
         overflow: hidden;
     }
@@ -648,9 +698,9 @@
         height: 100%;
         background: linear-gradient(90deg, 
             transparent, 
-            rgba(255, 255, 255, 0.3), 
+            rgba(255, 255, 255, 0.5), 
             transparent);
-        animation: loadingShine 1s linear infinite;
+        animation: loadingShine 0.8s linear infinite;
     }
 
     @keyframes loadingShine {
@@ -671,9 +721,9 @@
         }
     }
 
-    /* Улучшенный таймер */
+    /* Быстрый таймер */
     .timer-container {
-        margin: 20px 0;
+        margin: 15px 0;
         position: relative;
     }
 
@@ -681,14 +731,14 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
     }
 
     .timer-circle {
-        width: 80px;
-        height: 80px;
+        width: 70px;
+        height: 70px;
         position: relative;
-        margin-bottom: 8px;
+        margin-bottom: 5px;
     }
 
     .timer-svg {
@@ -708,9 +758,9 @@
         stroke: url(#timer-gradient);
         stroke-width: 3;
         stroke-linecap: round;
-        stroke-dasharray: 226;
-        stroke-dashoffset: 226;
-        animation: timerAnimation 3s linear forwards;
+        stroke-dasharray: 198;
+        stroke-dashoffset: 198;
+        animation: fastTimerAnimation 1.5s linear forwards;
     }
 
     .timer-text {
@@ -718,26 +768,26 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 700;
         color: #fff;
-        text-shadow: 0 0 15px rgba(255, 64, 129, 0.8);
+        text-shadow: 0 0 12px rgba(255, 64, 129, 0.9);
     }
 
-    @keyframes timerAnimation {
+    @keyframes fastTimerAnimation {
         to {
             stroke-dashoffset: 0;
         }
     }
 
     .timer-subtitle {
-        font-size: 14px;
+        font-size: 13px;
         color: #aaa;
         text-align: center;
-        animation: pulse 2s ease-in-out infinite;
+        animation: fastPulse 1.5s ease-in-out infinite;
     }
 
-    @keyframes pulse {
+    @keyframes fastPulse {
         0%, 100% {
             opacity: 0.7;
             transform: scale(1);
@@ -748,24 +798,25 @@
         }
     }
 
-    /* Кнопка с 3D эффектом */
+    /* Быстрая кнопка */
     .skip-show-btn {
-        margin: 25px auto 0 auto;
-        padding: 15px 35px;
+        margin: 20px auto 0 auto;
+        padding: 12px 30px;
         background: linear-gradient(135deg, 
             #ff4081 0%, 
-            #e91e63 50%, 
-            #c2185b 100%);
+            #e91e63 30%, 
+            #9c27b0 60%,
+            #673ab7 100%);
         color: white;
         border: none;
-        border-radius: 40px;
+        border-radius: 35px;
         font-weight: 600;
         cursor: pointer;
-        font-size: 16px;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        font-size: 14px;
+        transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         box-shadow: 
-            0 8px 25px rgba(233, 30, 99, 0.4),
-            0 4px 12px rgba(0, 0, 0, 0.2),
+            0 6px 20px rgba(233, 30, 99, 0.4),
+            0 3px 10px rgba(0, 0, 0, 0.2),
             inset 0 1px 0 rgba(255, 255, 255, 0.2);
         position: relative;
         overflow: hidden;
@@ -788,21 +839,22 @@
         height: 100%;
         background: linear-gradient(90deg, 
             transparent, 
-            rgba(255, 255, 255, 0.15), 
+            rgba(255, 255, 255, 0.2), 
             transparent);
-        transition: left 0.6s ease;
+        transition: left 0.5s ease;
     }
 
     .skip-show-btn:hover {
-        transform: translateY(-3px) scale(1.03);
+        transform: translateY(-2px) scale(1.03);
         box-shadow: 
-            0 15px 40px rgba(233, 30, 99, 0.6),
-            0 8px 25px rgba(0, 0, 0, 0.3),
+            0 10px 30px rgba(233, 30, 99, 0.6),
+            0 5px 20px rgba(0, 0, 0, 0.3),
             inset 0 1px 0 rgba(255, 255, 255, 0.3);
         background: linear-gradient(135deg, 
             #ff4081 0%, 
-            #e91e63 30%, 
-            #ff4081 100%);
+            #2196f3 30%, 
+            #4caf50 60%,
+            #ff9800 100%);
     }
 
     .skip-show-btn:hover::before {
@@ -810,22 +862,22 @@
     }
 
     .skip-show-btn:active {
-        transform: translateY(-1px) scale(1.01);
+        transform: translateY(0) scale(1.01);
         transition: all 0.1s ease;
     }
 
-    /* Анимация загрузки по процентам */
+    /* Проценты загрузки */
     .loading-percentage {
         position: absolute;
-        top: -20px;
+        top: -18px;
         right: 0;
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 600;
         color: #ff4081;
-        text-shadow: 0 0 8px rgba(255, 64, 129, 0.5);
+        text-shadow: 0 0 6px rgba(255, 64, 129, 0.7);
     }
 
-    /* Анимация текста "Завантажуємо..." */
+    /* Анимация текста */
     .loading-text {
         position: relative;
         display: inline-block;
@@ -835,10 +887,10 @@
     .loading-text::after {
         content: '...';
         position: absolute;
-        animation: dots 1.5s steps(4, end) infinite;
+        animation: fastDots 1s steps(4, end) infinite;
     }
 
-    @keyframes dots {
+    @keyframes fastDots {
         0%, 20% {
             content: '.';
         }
@@ -850,103 +902,41 @@
         }
     }
 
-    /* Специальные эффекты для изображений */
+    /* Эффекты для изображений */
     .image-preview:nth-child(4n+1) {
-        animation-delay: 0.08s;
+        animation-delay: 0.05s;
     }
     
     .image-preview:nth-child(4n+2) {
-        animation-delay: 0.16s;
+        animation-delay: 0.1s;
     }
     
     .image-preview:nth-child(4n+3) {
-        animation-delay: 0.24s;
+        animation-delay: 0.15s;
     }
     
     .image-preview:nth-child(4n+4) {
-        animation-delay: 0.32s;
-    }
-
-    /* Эффект параллакса для контейнера */
-    .product-showcase:hover .image-preview {
-        transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-    
-    .product-showcase:hover .image-preview:hover {
-        transform: translateY(-8px) scale(1.08);
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation-delay: 0.2s;
     }
 
     /* ===== АДАПТИВНЫЕ СТИЛИ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ ===== */
-    /* Для планшетов и маленьких ноутбуков */
     @media (max-width: 1024px) {
         .fashion-show-content {
             width: calc(100% - 30px);
-            padding: 25px 15px;
-            max-height: calc(100vh - 30px);
-        }
-        
-        .fashion-show-content h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-        
-        .product-showcase {
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 12px;
-            max-height: 280px;
-            padding: 12px;
-        }
-        
-        .timer-circle {
-            width: 70px;
-            height: 70px;
-        }
-        
-        .timer-text {
-            font-size: 20px;
-        }
-        
-        .skip-show-btn {
-            padding: 14px 30px;
-            font-size: 15px;
-        }
-    }
-
-    /* Для мобильных устройств (планшеты вертикально и телефоны горизонтально) */
-    @media (max-width: 768px) {
-        .fashion-show-content {
-            width: calc(100% - 20px);
             padding: 20px 12px;
-            max-height: calc(100vh - 20px);
-            border-radius: 16px;
-        }
-        
-        .fashion-show-content::before {
-            border-radius: 18px;
+            max-height: calc(100vh - 30px);
         }
         
         .fashion-show-content h2 {
             font-size: 24px;
             margin-bottom: 15px;
-            padding: 0 5px;
         }
         
         .product-showcase {
             grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
             gap: 10px;
-            max-height: 220px;
+            max-height: 200px;
             padding: 10px;
-            margin: 15px 0;
-            border-radius: 12px;
-        }
-        
-        .image-preview {
-            border-radius: 10px;
-        }
-        
-        .timer-container {
-            margin: 15px 0;
         }
         
         .timer-circle {
@@ -958,46 +948,36 @@
             font-size: 18px;
         }
         
-        .timer-subtitle {
-            font-size: 13px;
-        }
-        
-        .loading-container {
-            margin: 20px 0;
-        }
-        
         .skip-show-btn {
-            padding: 12px 25px;
-            font-size: 14px;
-            border-radius: 35px;
-            margin-top: 20px;
+            padding: 10px 25px;
+            font-size: 13px;
         }
     }
 
-    /* Для маленьких телефонов */
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
         .fashion-show-content {
-            width: calc(100% - 16px);
-            padding: 16px 10px;
-            border-radius: 14px;
+            width: calc(100% - 20px);
+            padding: 15px 10px;
+            max-height: calc(100vh - 20px);
+            border-radius: 15px;
         }
         
         .fashion-show-content::before {
-            border-radius: 16px;
+            border-radius: 18px;
         }
         
         .fashion-show-content h2 {
             font-size: 20px;
             margin-bottom: 12px;
-            line-height: 1.3;
+            padding: 0 5px;
         }
         
         .product-showcase {
             grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
             gap: 8px;
-            max-height: 180px;
+            max-height: 160px;
             padding: 8px;
-            margin: 12px 0;
+            margin: 15px 0;
             border-radius: 10px;
         }
         
@@ -1005,6 +985,10 @@
             border-radius: 8px;
         }
         
+        .timer-container {
+            margin: 12px 0;
+        }
+        
         .timer-circle {
             width: 50px;
             height: 50px;
@@ -1016,54 +1000,49 @@
         
         .timer-subtitle {
             font-size: 12px;
-            gap: 6px;
         }
         
-        .loading-bar {
-            height: 6px;
+        .loading-container {
+            margin: 15px 0;
         }
         
         .skip-show-btn {
-            padding: 10px 20px;
-            font-size: 13px;
+            padding: 9px 20px;
+            font-size: 12px;
             border-radius: 30px;
             margin-top: 15px;
         }
-        
-        .skip-show-btn i {
-            margin-right: 6px;
-            font-size: 12px;
-        }
     }
 
-    /* Для очень маленьких телефонов (iPhone SE, Galaxy Fold и т.д.) */
-    @media (max-width: 360px) {
+    @media (max-width: 480px) {
         .fashion-show-content {
-            width: calc(100% - 12px);
-            padding: 14px 8px;
+            width: calc(100% - 16px);
+            padding: 12px 8px;
             border-radius: 12px;
         }
         
         .fashion-show-content::before {
-            border-radius: 14px;
+            border-radius: 15px;
         }
         
         .fashion-show-content h2 {
             font-size: 18px;
             margin-bottom: 10px;
+            line-height: 1.2;
         }
         
         .product-showcase {
             grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
             gap: 6px;
-            max-height: 150px;
+            max-height: 130px;
             padding: 6px;
             margin: 10px 0;
+            border-radius: 8px;
         }
         
         .timer-circle {
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
         }
         
         .timer-text {
@@ -1074,75 +1053,36 @@
             font-size: 11px;
         }
         
+        .loading-bar {
+            height: 5px;
+        }
+        
         .skip-show-btn {
-            padding: 9px 18px;
-            font-size: 12px;
+            padding: 8px 16px;
+            font-size: 11px;
             border-radius: 25px;
             margin-top: 12px;
         }
-        
-        .skip-show-btn i {
-            margin-right: 4px;
-            font-size: 11px;
-        }
     }
 
-    /* Для горизонтальной ориентации на мобильных устройствах */
     @media (max-height: 500px) and (orientation: landscape) {
         .fashion-show-content {
-            max-height: calc(100vh - 20px);
-            overflow-y: auto;
-        }
-        
-        .product-showcase {
-            max-height: 120px;
-            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-        }
-        
-        .fashion-show-content h2 {
-            margin-bottom: 10px;
-            font-size: 20px;
-        }
-        
-        .timer-circle {
-            width: 50px;
-            height: 50px;
-        }
-        
-        .timer-text {
-            font-size: 18px;
-        }
-        
-        .skip-show-btn {
-            margin-top: 10px;
-            padding: 8px 16px;
-            font-size: 12px;
-        }
-    }
-
-    /* Для очень маленькой высоты экрана */
-    @media (max-height: 400px) {
-        .fashion-show-content {
-            padding: 10px;
+            max-height: calc(100vh - 15px);
         }
         
         .product-showcase {
             max-height: 100px;
             grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-            gap: 5px;
-            padding: 5px;
-            margin: 8px 0;
         }
         
         .fashion-show-content h2 {
+            margin-bottom: 8px;
             font-size: 16px;
-            margin-bottom: 5px;
         }
         
         .timer-circle {
             width: 40px;
             height: 40px;
-            margin-bottom: 2px;
         }
         
         .timer-text {
@@ -1152,7 +1092,7 @@
         .skip-show-btn {
             margin-top: 8px;
             padding: 6px 12px;
-            font-size: 11px;
+            font-size: 10px;
         }
     }
 
@@ -1165,13 +1105,6 @@
         
         .product-showcase {
             -webkit-overflow-scrolling: touch;
-        }
-    }
-
-    /* Исправление для старых Android браузеров */
-    @media screen and (-webkit-min-device-pixel-ratio:0) and (max-width: 480px) {
-        .fashion-show-content {
-            transform: translate(-50%, -50%) scale(0.95);
         }
     }
 </style>
@@ -1542,8 +1475,9 @@
     </div>
 </div>
 
-    <!-- Улучшенная анимация загрузки с адаптацией для мобильных устройств -->
+    <!-- ⚡ УЛУЧШЕННАЯ БЫСТРАЯ АНИМАЦИЯ С РАЗНОЦВЕТНЫМИ ОГНЯМИ ⚡ -->
     <div id="fashion-show">
+        <div class="lights-grid"></div>
         <div class="particles" id="particles-container"></div>
         <div class="fashion-show-content">
             <h2 class="loading-text">✨ Завантажуємо наймодніші товари для вас</h2>
@@ -1566,24 +1500,26 @@
                             <defs>
                                 <linearGradient id="timer-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
                                     <stop offset="0%" stop-color="#ff4081" />
-                                    <stop offset="50%" stop-color="#e91e63" />
-                                    <stop offset="100%" stop-color="#9c27b0" />
+                                    <stop offset="25%" stop-color="#e91e63" />
+                                    <stop offset="50%" stop-color="#9c27b0" />
+                                    <stop offset="75%" stop-color="#2196f3" />
+                                    <stop offset="100%" stop-color="#4caf50" />
                                 </linearGradient>
                             </defs>
                             <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
                             <circle class="timer-progress" cx="50" cy="50" r="45"></circle>
                         </svg>
-                        <div class="timer-text" id="timer">3</div>
+                        <div class="timer-text" id="timer">2</div>
                     </div>
                     <div class="timer-subtitle">
-                        <i class="fas fa-spinner fa-spin" style="color: #e91e63; margin-right: 8px;"></i>
-                        Залишилось <span id="timer-seconds">3</span> секунди
+                        <i class="fas fa-spinner fa-spin" style="color: #ff4081; margin-right: 6px;"></i>
+                        Залишилось <span id="timer-seconds">2</span> секунди
                     </div>
                 </div>
             </div>
             
             <button onclick="closeFashionShow()" class="skip-show-btn">
-                <i class="fas fa-forward" style="margin-right: 10px;"></i>
+                <i class="fas fa-forward" style="margin-right: 8px;"></i>
                 Пропустити та перейти до товарів
             </button>
         </div>
@@ -1872,7 +1808,19 @@
             'file20.jpeg'
         ];
 
-        // Функция для показа улучшенной анимации загрузки
+        // Массив разноцветных градиентов для частиц
+        const particleColors = [
+            'linear-gradient(45deg, #ff4081, #e91e63)',
+            'linear-gradient(45deg, #2196f3, #00bcd4)',
+            'linear-gradient(45deg, #4caf50, #8bc34a)',
+            'linear-gradient(45deg, #ffeb3b, #ffc107)',
+            'linear-gradient(45deg, #9c27b0, #673ab7)',
+            'linear-gradient(45deg, #ff9800, #ff5722)',
+            'linear-gradient(45deg, #00bcd4, #009688)',
+            'linear-gradient(45deg, #cddc39, #8bc34a)'
+        ];
+
+        // Функция для показа быстрой анимации с разноцветными огнями
         function showFashionShow() {
             const fashionShow = document.getElementById('fashion-show');
             const showcase = document.getElementById('product-showcase');
@@ -1882,12 +1830,9 @@
             
             fashionShow.style.display = 'block';
             document.body.style.overflow = 'hidden';
-            document.body.style.position = 'fixed';
-            document.body.style.width = '100%';
-            document.body.style.height = '100%';
             
-            // Создаем частицы для фона
-            createParticles();
+            // Создаем разноцветные частицы для фона
+            createColorfulParticles();
             
             showcase.innerHTML = '';
             
@@ -1895,9 +1840,9 @@
             const shuffledImages = [...productShowcaseImages].sort(() => Math.random() - 0.5);
             
             // Для мобильных устройств показываем меньше изображений
-            const imagesToShow = isMobile ? shuffledImages.slice(0, 12) : shuffledImages;
+            const imagesToShow = isMobile ? shuffledImages.slice(0, 8) : shuffledImages.slice(0, 12);
             
-            // Создаем элементы для каждого изображения
+            // Быстро создаем элементы для каждого изображения
             imagesToShow.forEach((image, index) => {
                 const imageDiv = document.createElement('div');
                 imageDiv.className = 'image-preview';
@@ -1916,20 +1861,12 @@
                     "Вечірні сукни та одяг для свят - FashionStore",
                     "Діловий одяг та костюми для офісу | FashionStore",
                     "Джинси та денім - купити в Україні | FashionStore",
-                    "Домашній одяг та піжами - купити онлайн",
-                    "Купальники та пляжний одяг - купити в Україні",
-                    "Шкільний одяг та форма для дітей | FashionStore",
-                    "Весільні сукни для нареченої - купити в Україні",
-                    "Одяг для вагітних жінок - купити в Україні",
-                    "Куртки та верхній одяг - купити в Україні",
-                    "Светри та трикотаж - купити онлайн | FashionStore",
-                    "Футболки та топи - базовий одяг | FashionStore",
-                    "Сонцезахисні окуляри та аксесуари | FashionStore"
+                    "Домашній одяг та піжами - купити онлайн"
                 ];
                 
                 const altText = altTexts[index] || "Модний товар FashionStore Україна";
                 
-                // Предзагрузка изображений для лучшей производительности
+                // Быстрая предзагрузка изображений
                 const img = new Image();
                 img.src = image;
                 img.alt = altText;
@@ -1940,26 +1877,24 @@
                 showcase.appendChild(imageDiv);
             });
             
-            // Анимация прогресс-бара с процентами
+            // БЫСТРАЯ анимация прогресс-бара с процентами
             const progressBar = document.getElementById('loading-progress');
             const percentage = document.getElementById('loading-percentage');
             let progress = 0;
             
-            // Для мобильных устройств делаем анимацию быстрее
-            const speed = isMobile ? 20 : 30;
-            
+            // Для быстрой анимации используем интервал 10мс
             const progressInterval = setInterval(() => {
-                progress += 1;
+                progress += 3; // Быстрее увеличиваем прогресс
                 progressBar.style.width = `${progress}%`;
                 percentage.textContent = `${progress}%`;
                 
                 if (progress >= 100) {
                     clearInterval(progressInterval);
                 }
-            }, speed);
+            }, 20); // 3 секунды для полной загрузки (быстро!)
             
-            // Таймер
-            let timeLeft = isMobile ? 2 : 3; // На мобильных меньше время
+            // БЫСТРЫЙ таймер - всего 2 секунды
+            let timeLeft = 3;
             document.getElementById('timer').textContent = timeLeft;
             document.getElementById('timer-seconds').textContent = timeLeft;
             
@@ -1974,28 +1909,32 @@
             }, 1000);
         }
 
-        // Создание частиц для фона
-        function createParticles() {
+        // Создание разноцветных частиц для фона
+        function createColorfulParticles() {
             const particlesContainer = document.getElementById('particles-container');
             particlesContainer.innerHTML = '';
             
-            for (let i = 0; i < 50; i++) {
+            // Создаем больше частиц для эффекта огней
+            for (let i = 0; i < 80; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 
                 // Случайные параметры частиц
-                const size = Math.random() * 10 + 2;
-                const tx = (Math.random() * 200 - 100) + 'vw';
-                const ty = (Math.random() * 200 - 100) + 'vh';
+                const size = Math.random() * 12 + 3;
+                const tx = (Math.random() * 300 - 150) + 'vw';
+                const ty = (Math.random() * 300 - 150) + 'vh';
+                const color = particleColors[Math.floor(Math.random() * particleColors.length)];
                 
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 particle.style.left = `${Math.random() * 100}%`;
                 particle.style.top = `${Math.random() * 100}%`;
+                particle.style.background = color;
                 particle.style.setProperty('--tx', tx);
                 particle.style.setProperty('--ty', ty);
-                particle.style.animationDelay = `${Math.random() * 15}s`;
-                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                particle.style.animationDuration = `${Math.random() * 6 + 4}s`; // Быстрее анимация
+                particle.style.filter = `blur(${Math.random() * 2}px)`;
                 
                 particlesContainer.appendChild(particle);
             }
@@ -2006,9 +1945,6 @@
             const fashionShow = document.getElementById('fashion-show');
             fashionShow.style.display = 'none';
             document.body.style.overflow = 'auto';
-            document.body.style.position = '';
-            document.body.style.width = '';
-            document.body.style.height = '';
             
             clearInterval(timerInterval);
             
@@ -2056,18 +1992,18 @@
                     fileName = 'all';
             }
             
-            // Показываем улучшенную анимацию с фото товаров перед загрузкой
+            // Показываем БЫСТРУЮ анимацию с фото товаров перед загрузкой
             showFashionShow();
             
             // Вызываем существующую функцию загрузки товаров
             if (typeof window.switchSource === 'function') {
                 setTimeout(() => {
                     window.switchSource(fileName);
-                    // Автоматически закрываем анимацию через 3 секунды
+                    // Автоматически закрываем анимацию через 2 секунды (быстрее!)
                     setTimeout(() => {
                         closeFashionShow();
-                    }, 3000);
-                }, 500);
+                    }, 2000);
+                }, 300);
             }
         }
         
@@ -2078,7 +2014,7 @@
         // Переопределяем функцию switchSource для обновления активной карточки
         if (typeof originalSwitchSource === 'function') {
             window.switchSource = function(fileName) {
-                // Показываем улучшенную анимацию с фото товаров перед загрузкой
+                // Показываем БЫСТРУЮ анимацию с фото товаров перед загрузкой
                 showFashionShow();
                 
                 // Вызываем оригинальную функцию
@@ -2118,10 +2054,10 @@
                     selectedCard.setAttribute('aria-selected', 'true');
                 }
                 
-                // Автоматически закрываем анимацию через 3 секунды
+                // Автоматически закрываем анимацию через 2 секунды (быстрее!)
                 setTimeout(() => {
                     closeFashionShow();
-                }, 3000);
+                }, 2000);
             }
         }
         
@@ -2166,38 +2102,25 @@
                 }
             }
             
-            // Показываем улучшенную анимацию с фото товаров при первой загрузке товаров
+            // Показываем БЫСТРУЮ анимацию с фото товаров при первой загрузке товаров
             const productGrid = document.getElementById('product-grid');
             if (productGrid && productGrid.querySelector('.skeleton-item')) {
                 setTimeout(() => {
                     showFashionShow();
-                    // Автоматически закрываем через 3 секунды
+                    // Автоматически закрываем через 2 секунды (быстрее!)
                     setTimeout(() => {
                         closeFashionShow();
-                    }, 3000);
-                }, 1000);
+                    }, 2000);
+                }, 800);
             }
-            
-            // Проверяем существование изображений
-            setTimeout(() => {
-                if (typeof productShowcaseImages !== 'undefined' && productShowcaseImages.length > 0) {
-                    // Проверяем первое изображение
-                    const img = new Image();
-                    img.onload = function() {
-                        console.log('Изображения загружаются корректно.');
-                    };
-                    img.onerror = function() {
-                        console.warn('Некоторые изображения не найдены. Убедитесь, что файлы file1.jpeg - file20.jpeg находятся в корне сайта.');
-                    };
-                    img.src = productShowcaseImages[0];
-                }
-            }, 2000);
         });
 
         // Функция для предзагрузки изображений товаров
         function preloadProductImages() {
             if (typeof productShowcaseImages !== 'undefined') {
-                productShowcaseImages.forEach(image => {
+                // Предзагружаем только первые несколько для скорости
+                const imagesToPreload = productShowcaseImages.slice(0, 8);
+                imagesToPreload.forEach(image => {
                     const img = new Image();
                     img.src = image;
                 });
