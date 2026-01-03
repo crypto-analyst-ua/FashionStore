@@ -84,7 +84,7 @@
                     "@id": "https://fashionstore-ua.web.app/#website",
                     "url": "https://fashionstore-ua.web.app/",
                     "name": "FashionStore",
-                    "description": "Інтернет-магазин одягу, взуття та аксесуарів",
+                    "description": "Інтернет  магазин одягу, взуття та аксесуарів",
                     "publisher": {
                         "@id": "https://fashionstore-ua.web.app/#organization"
                     },
@@ -98,7 +98,7 @@
                     "@type": "Store",
                     "@id": "https://fashionstore-ua.web.app/#store",
                     "name": "FashionStore",
-                    "description": "Інтернет-магазин модного одягу, взуття та аксесуарів в Україні. Одежа для жінок, чоловіків та дітей, взуття, сумки, аксесуари. Новинки сезону, акції та знижки. Безкоштовна доставка від 4000 гривень через 'Нову Пошту'.",
+                    "description": "Інтернет  магазин модного одягу, взуття та аксесуарів в Україні. Одежа для жінок, чоловіків та дітей, взуття, сумки, аксесуари. Новинки сезону, акції та знижки. Безкоштовна доставка від 4000 гривень через 'Нову Пошту'.",
                     "url": "https://fashionstore-ua.web.app/",
                     "telephone": "+380684296978",
                     "address": {
@@ -206,6 +206,30 @@
     .contact-info a i {
         margin: 0;
     }
+    
+    /* Стили для кнопок WhatsApp */
+    .btn-whatsapp {
+        background-color: #25D366;
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-whatsapp:hover {
+        background-color: #128C7E;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(37, 211, 102, 0.3);
+    }
+    
+    .btn-whatsapp-header {
+        background-color: #25D366;
+        color: white;
+    }
+    
+    .btn-whatsapp-header:hover {
+        background-color: #128C7E;
+    }
+    
     /* Для мобильных устройств */
     @media (max-width: 768px) {
         .contact-info {
@@ -215,6 +239,10 @@
             width: 36px;
             height: 36px;
             font-size: 18px;
+        }
+        
+        .btn-whatsapp-header .btn-text {
+            display: none;
         }
     }
 
@@ -599,6 +627,12 @@
                 <button onclick="promptAdminPassword()" class="btn btn-admin" id="admin-access-btn" style="display: none;">
                     <i class="fas fa-crown" aria-hidden="true"></i> 
                     <span class="btn-text">Адмін</span>
+                </button>
+                
+                <!-- Добавленная кнопка WhatsApp помощи -->
+                <button onclick="openWhatsAppConsultation()" class="btn btn-whatsapp-header" aria-label="Консультація в WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                    <span class="btn-text">Допомога</span>
                 </button>
                 
                 <button onclick="openCart()" class="btn btn-cart" aria-label="Кошик товарів">
@@ -1016,6 +1050,18 @@
         <img id="page-views" alt="Page Views" style="display: block; margin: 10px auto;"/>
     </div>
 
+<!-- Плаваюча кнопка WhatsApp -->
+<div class="whatsapp-float">
+    <a href="https://wa.me/380684296978?text=Вітаю!%20Допоможіть,%20будь%20ласка,%20з%20вибором%20товару%20в%20FashionStore" 
+       target="_blank" 
+       rel="noopener"
+       aria-label="Написати в WhatsApp"
+       title="Консультація в WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-text">Допомога з вибором</span>
+    </a>
+</div>
+
     <footer>
         <div class="footer-section">
             <h4>Допомога</h4>
@@ -1216,6 +1262,124 @@
             'file19.jpeg',
             'file20.jpeg'
         ];
+
+        // WhatsApp функции
+        function whatsAppOrder(product) {
+            const phone = '380684296978';
+            const message = `Добрий день! Хочу замовити товар з FashionStore:%0A%0A` +
+                           `📦 *Товар:* ${product.name}%0A` +
+                           `💰 *Ціна:* ${product.price} грн%0A` +
+                           `🔗 *Посилання:* ${window.location.origin}/product.html?id=${product.id}%0A%0A` +
+                           `Мої дані:%0A` +
+                           `👤 Ім'я: _____%0A` +
+                           `📞 Телефон: _____%0A` +
+                           `📍 Місто: _____%0A` +
+                           `🏪 Відділення Нової Пошти: _____%0A%0A` +
+                           `💬 Коментар до замовлення: _____`;
+            
+            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+            
+            // Отслеживание для аналитики
+            trackWhatsAppClick('order');
+        }
+
+        function whatsAppCartOrder() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            if (cart.length === 0) {
+                alert('Кошик порожній');
+                return;
+            }
+            
+            const phone = '380684296978';
+            let message = `🛍️ *ЗАМОВЛЕННЯ З КОШИКА FASHIONSTORE*%0A%0A`;
+            
+            let total = 0;
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.name}%0A`;
+                message += `   Кількість: ${item.quantity} шт.%0A`;
+                message += `   Ціна: ${item.price} грн%0A%0A`;
+                total += item.price * item.quantity;
+            });
+            
+            message += `💰 *Разом:* ${total} грн%0A%0A`;
+            message += `👤 *Мої дані:*%0A`;
+            message += `Ім'я: _____%0A`;
+            message += `Телефон: _____%0A`;
+            message += `Місто: _____%0A`;
+            message += `Відділення Нової Пошти: _____%0A%0A`;
+            message += `💬 *Коментар:* _____%0A%0A`;
+            message += `💳 *Спосіб оплати:*%0A`;
+            message += `[ ] Накладений платіж (від 300 грн)%0A`;
+            message += `[ ] Передоплата на карту%0A`;
+            message += `[ ] Інше: _____`;
+            
+            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+            
+            // Отслеживание для аналитики
+            trackWhatsAppClick('cart_order');
+        }
+
+        function openWhatsAppConsultation() {
+            const phone = '380684296978';
+            const message = `👋 Добрий день! Потрібна консультація з вибору товару в FashionStore.%0A%0A` +
+                           `Мене цікавить:%0A` +
+                           `[ ] Жіночий одяг%0A` +
+                           `[ ] Чоловічий одяг%0A` +
+                           `[ ] Дитячий одяг%0A` +
+                           `[ ] Взуття%0A` +
+                           `[ ] Аксесуари%0A%0A` +
+                           `Бюджет: _____ грн%0A` +
+                           `Розмір: _____%0A` +
+                           `Колір: _____%0A%0A` +
+                           `Дякую!`;
+            
+            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+            
+            // Отслеживание для аналитики
+            trackWhatsAppClick('consultation');
+        }
+
+        function quickWhatsAppOrder(productId, productName, productPrice) {
+            const phone = '380684296978';
+            const message = `🚀 *ШВИДКЕ ЗАМОВЛЕННЯ FASHIONSTORE*%0A%0A` +
+                           `Я хочу швидко замовити:%0A` +
+                           `📦 ${productName}%0A` +
+                           `💰 ${productPrice} грн%0A%0A` +
+                           `Мій телефон для зв'язку: _____%0A` +
+                           `✅ Готов(а) оплатити замовлення`;
+            
+            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+            
+            if (typeof closeModal === 'function') {
+                closeModal();
+            }
+            
+            // Отслеживание для аналитики
+            trackWhatsAppClick('quick_order');
+        }
+
+        function trackWhatsAppClick(type) {
+            const stats = JSON.parse(localStorage.getItem('whatsappStats') || '{"clicks": 0, "orders": 0, "consultations": 0}');
+            
+            if (type === 'consultation') {
+                stats.consultations = (stats.consultations || 0) + 1;
+            } else if (type === 'order' || type === 'quick_order' || type === 'cart_order') {
+                stats.orders = (stats.orders || 0) + 1;
+            }
+            
+            stats.clicks = (stats.clicks || 0) + 1;
+            stats.lastClick = new Date().toISOString();
+            
+            localStorage.setItem('whatsappStats', JSON.stringify(stats));
+            
+            // Отправка в Google Analytics если есть
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'whatsapp_click', {
+                    'event_category': 'engagement',
+                    'event_label': type
+                });
+            }
+        }
 
         // Функция для показа анимации загрузки с фото товаров
         function showFashionShow() {
@@ -1478,6 +1642,16 @@
                     img.src = productShowcaseImages[0];
                 }
             }, 2000);
+            
+            // Инициализация WhatsApp статистики
+            if (!localStorage.getItem('whatsappStats')) {
+                localStorage.setItem('whatsappStats', JSON.stringify({
+                    clicks: 0,
+                    orders: 0,
+                    consultations: 0,
+                    firstClick: new Date().toISOString()
+                }));
+            }
         });
 
         // Функция для предзагрузки изображений товаров
@@ -1502,6 +1676,83 @@
             console.log('4. В разделе "Улучшения" → "Изображения" проверьте статус изображений');
             console.log('5. Отправьте sitemap-images.xml в разделе "Sitemaps"');
         }
+        
+        // Функция для отображения WhatsApp статистики (для админа)
+        function showWhatsAppStats() {
+            const stats = JSON.parse(localStorage.getItem('whatsappStats') || '{}');
+            alert(`Статистика WhatsApp:\n\n` +
+                  `Всего кликов: ${stats.clicks || 0}\n` +
+                  `Заказов: ${stats.orders || 0}\n` +
+                  `Консультаций: ${stats.consultations || 0}\n` +
+                  `Первый клик: ${stats.firstClick ? new Date(stats.firstClick).toLocaleDateString() : 'нет данных'}\n` +
+                  `Последний клик: ${stats.lastClick ? new Date(stats.lastClick).toLocaleDateString() : 'нет данных'}`);
+        }
     </script>
+    
+    <style>
+        /* Дополнительные стили для плавающей кнопки WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .whatsapp-float a {
+            display: flex;
+            align-items: center;
+            background-color: #25D366;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+            animation: pulse-whatsapp 2s infinite;
+        }
+        
+        .whatsapp-float a:hover {
+            background-color: #128C7E;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+        
+        .whatsapp-float i {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .whatsapp-text {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        @keyframes pulse-whatsapp {
+            0% { box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+            50% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.6); }
+            100% { box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+        }
+        
+        /* Адаптивность для плавающей кнопки */
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .whatsapp-float a {
+                padding: 10px 15px;
+            }
+            
+            .whatsapp-text {
+                display: none;
+            }
+            
+            .whatsapp-float i {
+                margin-right: 0;
+                font-size: 28px;
+            }
+        }
+    </style>
 </body>
 </html>
