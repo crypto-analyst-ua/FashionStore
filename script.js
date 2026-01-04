@@ -37,7 +37,6 @@ const FEED_UPDATE_TIME_KEY = "fashionstore_feed_update";
 const VIEW_MODE_KEY = "fashionstore_view_mode";
 const ADMINS_STORAGE_KEY = "fashionstore_admins";
 const WHATSAPP_NUMBER = "380684296978"; // Замените на ваш номер телефона
-const TELEGRAM_USERNAME = "Voanarhes"; // Замените на ваш username Telegram
 
 // ===== СЛОВНИК ПЕРЕКЛАДУ КАТЕГОРІЙ ДЛЯ FASHION STORE =====
 const categoryTranslations = {
@@ -2464,7 +2463,7 @@ function openPrivacyModal() {
     <button class="modal-close" onclick="closeModal()" aria-label="Закрити"><i class="fas fa-times" aria-hidden="true"></i></button>
     <h3>Політика конфіденційності</h3>
     <div class="privacy-content">
-      <p>Ми поважаємо вашу конфіденцільність та прагнемо захистити вашу персональну інформацію.</p>
+      <p>Ми поважаємо вашу конфіденційність та прагнемо захистити вашу персональну інформацію.</p>
       
       <h4>1. Яку інформацію ми збираємо</h4>
       <p>1.1. Інформацію, яку ви надаєте при реєстрації: ім'я, email, телефон.</p>
@@ -2712,9 +2711,9 @@ function addGoogleAuthStyles() {
   document.head.appendChild(style);
 }
 
-// ===== ДОБАВЛЯЕМ СТИЛИ ДЛЯ КНОПОК WHATSAPP И TELEGRAM =====
+// ===== ДОБАВЛЯЕМ СТИЛИ ДЛЯ КНОПКИ WHATSAPP =====
 
-function addMessengerButtonsStyles() {
+function addWhatsAppButtonStyles() {
   const style = document.createElement('style');
   style.textContent = `
     .btn-whatsapp {
@@ -2733,23 +2732,7 @@ function addMessengerButtonsStyles() {
       box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
     }
     
-    .btn-telegram {
-      background-color: #0088cc;
-      color: white;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    
-    .btn-telegram:hover {
-      background-color: #0077b5;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
-    }
-    
-    .btn-whatsapp i, .btn-telegram i {
+    .btn-whatsapp i {
       font-size: 18px;
     }
     
@@ -2765,7 +2748,7 @@ function addMessengerButtonsStyles() {
         flex-direction: column;
       }
       
-      .btn-whatsapp, .btn-telegram, .btn-buy {
+      .btn-whatsapp, .btn-buy {
         width: 100%;
         padding: 12px;
         font-size: 16px;
@@ -2775,12 +2758,10 @@ function addMessengerButtonsStyles() {
     @media (min-width: 769px) {
       .cart-action-buttons {
         flex-direction: row;
-        flex-wrap: wrap;
       }
       
-      .btn-whatsapp, .btn-telegram, .btn-buy {
+      .btn-whatsapp, .btn-buy {
         flex: 1;
-        min-width: 150px;
       }
     }
     
@@ -2791,22 +2772,11 @@ function addMessengerButtonsStyles() {
       100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
     }
     
-    /* Анимация для кнопки Telegram */
-    @keyframes pulse-telegram {
-      0% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(0, 136, 204, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0); }
-    }
-    
     .btn-whatsapp {
       animation: pulse-whatsapp 2s infinite;
     }
     
-    .btn-telegram {
-      animation: pulse-telegram 2s infinite 0.5s;
-    }
-    
-    .btn-whatsapp:hover, .btn-telegram:hover {
+    .btn-whatsapp:hover {
       animation: none;
     }
   `;
@@ -3049,8 +3019,8 @@ function initApp() {
   // Добавляем стили для Google Auth
   addGoogleAuthStyles();
   
-  // Добавляем стили для кнопок WhatsApp и Telegram
-  addMessengerButtonsStyles();
+  // Добавляем стили для кнопки WhatsApp
+  addWhatsAppButtonStyles();
   
   // Инициализация голосового поиска ДО добавления кнопок
   initVoiceSearch();
@@ -4532,9 +4502,6 @@ function openCart() {
           <button class="btn btn-whatsapp" onclick="orderViaWhatsApp()">
             <i class="fab fa-whatsapp"></i> Замовити через WhatsApp
           </button>
-          <button class="btn btn-telegram" onclick="orderViaTelegram()">
-            <i class="fab fa-telegram"></i> Замовити через Telegram
-          </button>
         </div>
       </div>
     `;
@@ -4609,74 +4576,6 @@ function orderViaWhatsApp() {
   
   // Показываем уведомление
   showNotification("Відкривається WhatsApp для відправки замовлення");
-}
-
-// ===== ФУНКЦИЯ ЗАКАЗА ЧЕРЕЗ TELEGRAM =====
-function orderViaTelegram() {
-  if (Object.keys(cart).length === 0) {
-    showNotification("Кошик порожній", "error");
-    return;
-  }
-
-  // Формируем сообщение для Telegram
-  let message = "🛍️ *Нове замовлення з FashionStore* 🛍️\n\n";
-  message += "*Замовлення:*\n";
-
-  let total = 0;
-  let itemCount = 0;
-
-  for (const [cartKey, item] of Object.entries(cart)) {
-    const product = products.find(p => p.id === item.productId);
-    if (product) {
-      itemCount++;
-      const quantity = item.quantity;
-      const comment = item.comment || '';
-      const size = item.size || '';
-      const color = item.color || '';
-      const itemTotal = product.price * quantity;
-      total += itemTotal;
-
-      message += `\n${itemCount}. ${product.title}`;
-      if (size) message += `, Розмір: ${size}`;
-      if (color) message += `, Колір: ${color}`;
-      message += `\n   Кількість: ${quantity}`;
-      message += `\n   Ціна: ${formatPrice(product.price)} ₴`;
-      message += `\n   Сума: ${formatPrice(itemTotal)} ₴`;
-      
-      if (comment) {
-        message += `\n   📝 Коментар: ${comment}`;
-      }
-      message += `\n`;
-    }
-  }
-
-  message += `\n══════════════════════════\n`;
-  message += `*Загальна сума:* ${formatPrice(total)} ₴\n`;
-  message += `*Кількість товарів:* ${itemCount} шт.\n\n`;
-  
-  // Добавляем информацию о доставке
-  message += `*Інформація про доставку:*\n`;
-  message += `📦 Доставка: Нова Пошта / Укрпошта\n`;
-  message += `💰 Оплата: Готівкою при отриманні\n`;
-  message += `⏱️ Термін доставки: 1-3 дні\n\n`;
-  
-  message += `Для оформлення замовлення, будь ласка, вкажіть:\n`;
-  message += `1. Ваше ім'я та прізвище\n`;
-  message += `2. Місто та відділення доставки\n`;
-  message += `3. Номер телефону для зв'язку\n\n`;
-  message += `Дякуємо за замовлення! 🎉`;
-
-  // Кодируем сообщение для URL
-  const encodedMessage = encodeURIComponent(message);
-  
-  // Создаем ссылку Telegram
-  const telegramUrl = `https://t.me/${TELEGRAM_USERNAME}?text=${encodedMessage}`;
-  
-  // Открываем Telegram в новом окне
-  window.open(telegramUrl, '_blank');
-  
-  // Показываем уведомление
-  showNotification("Відкривається Telegram для відправки замовлення");
 }
 
 // ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ИЗМЕНЕНИЯ КОЛИЧЕСТВА В КОРЗИНЕ =====
@@ -5204,9 +5103,7 @@ function sendOrderEmail(orderId, order) {
       const comment = item.comment || '';
       const size = item.size || '';
       const color = item.color || '';
-      const itemTotal = product.price * quantity;
-      total += itemTotal;
-
+      
       itemsList += `
         <tr>
           <td>${product.title}</td>
@@ -5214,7 +5111,7 @@ function sendOrderEmail(orderId, order) {
           <td>${color || '-'}</td>
           <td>${quantity}</td>
           <td>${formatPrice(product.price)} ₴</td>
-          <td>${formatPrice(itemTotal)} ₴</td>
+          <td>${formatPrice(product.price * quantity)} ₴</td>
         </tr>
         ${comment ? `
         <tr>
@@ -7522,7 +7419,186 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-// Запуск приложения
-document.addEventListener('DOMContentLoaded', function () {
+// ===== ФУНКЦИЯ ОТКРЫТИЯ ИЗОБРАЖЕНИЯ НА ВЕСЬ ЭКРАН =====
+function openFullscreenImage(imageUrl) {
+  const modalContent = document.getElementById("modal-content");
+
+  modalContent.innerHTML = `
+    <button class="modal-close" onclick="closeModal()" aria-label="Закрити">
+      <i class="fas fa-times" aria-hidden="true"></i>
+    </button>
+    <div class="fullscreen-image-container">
+      <img src="${imageUrl}" alt="Зображення товару" class="fullscreen-image" id="fullscreen-img">
+      <div class="image-actions">
+        <button class="btn" onclick="zoomImage(1.2)">
+          <i class="fas fa-search-plus"></i>
+        </button>
+        <button class="btn" onclick="zoomImage(0.8)">
+          <i class="fas fa-search-minus"></i>
+        </button>
+        <button class="btn" onclick="resetImageZoom()">
+          <i class="fas fa-sync-alt"></i>
+        </button>
+        <button class="btn" onclick="downloadImage('${imageUrl}')">
+          <i class="fas fa-download"></i>
+        </button>
+      </div>
+    </div>
+  `;
+
+  openModal();
+}
+
+// Функция зума изображения
+function zoomImage(factor) {
+  const img = document.getElementById('fullscreen-img');
+  if (!img) return;
+
+  const currentScale = parseFloat(img.style.transform.replace('scale(', '').replace(')', '')) || 1;
+  const newScale = currentScale * factor;
+
+  // Ограничиваем масштаб
+  if (newScale < 0.5 || newScale > 3) return;
+
+  img.style.transform = `scale(${newScale})`;
+  img.style.transition = 'transform 0.3s ease';
+}
+
+// Сброс зума
+function resetImageZoom() {
+  const img = document.getElementById('fullscreen-img');
+  if (img) {
+    img.style.transform = 'scale(1)';
+    img.style.transition = 'transform 0.3s ease';
+  }
+}
+
+// Скачивание изображения
+function downloadImage(imageUrl) {
+  const link = document.createElement('a');
+  link.href = imageUrl;
+  link.download = 'fashionstore-product.jpg';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  showNotification('Зображення завантажується...');
+}
+
+// Стили для полноэкранного просмотра изображения
+function addFullscreenImageStyles() {
+  const styleId = 'fullscreen-image-styles';
+  if (document.getElementById(styleId)) return;
+
+  const style = document.createElement('style');
+  style.id = styleId;
+  style.textContent = `
+    .fullscreen-image-container {
+      width: 100%;
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .fullscreen-image {
+      max-width: 95%;
+      max-height: 85vh;
+      object-fit: contain;
+      cursor: pointer;
+      border-radius: 8px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+    
+    .fullscreen-image:hover {
+      transform: scale(1.02);
+    }
+    
+    .image-actions {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50px;
+      margin: 0 auto;
+      width: fit-content;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+    }
+    
+    .image-actions .btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border: 1px solid #ddd;
+      font-size: 18px;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .image-actions .btn:hover {
+      background: #007bff;
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+    }
+    
+    @media (max-width: 768px) {
+      .fullscreen-image {
+        max-width: 100%;
+        max-height: 80vh;
+      }
+      
+      .image-actions {
+        bottom: 10px;
+        padding: 10px;
+      }
+      
+      .image-actions .btn {
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+      }
+    }
+    
+    /* Анимация появления */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    .fullscreen-image-container {
+      animation: fadeIn 0.3s ease;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// Глобальные переменные для улучшенного поиска
+let searchIndexReady = false;
+let searchLoading = false;
+
+let searchTimeout = null;
+const searchCache = new Map();
+const MAX_CACHE_SIZE = 100;
+const MAX_SEARCH_RESULTS = 1000;
+const ENHANCED_DEBOUNCE_DELAY = 200;
+const SEARCH_HISTORY_KEY = "fashionstore_search_history";
+const MAX_SEARCH_HISTORY = 10;
+
+// Инициализация при загрузке страницы
+document.addEventListener("DOMContentLoaded", function () {
   initApp();
 });
