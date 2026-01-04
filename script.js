@@ -36,7 +36,7 @@ const FEED_URL_KEY = "fashionstore_feed_url";
 const FEED_UPDATE_TIME_KEY = "fashionstore_feed_update";
 const VIEW_MODE_KEY = "fashionstore_view_mode";
 const ADMINS_STORAGE_KEY = "fashionstore_admins";
-const WHATSAPP_NUMBER = "+380684296978"; // Замените на ваш номер телефона
+const WHATSAPP_NUMBER = "380684296978"; // Замените на ваш номер телефона
 
 // ===== СЛОВНИК ПЕРЕКЛАДУ КАТЕГОРІЙ ДЛЯ FASHION STORE =====
 const categoryTranslations = {
