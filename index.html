@@ -773,6 +773,176 @@
             font-size: 14px;
         }
     }
+
+    /* Стили для тонкого баннера возврата товара */
+    .return-banner {
+        background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+        color: #ffffff;
+        padding: 8px 15px;
+        border-radius: 6px;
+        text-align: left;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        animation: fadeInReturn 0.6s ease-out;
+        font-size: 0.85rem;
+        line-height: 1.3;
+    }
+
+    .return-banner-content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .return-banner-icon {
+        font-size: 1.2rem;
+        background: rgba(255, 255, 255, 0.2);
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .return-banner-text {
+        flex: 1;
+    }
+
+    .return-banner strong {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 2px;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    }
+
+    .return-banner span {
+        display: block;
+        font-size: 0.8rem;
+        opacity: 0.95;
+        line-height: 1.2;
+    }
+
+    .return-banner a {
+        color: #e0f7fa;
+        text-decoration: underline;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        font-size: 0.8rem;
+    }
+
+    .return-banner a:hover {
+        color: #ffffff;
+        text-decoration: none;
+    }
+
+    .return-banner-close {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+        font-size: 0.8rem;
+        padding: 0;
+    }
+
+    .return-banner-close:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
+    }
+
+    /* Анимации для баннера возврата */
+    @keyframes fadeInReturn {
+        from {
+            opacity: 0;
+            transform: translateY(-5px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Адаптивность для баннера возврата */
+    @media (max-width: 768px) {
+        .return-banner {
+            padding: 6px 12px;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+        }
+        
+        .return-banner-content {
+            gap: 8px;
+        }
+        
+        .return-banner-icon {
+            width: 24px;
+            height: 24px;
+            font-size: 1rem;
+        }
+        
+        .return-banner strong {
+            font-size: 0.85rem;
+        }
+        
+        .return-banner span {
+            font-size: 0.75rem;
+        }
+        
+        .return-banner-close {
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .return-banner {
+            padding: 5px 10px;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+        }
+        
+        .return-banner-content {
+            flex-direction: row;
+            text-align: left;
+            gap: 6px;
+        }
+        
+        .return-banner-icon {
+            width: 22px;
+            height: 22px;
+            font-size: 0.9rem;
+        }
+        
+        .return-banner strong {
+            font-size: 0.8rem;
+        }
+        
+        .return-banner span {
+            font-size: 0.7rem;
+        }
+        
+        .return-banner-close {
+            width: 16px;
+            height: 16px;
+            font-size: 0.65rem;
+        }
+    }
 </style>
 
     <!-- CSS and Scripts -->
@@ -950,7 +1120,24 @@
 
         <section role="main">
             <div class="products-header">
-                <h1 id="products-title">Модний одяг, взуття та аксесуари - купити в Україні з доставкою</h1>
+                <!-- Баннер с информацией о возврате (тонкий) -->
+                <div class="return-banner">
+                    <div class="return-banner-content">
+                        <div class="return-banner-icon">
+                            <i class="fas fa-undo-alt"></i>
+                        </div>
+                        <div class="return-banner-text">
+                            <strong>Повернення та обмін товару протягом 14 днів</strong>
+                            <span>Згідно з законодавством України. <a href="Conditions for Returns.html" target="_blank" rel="noopener noreferrer">Детальніше про умови повернення</a></span>
+                        </div>
+                        <button class="return-banner-close" onclick="closeReturnBanner()" aria-label="Закрити баннер">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Заголовок теперь с SEO-ключевыми словами -->
+                <h1 id="products-title" style="margin-top: 10px;">Купити одяг, взуття та аксесуари в Україні з доставкою | FashionStore</h1>
                 
                 <!-- Карточки категорий вместо кнопок -->
                 <div class="category-cards" role="tablist">
@@ -1277,7 +1464,7 @@
        aria-label="Написати в WhatsApp"
        title="Консультація в WhatsApp">
         <i class="fab fa-whatsapp"></i>
-        <span class="whatsapp-text">Допомога з вибором</span>
+        <span class="whatsapp-text">Допомога</span>
     </a>
 </div>
 
@@ -1819,6 +2006,16 @@
             }
         }
         
+        // Функция для закрытия баннера возврата товара
+        function closeReturnBanner() {
+            const banner = document.querySelector('.return-banner');
+            if (banner) {
+                banner.style.display = 'none';
+                // Сохраняем в localStorage, что баннер закрыт
+                localStorage.setItem('returnBannerClosed', 'true');
+            }
+        }
+        
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
             initCategoryCards();
@@ -1830,6 +2027,15 @@
             const isBannerClosed = localStorage.getItem('adBannerClosed');
             if (isBannerClosed) {
                 const banner = document.getElementById('ad-banner');
+                if (banner) {
+                    banner.style.display = 'none';
+                }
+            }
+            
+            // Проверяем, не закрыт ли баннер возврата товара
+            const isReturnBannerClosed = localStorage.getItem('returnBannerClosed');
+            if (isReturnBannerClosed) {
+                const banner = document.querySelector('.return-banner');
                 if (banner) {
                     banner.style.display = 'none';
                 }
