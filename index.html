@@ -388,6 +388,45 @@
         background-color: rgba(0, 0, 0, 0.7);
     }
 
+    /* Стили для баннера "Найнижча ціна" */
+    .price-banner {
+        background: linear-gradient(135deg, #e91e63, #c2185b);
+        color: #ffffff;
+        padding: 12px 18px;
+        border-radius: 10px;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        margin: 0 20px 15px 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .price-banner strong {
+        display: block;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .price-banner span {
+        display: block;
+        font-size: 14px;
+        margin-top: 4px;
+        opacity: 0.95;
+    }
+
+    /* Мобільна адаптація для баннера "Найнижча ціна" */
+    @media (max-width: 480px) {
+        .price-banner {
+            padding: 10px 12px;
+            margin: 0 15px 10px 15px;
+        }
+        .price-banner strong {
+            font-size: 14px;
+        }
+        .price-banner span {
+            font-size: 12px;
+        }
+    }
+
     @keyframes fadeIn {
         from {
             opacity: 0;
@@ -657,6 +696,12 @@
     <div id="ad-banner" class="ad-banner">
         <img src="file_00000000364c72439a4b7a15eaab1d04.png" alt="Безпечна покупка в магазині одягу та взуття">
         <button class="ad-banner-close" onclick="closeAdBanner()" aria-label="Закрити банер">×</button>
+    </div>
+
+    <!-- Рекламний банер - Найнижча ціна -->
+    <div class="price-banner">
+        <strong>Найнижча ціна без посередників</strong>
+        <span>Ми працюємо напряму з постачальниками — дешевше в інтернеті ви не знайдете.</span>
     </div>
 
     <!-- Breadcrumb Navigation -->
