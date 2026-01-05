@@ -388,42 +388,204 @@
         background-color: rgba(0, 0, 0, 0.7);
     }
 
-    /* Стили для баннера "Найнижча ціна" */
+    /* Улучшенные стили для баннера "Найнижча ціна" */
     .price-banner {
-        background: linear-gradient(135deg, #e91e63, #c2185b);
+        background: linear-gradient(135deg, 
+            #ff416c 0%, 
+            #e91e63 25%, 
+            #ff4b2b 50%, 
+            #e91e63 75%, 
+            #ff416c 100%);
+        background-size: 300% 300%;
         color: #ffffff;
-        padding: 12px 18px;
-        border-radius: 10px;
+        padding: 18px 25px;
+        border-radius: 15px;
         text-align: center;
-        font-family: Arial, sans-serif;
-        margin: 0 20px 15px 20px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        margin: 0 20px 20px 20px;
+        box-shadow: 0 8px 25px rgba(233, 30, 99, 0.25);
+        position: relative;
+        overflow: hidden;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        animation: gradientFlow 8s ease infinite, floatBanner 4s ease-in-out infinite;
+        transition: all 0.3s ease;
+    }
+
+    .price-banner::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+        animation: sparkle 20s linear infinite;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .price-banner-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .price-banner-icon {
+        font-size: 2.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: iconPulse 3s ease-in-out infinite;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .price-banner-text {
+        flex: 1;
+        text-align: left;
     }
 
     .price-banner strong {
         display: block;
-        font-size: 16px;
-        font-weight: 700;
+        font-size: 1.6rem;
+        font-weight: 800;
+        margin-bottom: 5px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(to right, #ffffff, #ffeaea);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: 0.5px;
     }
 
     .price-banner span {
         display: block;
-        font-size: 14px;
-        margin-top: 4px;
+        font-size: 1rem;
         opacity: 0.95;
+        line-height: 1.5;
+        font-weight: 500;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     }
 
-    /* Мобільна адаптація для баннера "Найнижча ціна" */
+    .price-banner-badge {
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        background: #ffcc00;
+        color: #333;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        transform: rotate(3deg);
+        box-shadow: 0 3px 10px rgba(255, 204, 0, 0.4);
+        animation: badgeWiggle 2s ease-in-out infinite;
+    }
+
+    /* Анимации */
+    @keyframes gradientFlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    @keyframes floatBanner {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+
+    @keyframes iconPulse {
+        0%, 100% { 
+            transform: scale(1); 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        50% { 
+            transform: scale(1.05); 
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+    }
+
+    @keyframes badgeWiggle {
+        0%, 100% { transform: rotate(3deg); }
+        50% { transform: rotate(-2deg); }
+    }
+
+    @keyframes sparkle {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        100% { transform: translate(20px, 20px) rotate(360deg); }
+    }
+
+    .price-banner:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(233, 30, 99, 0.35);
+    }
+
+    /* Мобільна адаптація */
+    @media (max-width: 768px) {
+        .price-banner {
+            padding: 15px 20px;
+            margin: 0 15px 15px 15px;
+            animation: gradientFlow 8s ease infinite, floatBanner 5s ease-in-out infinite;
+        }
+        
+        .price-banner-content {
+            flex-direction: column;
+            gap: 10px;
+            text-align: center;
+        }
+        
+        .price-banner-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 2rem;
+        }
+        
+        .price-banner-text {
+            text-align: center;
+        }
+        
+        .price-banner strong {
+            font-size: 1.4rem;
+        }
+        
+        .price-banner span {
+            font-size: 0.9rem;
+        }
+        
+        .price-banner-badge {
+            position: relative;
+            top: 0;
+            right: 0;
+            margin: 10px auto;
+            display: inline-block;
+        }
+    }
+    
     @media (max-width: 480px) {
         .price-banner {
-            padding: 10px 12px;
-            margin: 0 15px 10px 15px;
+            padding: 12px 15px;
+            margin: 0 10px 10px 10px;
         }
+        
         .price-banner strong {
-            font-size: 14px;
+            font-size: 1.2rem;
         }
+        
         .price-banner span {
-            font-size: 12px;
+            font-size: 0.8rem;
+        }
+        
+        .price-banner-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.7rem;
         }
     }
 
@@ -698,10 +860,20 @@
         <button class="ad-banner-close" onclick="closeAdBanner()" aria-label="Закрити банер">×</button>
     </div>
 
-    <!-- Рекламний банер - Найнижча ціна -->
+    <!-- Рекламний банер - Найнижча ціна (улучшенный) -->
     <div class="price-banner">
-        <strong>Найнижча ціна без посередників</strong>
-        <span>Ми працюємо напряму з постачальниками — дешевше в інтернеті ви не знайдете.</span>
+        <div class="price-banner-badge">
+            <i class="fas fa-bolt"></i> ПЕРЕВАГА
+        </div>
+        <div class="price-banner-content">
+            <div class="price-banner-icon">
+                <i class="fas fa-tags"></i>
+            </div>
+            <div class="price-banner-text">
+                <strong>НАЙНИЖЧА ЦІНА БЕЗ ПОСЕРЕДНИКІВ</strong>
+                <span>Ми працюємо напряму з постачальниками — дешевше в інтернеті ви не знайдете!</span>
+            </div>
+        </div>
     </div>
 
     <!-- Breadcrumb Navigation -->
