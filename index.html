@@ -399,7 +399,7 @@
         }
     }
 
-    /* Улучшенные стили для темной анимации загрузки с реальными фото */
+    /* Обновленные стили для светлой анимации загрузки с реальными фото */
     #fashion-show {
         display: none;
         position: fixed;
@@ -407,7 +407,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        background: linear-gradient(135deg, #f5f0ff 0%, #e8f4ff 50%, #fff0f5 100%);
         z-index: 9998;
         overflow: hidden;
     }
@@ -422,19 +422,24 @@
         text-align: center;
         padding: 30px;
         box-sizing: border-box;
-        background: rgba(20, 20, 20, 0.95);
+        background: rgba(255, 255, 255, 0.95);
         border-radius: 20px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-        border: 1px solid rgba(233, 30, 99, 0.2);
-        color: #ffffff;
+        box-shadow: 0 15px 35px rgba(156, 39, 176, 0.2);
+        border: 2px solid rgba(156, 39, 176, 0.3);
+        color: #333;
+        backdrop-filter: blur(10px);
     }
 
     .fashion-show-content h2 {
-        color: #ff4081;
+        color: #9c27b0;
         margin-bottom: 30px;
         font-size: 32px;
         font-weight: 700;
-        text-shadow: 0 0 10px rgba(255, 64, 129, 0.5);
+        text-shadow: 0 2px 4px rgba(156, 39, 176, 0.1);
+        background: linear-gradient(45deg, #9c27b0, #e91e63);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
     .product-showcase {
@@ -451,20 +456,20 @@
         position: relative;
         border-radius: 12px;
         overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-        background: #2a2a2a;
+        box-shadow: 0 5px 15px rgba(156, 39, 176, 0.1);
+        background: #fff;
         transition: all 0.3s ease;
         opacity: 0;
         transform: translateY(20px);
         animation: slideIn 0.5s ease forwards;
         aspect-ratio: 1 / 1;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.8);
     }
 
     .image-preview:hover {
         transform: translateY(-5px) scale(1.05);
-        box-shadow: 0 8px 25px rgba(233, 30, 99, 0.3);
-        border-color: rgba(233, 30, 99, 0.4);
+        box-shadow: 0 8px 25px rgba(156, 39, 176, 0.25);
+        border-color: rgba(156, 39, 176, 0.4);
     }
 
     .image-preview img {
@@ -479,7 +484,7 @@
     }
 
     .fashion-timer {
-        color: #cccccc;
+        color: #666;
         margin-top: 25px;
         font-size: 16px;
         display: flex;
@@ -489,7 +494,7 @@
     }
 
     .timer-subtitle {
-        color: #aaaaaa;
+        color: #888;
         font-size: 14px;
         margin-top: 5px;
     }
@@ -497,7 +502,7 @@
     .skip-show-btn {
         margin-top: 30px;
         padding: 14px 35px;
-        background: linear-gradient(135deg, #ff4081, #e91e63);
+        background: linear-gradient(135deg, #9c27b0, #e91e63);
         color: white;
         border: none;
         border-radius: 30px;
@@ -505,30 +510,32 @@
         cursor: pointer;
         font-size: 16px;
         transition: all 0.3s ease;
-        box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+        box-shadow: 0 5px 15px rgba(156, 39, 176, 0.3);
     }
 
     .skip-show-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(233, 30, 99, 0.4);
-        background: linear-gradient(135deg, #e91e63, #ff4081);
+        box-shadow: 0 8px 20px rgba(156, 39, 176, 0.4);
+        background: linear-gradient(135deg, #e91e63, #9c27b0);
     }
 
     .loading-bar {
         width: 100%;
         height: 6px;
-        background: #444444;
+        background: #e0e0e0;
         border-radius: 3px;
         margin: 20px 0;
         overflow: hidden;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
     }
 
     .loading-progress {
         width: 0%;
         height: 100%;
-        background: linear-gradient(90deg, #ff4081, #e91e63);
+        background: linear-gradient(90deg, #9c27b0, #e91e63);
         border-radius: 3px;
         transition: width 0.3s ease;
+        box-shadow: 0 0 10px rgba(156, 39, 176, 0.5);
     }
 
     @keyframes slideIn {
@@ -536,11 +543,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-    }
-
-    @keyframes pulse {
-        0%, 100% { opacity: 0.7; }
-        50% { opacity: 1; }
     }
 
     /* Для мобильных устройств */
