@@ -4622,3 +4622,100 @@ main {
 .auth-tabs .auth-tab:nth-child(3) {
     display: none !important;
 }
+
+/* ДОБАВЬТЕ ЭТИ СТИЛИ В КОНЕЦ ФАЙЛА styles.css */
+
+/* Исправление для кнопки закрытия модального окна */
+.modal-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  background: var(--white) !important;
+  border: 2px solid var(--primary) !important;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--primary-dark) !important;
+  transition: var(--transition);
+  min-width: auto;
+  min-height: auto;
+  padding: 0.5rem;
+  z-index: 1000;
+  width: 44px !important;
+  height: 44px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  font-weight: bold;
+}
+
+.modal-close:hover {
+  background: var(--primary) !important;
+  color: var(--white) !important;
+  transform: rotate(90deg) scale(1.1);
+  box-shadow: 0 6px 16px rgba(139, 69, 19, 0.3) !important;
+}
+
+.modal-close:active {
+  transform: rotate(90deg) scale(0.95);
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+  .modal-close {
+    top: 1rem;
+    right: 1rem;
+    width: 42px !important;
+    height: 42px !important;
+    font-size: 1.4rem;
+    background: var(--white) !important;
+    border: 2px solid var(--primary) !important;
+    color: var(--primary-dark) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-close {
+    top: 0.8rem;
+    right: 0.8rem;
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 1.3rem;
+    border-width: 2px !important;
+  }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 360px) {
+  .modal-close {
+    top: 0.6rem;
+    right: 0.6rem;
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 1.2rem;
+  }
+}
+
+/* Увеличиваем контрастность для всех модальных окон */
+.modal {
+  background: rgba(0, 0, 0, 0.85) !important; /* Более темный фон для лучшего контраста */
+}
+
+.modal-content {
+  border: 2px solid var(--primary-light);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Специальные стили для модального окна товаров */
+#product-modal .modal-close,
+#rules-modal .modal-close,
+#auth-modal .modal-close,
+#cart-modal .modal-close,
+#orders-modal .modal-close,
+#profile-modal .modal-close {
+  /* Убеждаемся, что все стили применяются ко всем модальным окнам */
+  background: var(--white) !important;
+  border: 2px solid var(--primary) !important;
+  color: var(--primary-dark) !important;
+}
