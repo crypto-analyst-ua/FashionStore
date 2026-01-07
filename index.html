@@ -221,15 +221,6 @@
         box-shadow: 0 4px 8px rgba(37, 211, 102, 0.3);
     }
     
-    .btn-whatsapp-header {
-        background-color: #25D366;
-        color: white;
-    }
-    
-    .btn-whatsapp-header:hover {
-        background-color: #128C7E;
-    }
-    
     /* Для мобильных устройств */
     @media (max-width: 768px) {
         .contact-info {
@@ -239,10 +230,6 @@
             width: 36px;
             height: 36px;
             font-size: 18px;
-        }
-        
-        .btn-whatsapp-header .btn-text {
-            display: none;
         }
     }
 
@@ -1125,12 +1112,6 @@
                 <button onclick="promptAdminPassword()" class="btn btn-admin" id="admin-access-btn" style="display: none;">
                     <i class="fas fa-crown" aria-hidden="true"></i> 
                     <span class="btn-text">Адмін</span>
-                </button>
-                
-                <!-- Добавленная кнопка WhatsApp помощи -->
-                <button onclick="openWhatsAppConsultation()" class="btn btn-whatsapp-header" aria-label="Консультація в WhatsApp">
-                    <i class="fab fa-whatsapp"></i>
-                    <span class="btn-text">Допомога</span>
                 </button>
                 
                 <button onclick="openCart()" class="btn btn-cart" aria-label="Кошик товарів">
