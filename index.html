@@ -1130,11 +1130,6 @@
         </div>
     </header>
 
-    <!-- Рекламный баннер -->
-    <div id="ad-banner" class="ad-banner">
-        <img src="file_00000000364c72439a4b7a15eaab1d04.png" alt="Безпечна покупка в магазині одягу та взуття">
-        <button class="ad-banner-close" onclick="closeAdBanner()" aria-label="Закрити банер">×</button>
-    </div>
 
     <!-- Компактний баннер - Найнижчі ціни -->
     <div class="price-banner-compact" onclick="scrollToProducts()" id="price-banner-compact">
@@ -2180,16 +2175,6 @@
             }
         }
 
-        // Функция для закрытия рекламного баннера
-        function closeAdBanner() {
-            const banner = document.getElementById('ad-banner');
-            if (banner) {
-                banner.style.display = 'none';
-                // Сохраняем в localStorage, что баннер закрыт
-                localStorage.setItem('adBannerClosed', 'true');
-            }
-        }
-        
         // Функция для закрытия баннера возврата товара
         function closeReturnBanner() {
             const banner = document.querySelector('.return-banner');
@@ -2226,15 +2211,6 @@
             
             // Обновляем год в футере
             document.getElementById('year').textContent = new Date().getFullYear();
-            
-            // Проверяем, не закрыт ли баннер ранее
-            const isBannerClosed = localStorage.getItem('adBannerClosed');
-            if (isBannerClosed) {
-                const banner = document.getElementById('ad-banner');
-                if (banner) {
-                    banner.style.display = 'none';
-                }
-            }
             
             // Проверяем, не закрыт ли баннер возврата товара
             const isReturnBannerClosed = localStorage.getItem('returnBannerClosed');
