@@ -70,41 +70,11 @@
     "inStock": true
   },
   {
-    "id": "107362_804407",
-    "title": "Шарф жіночий в горох, колір чорно-червоний, 244R011",
-    "price": 89,
-    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">One Size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">160 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">45 см</td>\n</tr>\n</tbody>\n</table>",
-    "image": "https://ager.ua/image/catalog/import_files/a1/5acbceab-8baf-11e2-9502-8c89a5d9e6b9/a15f0f5c-ccbd-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "86018_817837",
-    "title": "Ремінь женский, колір білий, 196RL35Y0W20",
-    "price": 489,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/b9/ef922181-df9b-11e0-80a9-0015c56feef5/b996b3bb-04fa-11ed-a582-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
     "id": "85946_91486",
     "title": "Ремінь женский, колір коричневий, 196RL35Y0W3",
     "price": 489,
     "description": "",
     "image": "https://ager.ua/image/catalog/import_files/ce/feee7c77-e02c-11e0-80a9-0015c56feef5/ce557630-04e4-11ed-a582-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "106060_800669",
-    "title": "Ремінь жіночий лаковий, колір чорний, 196R4010G2",
-    "price": 199,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/c8/72992fb7-e030-11e0-80a9-0015c56feef5/c8e65df8-ae35-11ee-8588-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -125,6 +95,16 @@
     "price": 489,
     "description": "",
     "image": "https://ager.ua/image/catalog/import_files/ce/ef922181-df9b-11e0-80a9-0015c56feef5/ce557630-04e4-11ed-a582-d8cb8a9c13c3-9.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "106060_800669",
+    "title": "Ремінь жіночий лаковий, колір чорний, 196R4010G2",
+    "price": 199,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/c8/72992fb7-e030-11e0-80a9-0015c56feef5/c8e65df8-ae35-11ee-8588-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -250,41 +230,11 @@
     "inStock": true
   },
   {
-    "id": "80433_80435",
-    "title": "Чоловічий коричневий ремінь, з еко-шкіри, 196R40S1W2",
-    "price": 239,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/f8/feee7c77-e02c-11e0-80a9-0015c56feef5/f8b1b040-c168-11ec-9225-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
     "id": "71365_71366",
     "title": "Чоловіча шапка, чорно-червоного кольору, 167R7785",
     "price": 50,
     "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">one size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">20 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">19 см</td>\n</tr>\n</tbody>\n</table>",
     "image": "https://ager.ua/image/catalog/import_files/7a/5acbceab-8baf-11e2-9502-8c89a5d9e6b9/7a8b7499-3d8e-11ec-b1e0-d8cb8a9c13c3-3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "85948_802156",
-    "title": "Ремінь женский, колір червоний, 196RL35Y0W3",
-    "price": 489,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/ce/feee7c7b-e02c-11e0-80a9-0015c56feef5/ce557630-04e4-11ed-a582-d8cb8a9c13c3-6.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "85948_802157",
-    "title": "Ремінь женский, колір червоний, 196RL35Y0W3",
-    "price": 489,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/ce/feee7c7b-e02c-11e0-80a9-0015c56feef5/ce557630-04e4-11ed-a582-d8cb8a9c13c3-6.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -320,6 +270,46 @@
     "inStock": true
   },
   {
+    "id": "105312_798828",
+    "title": "Ремінь жіночий плетений текстильний, колір чорний, 196R1010W3",
+    "price": 100,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/4d/72992fb7-e030-11e0-80a9-0015c56feef5/4d58d719-858c-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "85948_802156",
+    "title": "Ремінь женский, колір червоний, 196RL35Y0W3",
+    "price": 489,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/ce/feee7c7b-e02c-11e0-80a9-0015c56feef5/ce557630-04e4-11ed-a582-d8cb8a9c13c3-6.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "85948_802157",
+    "title": "Ремінь женский, колір червоний, 196RL35Y0W3",
+    "price": 489,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/ce/feee7c7b-e02c-11e0-80a9-0015c56feef5/ce557630-04e4-11ed-a582-d8cb8a9c13c3-6.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "80828_80829",
+    "title": "Сумка-клатч із шкірзаму, бірюзового кольору, 167RF-7",
+    "price": 319,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/9f/feee7c65-e02c-11e0-80a9-0015c56feef5/9f843361-c577-11ec-9225-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
     "id": "106064_800675",
     "title": "Ремінь чоловічий, колір чорний, 196R35Y1W8-1",
     "price": 369,
@@ -350,11 +340,31 @@
     "inStock": true
   },
   {
-    "id": "105312_798828",
-    "title": "Ремінь жіночий плетений текстильний, колір чорний, 196R1010W3",
-    "price": 100,
+    "id": "80501_80504",
+    "title": "ЖІночий шкіряний ремінь, чорного кольору, 196R15Y0W1",
+    "price": 269,
     "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/4d/72992fb7-e030-11e0-80a9-0015c56feef5/4d58d719-858c-11ee-8588-d8cb8a9c13c3.jpeg",
+    "image": "https://ager.ua/image/catalog/import_files/90/72992fb7-e030-11e0-80a9-0015c56feef5/90ea59f9-c1c2-11ec-9225-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "80501_80502",
+    "title": "ЖІночий шкіряний ремінь, чорного кольору, 196R15Y0W1",
+    "price": 269,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/90/72992fb7-e030-11e0-80a9-0015c56feef5/90ea59f9-c1c2-11ec-9225-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "80501_798751",
+    "title": "ЖІночий шкіряний ремінь, чорного кольору, 196R15Y0W1",
+    "price": 269,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/90/72992fb7-e030-11e0-80a9-0015c56feef5/90ea59f9-c1c2-11ec-9225-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -400,51 +410,21 @@
     "inStock": true
   },
   {
-    "id": "80501_80504",
-    "title": "ЖІночий шкіряний ремінь, чорного кольору, 196R15Y0W1",
-    "price": 269,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/90/72992fb7-e030-11e0-80a9-0015c56feef5/90ea59f9-c1c2-11ec-9225-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "80501_80502",
-    "title": "ЖІночий шкіряний ремінь, чорного кольору, 196R15Y0W1",
-    "price": 269,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/90/72992fb7-e030-11e0-80a9-0015c56feef5/90ea59f9-c1c2-11ec-9225-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "80501_798751",
-    "title": "ЖІночий шкіряний ремінь, чорного кольору, 196R15Y0W1",
-    "price": 269,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/90/72992fb7-e030-11e0-80a9-0015c56feef5/90ea59f9-c1c2-11ec-9225-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "80828_80829",
-    "title": "Сумка-клатч із шкірзаму, бірюзового кольору, 167RF-7",
-    "price": 319,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/9f/feee7c65-e02c-11e0-80a9-0015c56feef5/9f843361-c577-11ec-9225-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
     "id": "46689_46690",
     "title": "Жіноча шапка, пудрового кольору, з вовни, 167R002",
     "price": 50,
     "description": "",
     "image": "https://ager.ua/image/catalog/import_files/80/bc57aad3-0668-11e8-b533-00155d516702/80a8d2f6-5a2c-11eb-b1e0-d8cb8a9c13c3-4.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "116272_834008",
+    "title": "Шапка чоловіча камуфляж на хутрі, колір хакі, 244RM49",
+    "price": 189,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/2b/b65ad368-721a-11e2-9141-8c89a5d9e6b9/2ba1f8f8-ba31-11ef-ac2f-0cc47ae7dc54.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -500,21 +480,11 @@
     "inStock": true
   },
   {
-    "id": "99113_785727",
-    "title": "Ремінь жіночий, колір світло-бежевий, 196R3510W1",
-    "price": 199,
+    "id": "116263_833969",
+    "title": "Рукавички чоловічі з візерунком AG-0008320, колір хакі, 244R055",
+    "price": 389,
     "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/92/755e6478-bee6-11e3-996b-74d02ba27e3b/9225ad89-e36d-11ed-8235-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "99113_785729",
-    "title": "Ремінь жіночий, колір світло-бежевий, 196R3510W1",
-    "price": 199,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/92/755e6478-bee6-11e3-996b-74d02ba27e3b/9225ad89-e36d-11ed-8235-d8cb8a9c13c3.jpeg",
+    "image": "https://ager.ua/image/catalog/import_files/de/b65ad368-721a-11e2-9141-8c89a5d9e6b9/dedfcb0a-b241-11ef-ac2f-0cc47ae7dc54.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -540,26 +510,6 @@
     "inStock": true
   },
   {
-    "id": "107677_805607",
-    "title": "Ремінь чоловічий, колір чорний, 196R35Y1W6-2",
-    "price": 269,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/8e/72992fb7-e030-11e0-80a9-0015c56feef5/8e83a905-d63a-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "107677_805608",
-    "title": "Ремінь чоловічий, колір чорний, 196R35Y1W6-2",
-    "price": 269,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/8e/72992fb7-e030-11e0-80a9-0015c56feef5/8e83a905-d63a-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
     "id": "80599_80602",
     "title": "Ремінь жіночий, колір чорний, 196R30YOW5",
     "price": 349,
@@ -580,6 +530,26 @@
     "inStock": true
   },
   {
+    "id": "107677_805607",
+    "title": "Ремінь чоловічий, колір чорний, 196R35Y1W6-2",
+    "price": 269,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/8e/72992fb7-e030-11e0-80a9-0015c56feef5/8e83a905-d63a-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "107677_805608",
+    "title": "Ремінь чоловічий, колір чорний, 196R35Y1W6-2",
+    "price": 269,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/8e/72992fb7-e030-11e0-80a9-0015c56feef5/8e83a905-d63a-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
     "id": "71044_71045",
     "title": "Жіноча однотонна шапка, молочного кольору, 167R010",
     "price": 50,
@@ -590,11 +560,21 @@
     "inStock": true
   },
   {
-    "id": "116272_834008",
-    "title": "Шапка чоловіча камуфляж на хутрі, колір хакі, 244RM49",
-    "price": 189,
+    "id": "99113_785727",
+    "title": "Ремінь жіночий, колір світло-бежевий, 196R3510W1",
+    "price": 199,
     "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/2b/b65ad368-721a-11e2-9141-8c89a5d9e6b9/2ba1f8f8-ba31-11ef-ac2f-0cc47ae7dc54.jpeg",
+    "image": "https://ager.ua/image/catalog/import_files/92/755e6478-bee6-11e3-996b-74d02ba27e3b/9225ad89-e36d-11ed-8235-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "99113_785729",
+    "title": "Ремінь жіночий, колір світло-бежевий, 196R3510W1",
+    "price": 199,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/92/755e6478-bee6-11e3-996b-74d02ba27e3b/9225ad89-e36d-11ed-8235-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -615,166 +595,6 @@
     "price": 259,
     "description": "",
     "image": "https://ager.ua/image/catalog/import_files/2e/feee7c77-e02c-11e0-80a9-0015c56feef5/2e0321e6-c1b3-11ec-9225-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "105369_798897",
-    "title": "Ремінь чоловічий, колір чорний, 196R35U1W2",
-    "price": 319,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/25/72992fb7-e030-11e0-80a9-0015c56feef5/25db97f8-8aa4-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "85896_85897",
-    "title": "Ремінь, колір хакі, 196R40T1W9",
-    "price": 229,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/11/b65ad368-721a-11e2-9141-8c89a5d9e6b9/11dd3553-c16a-11ec-9225-d8cb8a9c13c3-3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "107668_805583",
-    "title": "Ремінь жіночий, колір чорний, 196R25COG-1",
-    "price": 269,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/2e/72992fb7-e030-11e0-80a9-0015c56feef5/2ea249a3-d7c9-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "107668_805584",
-    "title": "Ремінь жіночий, колір чорний, 196R25COG-1",
-    "price": 269,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/2e/72992fb7-e030-11e0-80a9-0015c56feef5/2ea249a3-d7c9-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "107499_805158",
-    "title": "Ремінь-ланцюжок жіночий, колір золотистий, 196R10U13W1-6",
-    "price": 199,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/f8/feee7c75-e02c-11e0-80a9-0015c56feef5/f8d66d8f-b094-11ee-8588-d8cb8a9c13c3-3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "106048_800656",
-    "title": "Ремінь жіночий, колір шампань, 196R1010W50",
-    "price": 109,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/39/533a516e-19eb-11e2-9f7f-8c89a5d9e6b9/39aafe1f-ae20-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "106977_803676",
-    "title": "Рюкзак дитячий, колір червоний, 244R0680",
-    "price": 299,
-    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">One Size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина плечей</td>\n<td class=\"tbody_td\">26 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Висота</td>\n<td class=\"tbody_td\">36 см</td>\n</tr>\n</tbody>\n</table>",
-    "image": "https://ager.ua/image/catalog/import_files/b9/feee7c7b-e02c-11e0-80a9-0015c56feef5/b96c9bb6-c1cd-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "107673_805593",
-    "title": "Ремінь жіночий, колір світло-бежевий, 196R3510W1-1",
-    "price": 169,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/0f/755e6478-bee6-11e3-996b-74d02ba27e3b/0fe1c784-d638-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "107673_805595",
-    "title": "Ремінь жіночий, колір світло-бежевий, 196R3510W1-1",
-    "price": 169,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/0f/755e6478-bee6-11e3-996b-74d02ba27e3b/0fe1c784-d638-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "85968_85969",
-    "title": "Жіночий ремінь, колір коричневий, 196RL2010W11",
-    "price": 139,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/7a/feee7c77-e02c-11e0-80a9-0015c56feef5/7a0c7ae3-04e9-11ed-a582-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "80300_80302",
-    "title": "Чорний чоловічий ремінь, з еко-шкіри, 196R40Y1W14",
-    "price": 299,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/0f/72992fb7-e030-11e0-80a9-0015c56feef5/0f02ebee-bfbd-11ec-9225-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "106055_800664",
-    "title": "Ремінь жіночий, колір синій, 196R3510W14",
-    "price": 199,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/e6/feee7c9d-e02c-11e0-80a9-0015c56feef5/e674930f-aef8-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "85980_85981",
-    "title": "Синій жіночий ремінь, з еко-шкіри, 196RL30S0W4",
-    "price": 239,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/07/feee7c9d-e02c-11e0-80a9-0015c56feef5/07362f05-04ed-11ed-a582-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "80932_80933",
-    "title": "Клатч із шкірзаму, бірюзового кольору, 167RF-78",
-    "price": 319,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/14/feee7c65-e02c-11e0-80a9-0015c56feef5/14119600-c610-11ec-9225-d8cb8a9c13c3-10.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "71555_71556",
-    "title": "Однотонна жіноча шапка, світло-сірого кольору, 167R7801",
-    "price": 50,
-    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">one size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">19 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">20 см</td>\n</tr>\n</tbody>\n</table>",
-    "image": "https://ager.ua/image/catalog/import_files/02/feee7c8e-e02c-11e0-80a9-0015c56feef5/02dcdff9-3f1e-11ec-b1e0-d8cb8a9c13c3-6.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "107653_805518",
-    "title": "Ремінь жіночий тонкий, колір мокко, 196R15Y0W15",
-    "price": 269,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/fc/fef9ab7b-138a-11e7-be9e-00155d516702/fc24c81d-d4b9-11ee-8588-d8cb8a9c13c3-4.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -810,21 +630,161 @@
     "inStock": true
   },
   {
-    "id": "80443_800618",
-    "title": "Чорний чоловічий ремінь, з класичною пряжкою, 196R35U1W79",
+    "id": "85896_85897",
+    "title": "Ремінь, колір хакі, 196R40T1W9",
     "price": 229,
     "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/6f/72992fb7-e030-11e0-80a9-0015c56feef5/6f257c67-c16b-11ec-9225-d8cb8a9c13c3.jpeg",
+    "image": "https://ager.ua/image/catalog/import_files/11/b65ad368-721a-11e2-9141-8c89a5d9e6b9/11dd3553-c16a-11ec-9225-d8cb8a9c13c3-3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
   },
   {
-    "id": "105313_798829",
-    "title": "Ремінь жіночий лаковий, колір фіолетовий, 196R2010W10",
-    "price": 50,
+    "id": "105369_798897",
+    "title": "Ремінь чоловічий, колір чорний, 196R35U1W2",
+    "price": 319,
     "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/7e/72992fb4-e030-11e0-80a9-0015c56feef5/7ea4c92b-8590-11ee-8588-d8cb8a9c13c3.jpeg",
+    "image": "https://ager.ua/image/catalog/import_files/25/72992fb7-e030-11e0-80a9-0015c56feef5/25db97f8-8aa4-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "106048_800656",
+    "title": "Ремінь жіночий, колір шампань, 196R1010W50",
+    "price": 109,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/39/533a516e-19eb-11e2-9f7f-8c89a5d9e6b9/39aafe1f-ae20-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "107668_805583",
+    "title": "Ремінь жіночий, колір чорний, 196R25COG-1",
+    "price": 269,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/2e/72992fb7-e030-11e0-80a9-0015c56feef5/2ea249a3-d7c9-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "107668_805584",
+    "title": "Ремінь жіночий, колір чорний, 196R25COG-1",
+    "price": 269,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/2e/72992fb7-e030-11e0-80a9-0015c56feef5/2ea249a3-d7c9-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "106055_800664",
+    "title": "Ремінь жіночий, колір синій, 196R3510W14",
+    "price": 199,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/e6/feee7c9d-e02c-11e0-80a9-0015c56feef5/e674930f-aef8-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "107499_805158",
+    "title": "Ремінь-ланцюжок жіночий, колір золотистий, 196R10U13W1-6",
+    "price": 199,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/f8/feee7c75-e02c-11e0-80a9-0015c56feef5/f8d66d8f-b094-11ee-8588-d8cb8a9c13c3-3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "107673_805593",
+    "title": "Ремінь жіночий, колір світло-бежевий, 196R3510W1-1",
+    "price": 169,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/0f/755e6478-bee6-11e3-996b-74d02ba27e3b/0fe1c784-d638-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "107673_805595",
+    "title": "Ремінь жіночий, колір світло-бежевий, 196R3510W1-1",
+    "price": 169,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/0f/755e6478-bee6-11e3-996b-74d02ba27e3b/0fe1c784-d638-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "85980_85981",
+    "title": "Синій жіночий ремінь, з еко-шкіри, 196RL30S0W4",
+    "price": 239,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/07/feee7c9d-e02c-11e0-80a9-0015c56feef5/07362f05-04ed-11ed-a582-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "85968_85969",
+    "title": "Жіночий ремінь, колір коричневий, 196RL2010W11",
+    "price": 139,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/7a/feee7c77-e02c-11e0-80a9-0015c56feef5/7a0c7ae3-04e9-11ed-a582-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "106052_800661",
+    "title": "Ремінь жіночий 196R3510Y0W11, колір темно-синій, 196R3510W11",
+    "price": 199,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/26/72992fb1-e030-11e0-80a9-0015c56feef5/265ad1f4-ae34-11ee-8588-d8cb8a9c13c3-4.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "80932_80933",
+    "title": "Клатч із шкірзаму, бірюзового кольору, 167RF-78",
+    "price": 319,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/14/feee7c65-e02c-11e0-80a9-0015c56feef5/14119600-c610-11ec-9225-d8cb8a9c13c3-10.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "71555_71556",
+    "title": "Однотонна жіноча шапка, світло-сірого кольору, 167R7801",
+    "price": 50,
+    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">one size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">19 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">20 см</td>\n</tr>\n</tbody>\n</table>",
+    "image": "https://ager.ua/image/catalog/import_files/02/feee7c8e-e02c-11e0-80a9-0015c56feef5/02dcdff9-3f1e-11ec-b1e0-d8cb8a9c13c3-6.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "107653_805518",
+    "title": "Ремінь жіночий тонкий, колір мокко, 196R15Y0W15",
+    "price": 269,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/fc/fef9ab7b-138a-11e7-be9e-00155d516702/fc24c81d-d4b9-11ee-8588-d8cb8a9c13c3-4.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "116271_834007",
+    "title": "Шапка чоловіча камуфляж на хутрі, колір коричневий, 244RM49",
+    "price": 189,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/2b/feee7c77-e02c-11e0-80a9-0015c56feef5/2ba1f8f8-ba31-11ef-ac2f-0cc47ae7dc54-4.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -890,21 +850,21 @@
     "inStock": true
   },
   {
-    "id": "107671_805591",
-    "title": "Ремінь жіночий, колір бірюзовий, 196R3010W16",
-    "price": 169,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/c4/feee7c65-e02c-11e0-80a9-0015c56feef5/c4747bc3-d638-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
     "id": "80572_80574",
     "title": "Ремінь з тканини, унісекс чорного кольору, 196R35T1W-1",
     "price": 199,
     "description": "",
     "image": "https://ager.ua/image/catalog/import_files/a2/72992fb7-e030-11e0-80a9-0015c56feef5/a2ac008c-c1c4-11ec-9225-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "107671_805591",
+    "title": "Ремінь жіночий, колір бірюзовий, 196R3010W16",
+    "price": 169,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/c4/feee7c65-e02c-11e0-80a9-0015c56feef5/c4747bc3-d638-11ee-8588-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -960,81 +920,11 @@
     "inStock": true
   },
   {
-    "id": "106969_803659",
-    "title": "Ремінь чоловічий, колір чорно-бежевий, 196R40U1W4-1",
-    "price": 439,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/62/396ec034-1ffb-11e2-9f7f-8c89a5d9e6b9/626f7adb-c1a6-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "106969_803661",
-    "title": "Ремінь чоловічий, колір чорно-бежевий, 196R40U1W4-1",
-    "price": 439,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/62/396ec034-1ffb-11e2-9f7f-8c89a5d9e6b9/626f7adb-c1a6-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "106054_800663",
-    "title": "Ремінь жіночий, колір синій, 196R3510W13",
-    "price": 199,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/bb/feee7c9d-e02c-11e0-80a9-0015c56feef5/bb479dad-aeef-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "106052_800661",
-    "title": "Ремінь жіночий 196R3510Y0W11, колір темно-синій, 196R3510W11",
-    "price": 199,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/26/72992fb1-e030-11e0-80a9-0015c56feef5/265ad1f4-ae34-11ee-8588-d8cb8a9c13c3-4.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "116271_834007",
-    "title": "Шапка чоловіча камуфляж на хутрі, колір коричневий, 244RM49",
-    "price": 189,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/2b/feee7c77-e02c-11e0-80a9-0015c56feef5/2ba1f8f8-ba31-11ef-ac2f-0cc47ae7dc54-4.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "99115_783239",
-    "title": "Ремінь жіночий лаковий, колір темно-синій, 196R1510W631",
-    "price": 99,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/5d/72992fb1-e030-11e0-80a9-0015c56feef5/5db89d71-0125-11ed-a582-d8cb8a9c13c3-6.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
     "id": "105324_798846",
     "title": "Ремінь жіночий тонкий, колір чорний, 196RL2010W12",
     "price": 109,
     "description": "",
     "image": "https://ager.ua/image/catalog/import_files/4d/72992fb7-e030-11e0-80a9-0015c56feef5/4d7205e8-8953-11ee-8588-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "80550_80552",
-    "title": "Чоловічий ремінь з класичною пряжкою, чорного кольору, 196R40U122",
-    "price": 259,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/f2/72992fb7-e030-11e0-80a9-0015c56feef5/f267adab-c1bc-11ec-9225-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -1075,6 +965,36 @@
     "price": 279,
     "description": "",
     "image": "https://ager.ua/image/catalog/import_files/03/72992fb7-e030-11e0-80a9-0015c56feef5/034d3e1d-c0eb-11ec-9225-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "106969_803659",
+    "title": "Ремінь чоловічий, колір чорно-бежевий, 196R40U1W4-1",
+    "price": 439,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/62/396ec034-1ffb-11e2-9f7f-8c89a5d9e6b9/626f7adb-c1a6-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "106969_803661",
+    "title": "Ремінь чоловічий, колір чорно-бежевий, 196R40U1W4-1",
+    "price": 439,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/62/396ec034-1ffb-11e2-9f7f-8c89a5d9e6b9/626f7adb-c1a6-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "106054_800663",
+    "title": "Ремінь жіночий, колір синій, 196R3510W13",
+    "price": 199,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/bb/feee7c9d-e02c-11e0-80a9-0015c56feef5/bb479dad-aeef-11ee-8588-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -1230,16 +1150,6 @@
     "inStock": true
   },
   {
-    "id": "93214_93215",
-    "title": "Сумка дитяча, колір синій, 131R636",
-    "price": 279,
-    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">one size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">21 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">26 см</td>\n</tr>\n</tbody>\n</table>",
-    "image": "https://ager.ua/image/catalog/import_files/97/feee7c9d-e02c-11e0-80a9-0015c56feef5/97f4505a-5f51-11ed-a582-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
     "id": "85873_85874",
     "title": "Жіночий ремінь зі шкірзаму, золотистого кольору, 196RL2510W9",
     "price": 139,
@@ -1280,6 +1190,16 @@
     "inStock": true
   },
   {
+    "id": "93133_93134",
+    "title": "Рюкзак дитячий, колір білий, 131R3641",
+    "price": 259,
+    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">one size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">29 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">24 см</td>\n</tr>\n</tbody>\n</table>",
+    "image": "https://ager.ua/image/catalog/import_files/dd/ef922181-df9b-11e0-80a9-0015c56feef5/dd7480e0-5eb7-11ed-a582-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
     "id": "91521_817415",
     "title": "Ремінь жіночий, колір світло-бежевий, 196R25SOW103",
     "price": 199,
@@ -1295,16 +1215,6 @@
     "price": 199,
     "description": "",
     "image": "https://ager.ua/image/catalog/import_files/85/755e6478-bee6-11e3-996b-74d02ba27e3b/8523b642-5087-11ed-a582-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "93133_93134",
-    "title": "Рюкзак дитячий, колір білий, 131R3641",
-    "price": 259,
-    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">one size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">29 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">24 см</td>\n</tr>\n</tbody>\n</table>",
-    "image": "https://ager.ua/image/catalog/import_files/dd/ef922181-df9b-11e0-80a9-0015c56feef5/dd7480e0-5eb7-11ed-a582-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -1360,41 +1270,11 @@
     "inStock": true
   },
   {
-    "id": "71032_71033",
-    "title": "Дитяча шапка, сіро-синього кольору, з вовни, 167R7777",
-    "price": 50,
-    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">3</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">4 роки</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина плечей</td>\n<td class=\"tbody_td\">4 роки</td>\n</tr>\n</tbody>\n</table>",
-    "image": "https://ager.ua/image/catalog/import_files/b7/feee7c99-e02c-11e0-80a9-0015c56feef5/b7b4f3d3-3be2-11ec-b1e0-d8cb8a9c13c3-15.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
     "id": "85978_85979",
     "title": "Класичний жіночий ремінь, з еко-шкіри, колір Коричневий, 196RL2010W24",
     "price": 139,
     "description": "",
     "image": "https://ager.ua/image/catalog/import_files/91/feee7c77-e02c-11e0-80a9-0015c56feef5/91753abc-04ea-11ed-a582-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "116263_833969",
-    "title": "Рукавички чоловічі з візерунком AG-0008320, колір хакі, 244R055",
-    "price": 389,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/de/b65ad368-721a-11e2-9141-8c89a5d9e6b9/dedfcb0a-b241-11ef-ac2f-0cc47ae7dc54.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "80568_80570",
-    "title": "Чорний чоловічий ремінь, з еко-шкіри з класичною пряжкою, 196RL35U1W80",
-    "price": 259,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/f4/72992fb7-e030-11e0-80a9-0015c56feef5/f40b725b-c1bd-11ec-9225-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -1530,21 +1410,21 @@
     "inStock": true
   },
   {
-    "id": "107664_805564",
-    "title": "Ремінь жіночий тонкий, колір темно-бежевий, 196R15Y0W16",
-    "price": 269,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/27/f2dd204f-7129-11e2-9141-8c89a5d9e6b9/27c231dd-d644-11ee-8588-d8cb8a9c13c3-20.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
     "id": "107656_805521",
     "title": "Ремінь жіночий тонкий, колір темно-коричневий, 196R15Y0W15",
     "price": 269,
     "description": "",
     "image": "https://ager.ua/image/catalog/import_files/fc/72992fd2-e030-11e0-80a9-0015c56feef5/fc24c81d-d4b9-11ee-8588-d8cb8a9c13c3-8.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "71309_71310",
+    "title": "Дитяча шапка, молочно-рожевого кольору з пайєтками, 167R7802",
+    "price": 50,
+    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">one size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">18 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">21 см</td>\n</tr>\n</tbody>\n</table>",
+    "image": "https://ager.ua/image/catalog/import_files/1b/51bb0425-0a46-11e6-b282-74d02ba27e3b/1bf7a14d-3d7f-11ec-b1e0-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -1620,16 +1500,6 @@
     "inStock": true
   },
   {
-    "id": "71309_71310",
-    "title": "Дитяча шапка, молочно-рожевого кольору з пайєтками, 167R7802",
-    "price": 50,
-    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">one size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">18 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">21 см</td>\n</tr>\n</tbody>\n</table>",
-    "image": "https://ager.ua/image/catalog/import_files/1b/51bb0425-0a46-11e6-b282-74d02ba27e3b/1bf7a14d-3d7f-11ec-b1e0-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
     "id": "85786_85790",
     "title": "Жіночий ремінь зі штучної шкіри, синього кольору, 196R15Y0W11-1",
     "price": 269,
@@ -1670,26 +1540,6 @@
     "inStock": true
   },
   {
-    "id": "105316_798833",
-    "title": "Ремінь жіночий, колір чорний, 196R20YOW1-1",
-    "price": 269,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/10/72992fb7-e030-11e0-80a9-0015c56feef5/10df95f1-8593-11ee-8588-d8cb8a9c13c3-4.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "105316_798835",
-    "title": "Ремінь жіночий, колір чорний, 196R20YOW1-1",
-    "price": 269,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/10/72992fb7-e030-11e0-80a9-0015c56feef5/10df95f1-8593-11ee-8588-d8cb8a9c13c3-4.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
     "id": "89925_89926",
     "title": "Бананка, колір червоно-коричневий, 131R801-17",
     "price": 259,
@@ -1720,6 +1570,16 @@
     "inStock": true
   },
   {
+    "id": "71060_71061",
+    "title": "Комплект з шапки і шарфа, для дівчинки, коралово-білого кольору, 167R8882",
+    "price": 100,
+    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">1</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">2 роки</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина плечей</td>\n<td class=\"tbody_td\">2 роки</td>\n</tr>\n</tbody>\n</table>",
+    "image": "https://ager.ua/image/catalog/import_files/f5/0ea111ef-1362-11e6-9305-74d02ba27e3b/f526b1dc-3bf1-11ec-b1e0-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
     "id": "89588_89589",
     "title": "Бананка, колір чорно-сірий, 131R802-18",
     "price": 259,
@@ -1745,36 +1605,6 @@
     "price": 50,
     "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">one size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">22 см</td>\n</tr>\n</tbody>\n</table>",
     "image": "https://ager.ua/image/catalog/import_files/5e/488ba841-3dd7-11e6-afba-00155d516702/5e80ba4e-3d93-11ec-b1e0-d8cb8a9c13c3-12.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "71060_71061",
-    "title": "Комплект з шапки і шарфа, для дівчинки, коралово-білого кольору, 167R8882",
-    "price": 100,
-    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">1</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">2 роки</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина плечей</td>\n<td class=\"tbody_td\">2 роки</td>\n</tr>\n</tbody>\n</table>",
-    "image": "https://ager.ua/image/catalog/import_files/f5/0ea111ef-1362-11e6-9305-74d02ba27e3b/f526b1dc-3bf1-11ec-b1e0-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "107663_805552",
-    "title": "Ремінь жіночий тонкий, колір світло-коричневий, 196R15Y0W16",
-    "price": 269,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/27/885523f5-2565-11e1-acba-b0487a8d09b7/27c231dd-d644-11ee-8588-d8cb8a9c13c3-32.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "107663_805569",
-    "title": "Ремінь жіночий тонкий, колір світло-коричневий, 196R15Y0W16",
-    "price": 269,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/27/885523f5-2565-11e1-acba-b0487a8d09b7/27c231dd-d644-11ee-8588-d8cb8a9c13c3-32.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -1900,16 +1730,6 @@
     "inStock": true
   },
   {
-    "id": "91523_91524",
-    "title": "Ремінь жіночий, колір світло-сірий, 196R25SOW103",
-    "price": 199,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/85/feee7c8e-e02c-11e0-80a9-0015c56feef5/8523b642-5087-11ed-a582-d8cb8a9c13c3-3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
     "id": "71028_71029",
     "title": "Дитяча шапка, кольору джинс, з вовни, 167R7777",
     "price": 59,
@@ -1930,16 +1750,6 @@
     "inStock": true
   },
   {
-    "id": "71313_71314",
-    "title": "Дитяча шапка молочно-блакитного кольору, з декором, 167R7802-1",
-    "price": 50,
-    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">one size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">18 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">21 см</td>\n</tr>\n</tbody>\n</table>",
-    "image": "https://ager.ua/image/catalog/import_files/dd/c28a5a81-9b87-11e6-b9ce-00155d516702/dd41ce30-3d80-11ec-b1e0-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
     "id": "93127_93128",
     "title": "Рюкзак дитячий, колір коричневий, 131R3640",
     "price": 259,
@@ -1955,16 +1765,6 @@
     "price": 50,
     "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">4</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">5 років</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">5 років</td>\n</tr>\n</tbody>\n</table>",
     "image": "https://ager.ua/image/catalog/import_files/51/feee7c60-e02c-11e0-80a9-0015c56feef5/51081569-3d79-11ec-b1e0-d8cb8a9c13c3.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
-    "id": "91531_91533",
-    "title": "Ремінь чоловічий, колір чорний, 196R35Y1W10",
-    "price": 269,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/7c/72992fb7-e030-11e0-80a9-0015c56feef5/7cbde88b-508e-11ed-a582-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -2070,16 +1870,6 @@
     "inStock": true
   },
   {
-    "id": "107642_805480",
-    "title": "Ремінь жіночий лаковий, колір помаранчевий, 196R2010W10",
-    "price": 50,
-    "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/7e/feee7c87-e02c-11e0-80a9-0015c56feef5/7ea4c92b-8590-11ee-8588-d8cb8a9c13c3-4.jpeg",
-    "category": "Без категории",
-    "fromFile": true,
-    "inStock": true
-  },
-  {
     "id": "105317_798836",
     "title": "Ремінь жіночий, колір бежевий, 196R20YOW1-2",
     "price": 269,
@@ -2140,11 +1930,41 @@
     "inStock": true
   },
   {
+    "id": "107362_804407",
+    "title": "Шарф жіночий в горох, колір чорно-червоний, 244R011",
+    "price": 89,
+    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">One Size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">160 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">45 см</td>\n</tr>\n</tbody>\n</table>",
+    "image": "https://ager.ua/image/catalog/import_files/a1/5acbceab-8baf-11e2-9502-8c89a5d9e6b9/a15f0f5c-ccbd-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "86018_817837",
+    "title": "Ремінь женский, колір білий, 196RL35Y0W20",
+    "price": 489,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/b9/ef922181-df9b-11e0-80a9-0015c56feef5/b996b3bb-04fa-11ed-a582-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
     "id": "85944_85945",
     "title": "Ремінь женский 196RL2510W19, колір коричневий, 196RL35Y0W19",
     "price": 489,
     "description": "",
     "image": "https://ager.ua/image/catalog/import_files/09/feee7c77-e02c-11e0-80a9-0015c56feef5/0914f39d-04e4-11ed-a582-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "80433_80435",
+    "title": "Чоловічий коричневий ремінь, з еко-шкіри, 196R40S1W2",
+    "price": 239,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/f8/feee7c77-e02c-11e0-80a9-0015c56feef5/f8b1b040-c168-11ec-9225-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -2160,11 +1980,21 @@
     "inStock": true
   },
   {
-    "id": "80353_80355",
-    "title": "Чоловічий ремінь з класичною пряжкою, чорного кольору, 196R35Y1W5-1",
-    "price": 279,
+    "id": "106977_803676",
+    "title": "Рюкзак дитячий, колір червоний, 244R0680",
+    "price": 299,
+    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">One Size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина плечей</td>\n<td class=\"tbody_td\">26 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Висота</td>\n<td class=\"tbody_td\">36 см</td>\n</tr>\n</tbody>\n</table>",
+    "image": "https://ager.ua/image/catalog/import_files/b9/feee7c7b-e02c-11e0-80a9-0015c56feef5/b96c9bb6-c1cd-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "80300_80302",
+    "title": "Чорний чоловічий ремінь, з еко-шкіри, 196R40Y1W14",
+    "price": 299,
     "description": "",
-    "image": "https://ager.ua/image/catalog/import_files/6d/72992fb7-e030-11e0-80a9-0015c56feef5/6d82a0c1-c0ea-11ec-9225-d8cb8a9c13c3.jpeg",
+    "image": "https://ager.ua/image/catalog/import_files/0f/72992fb7-e030-11e0-80a9-0015c56feef5/0f02ebee-bfbd-11ec-9225-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -2175,6 +2005,16 @@
     "price": 199,
     "description": "",
     "image": "https://ager.ua/image/catalog/import_files/c2/bc57aad3-0668-11e8-b533-00155d516702/c2326abc-04e5-11ed-a582-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "105313_798829",
+    "title": "Ремінь жіночий лаковий, колір фіолетовий, 196R2010W10",
+    "price": 50,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/7e/72992fb4-e030-11e0-80a9-0015c56feef5/7ea4c92b-8590-11ee-8588-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -2200,6 +2040,26 @@
     "inStock": true
   },
   {
+    "id": "99115_783239",
+    "title": "Ремінь жіночий лаковий, колір темно-синій, 196R1510W631",
+    "price": 99,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/5d/72992fb1-e030-11e0-80a9-0015c56feef5/5db89d71-0125-11ed-a582-d8cb8a9c13c3-6.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "80550_80552",
+    "title": "Чоловічий ремінь з класичною пряжкою, чорного кольору, 196R40U122",
+    "price": 259,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/f2/72992fb7-e030-11e0-80a9-0015c56feef5/f267adab-c1bc-11ec-9225-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
     "id": "85883_85884",
     "title": "Ремінь тактичний поясний чоловічий, колір хакі, 196R55T1315",
     "price": 359,
@@ -2210,11 +2070,111 @@
     "inStock": true
   },
   {
+    "id": "93214_93215",
+    "title": "Сумка дитяча, колір синій, 131R636",
+    "price": 279,
+    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">one size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">21 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">26 см</td>\n</tr>\n</tbody>\n</table>",
+    "image": "https://ager.ua/image/catalog/import_files/97/feee7c9d-e02c-11e0-80a9-0015c56feef5/97f4505a-5f51-11ed-a582-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "71032_71033",
+    "title": "Дитяча шапка, сіро-синього кольору, з вовни, 167R7777",
+    "price": 50,
+    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">3</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">4 роки</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина плечей</td>\n<td class=\"tbody_td\">4 роки</td>\n</tr>\n</tbody>\n</table>",
+    "image": "https://ager.ua/image/catalog/import_files/b7/feee7c99-e02c-11e0-80a9-0015c56feef5/b7b4f3d3-3be2-11ec-b1e0-d8cb8a9c13c3-15.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "107642_805480",
+    "title": "Ремінь жіночий лаковий, колір помаранчевий, 196R2010W10",
+    "price": 50,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/7e/feee7c87-e02c-11e0-80a9-0015c56feef5/7ea4c92b-8590-11ee-8588-d8cb8a9c13c3-4.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "107664_805564",
+    "title": "Ремінь жіночий тонкий, колір темно-бежевий, 196R15Y0W16",
+    "price": 269,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/27/f2dd204f-7129-11e2-9141-8c89a5d9e6b9/27c231dd-d644-11ee-8588-d8cb8a9c13c3-20.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "105316_798833",
+    "title": "Ремінь жіночий, колір чорний, 196R20YOW1-1",
+    "price": 269,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/10/72992fb7-e030-11e0-80a9-0015c56feef5/10df95f1-8593-11ee-8588-d8cb8a9c13c3-4.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "105316_798835",
+    "title": "Ремінь жіночий, колір чорний, 196R20YOW1-1",
+    "price": 269,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/10/72992fb7-e030-11e0-80a9-0015c56feef5/10df95f1-8593-11ee-8588-d8cb8a9c13c3-4.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "91531_91533",
+    "title": "Ремінь чоловічий, колір чорний, 196R35Y1W10",
+    "price": 269,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/7c/72992fb7-e030-11e0-80a9-0015c56feef5/7cbde88b-508e-11ed-a582-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "107663_805552",
+    "title": "Ремінь жіночий тонкий, колір світло-коричневий, 196R15Y0W16",
+    "price": 269,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/27/885523f5-2565-11e1-acba-b0487a8d09b7/27c231dd-d644-11ee-8588-d8cb8a9c13c3-32.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "107663_805569",
+    "title": "Ремінь жіночий тонкий, колір світло-коричневий, 196R15Y0W16",
+    "price": 269,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/27/885523f5-2565-11e1-acba-b0487a8d09b7/27c231dd-d644-11ee-8588-d8cb8a9c13c3-32.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
     "id": "89584_89585",
     "title": "Бананка, колір чорно-сірий, 131R223-18",
     "price": 259,
     "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">one size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Комір</td>\n<td class=\"tbody_td\">18 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">31 см</td>\n</tr>\n</tbody>\n</table>",
     "image": "https://ager.ua/image/catalog/import_files/2d/72992fbc-e030-11e0-80a9-0015c56feef5/2d430bc4-43fb-11ed-a582-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "91523_91524",
+    "title": "Ремінь жіночий, колір світло-сірий, 196R25SOW103",
+    "price": 199,
+    "description": "",
+    "image": "https://ager.ua/image/catalog/import_files/85/feee7c8e-e02c-11e0-80a9-0015c56feef5/8523b642-5087-11ed-a582-d8cb8a9c13c3-3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
@@ -2235,6 +2195,16 @@
     "price": 269,
     "description": "",
     "image": "https://ager.ua/image/catalog/import_files/da/72992fb7-e030-11e0-80a9-0015c56feef5/da7c9aa4-afcd-11ee-8588-d8cb8a9c13c3.jpeg",
+    "category": "Без категории",
+    "fromFile": true,
+    "inStock": true
+  },
+  {
+    "id": "71313_71314",
+    "title": "Дитяча шапка молочно-блакитного кольору, з декором, 167R7802-1",
+    "price": 50,
+    "description": "<style>.table,.tbody,.tbody_tr,.thead,.thead_tr{font-size:14px;font-weight:400}.table,.tbody,.tbody_tr,.thead,.thead_td,.thead_tr{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-family:'Open Sans',sans-serif;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0}.table{max-width:100%;background-color:transparent;border:1px solid #e5e5e5;width:100%;margin:0 0 30px}.tbody_first-td,.thead_td{border-left:none}.tbody_tr,.thead_tr{background:#fff;transition:.1s ease-in-out}.thead_td{text-align:left;vertical-align:top;font-size:11px;font-weight:700;text-transform:uppercase;padding:5px 10px;border-top:none}.tbody_first-td,.tbody_td{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;color:#34404b;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:400;line-height:23px;border-collapse:separate;border-spacing:0;box-sizing:border-box;outline:0;border-top:1px solid #e5e5e5;padding:5px 10px;text-align:left;vertical-align:top}.tbody_td{border-left:1px solid #e5e5e5}</style>\n<table class=\"table\" cellspacing=\"0\">\n<thead class=\"thead\">\n<tr class=\"thead_tr\">\n<td colspan=\"2\" class=\"thead_td\">Заміри (фактичні заміри можуть відрізнятись +- 2 см)</td>\n</tr>\n</thead>\n<tbody class=\"tbody\">\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Розмір</td>\n<td class=\"tbody_td\">one size</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Довжина виробу</td>\n<td class=\"tbody_td\">18 см</td>\n</tr>\n<tr class=\"tbody_tr\">\n<td class=\"tbody_first-td\">Ширина</td>\n<td class=\"tbody_td\">21 см</td>\n</tr>\n</tbody>\n</table>",
+    "image": "https://ager.ua/image/catalog/import_files/dd/c28a5a81-9b87-11e6-b9ce-00155d516702/dd41ce30-3d80-11ec-b1e0-d8cb8a9c13c3.jpeg",
     "category": "Без категории",
     "fromFile": true,
     "inStock": true
