@@ -3468,7 +3468,7 @@ function renderProducts() {
 
   let filteredProducts = getFilteredProducts();
 
-  document.getElementById('products-title').textContent = showingFavorites ? 'Обрані товари' : 'Модний одяг, взуття та аксесуари';
+  document.getElementById('products-title').textContent = showingFavorites ? 'Обрані товари' : '';
   document.getElementById('products-count').textContent = `Знайдено: ${filteredProducts.length}`;
 
   const startIndex = (currentPage - 1) * productsPerPage;
