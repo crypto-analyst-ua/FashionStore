@@ -3,15 +3,15 @@
 
 /* УЛУЧШЕННАЯ ЦВЕТОВАЯ ПАЛИТРА - МАГАЗИН ОБУВИ */
 :root {
-  --primary: #7B4B2E; /* Элегантный коричневый - цвет натуральной кожи */
-  --primary-light: #9C6B4A;
-  --primary-dark: #5A3520;
+  --primary: #4A4A4A; /* Серый вместо коричневого */
+  --primary-light: #6A6A6A; /* Полу-серый */
+  --primary-dark: #2A2A2A; /* Темно-серый */
   --secondary: #2C3E50; /* Темно-синий - элегантность и стиль */
   --secondary-light: #34495E;
   --secondary-dark: #1C2833;
-  --accent: #D4AF37; /* Золотистый - роскошь и качество */
-  --accent-light: #E6C35C;
-  --accent-dark: #B8941F;
+  --accent: #8C8C8C; /* Полу-серый вместо золотистого */
+  --accent-light: #A6A6A6; /* Светло-серый */
+  --accent-dark: #6E6E6E; /* Темно-серый */
   --success: #27AE60; /* Зеленый для успеха */
   --warning: #E67E22; /* Оранжевый для предупреждений */
   --danger: #C0392B; /* Красный для ошибок */
@@ -86,10 +86,10 @@ h3 {
 /* Хедер - градиент для магазина обуви */
 header {
   background: linear-gradient(135deg, 
-    #7B4B2E 0%, 
+    #4A4A4A 0%,  /* Серый */
     #2C3E50 25%, 
-    #D4AF37 50%, 
-    #9C6B4A 75%, 
+    #8C8C8C 50%,  /* Полу-серый */
+    #6A6A6A 75%,  /* Полу-серый */
     #34495E 100%);
   color: var(--white);
   padding: 1rem;
@@ -141,7 +141,7 @@ header {
 .search-container-mobile input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(123, 75, 46, 0.1);
+  box-shadow: 0 0 0 3px rgba(74, 74, 74, 0.1);
 }
 
 .logo {
@@ -162,7 +162,7 @@ header {
   background: var(--primary-light);
   padding: 0.5rem;
   border-radius: 50%;
-  box-shadow: 0 0 15px rgba(156, 107, 74, 0.4);
+  box-shadow: 0 0 15px rgba(106, 106, 106, 0.4);
   animation: pulse 2s infinite;
   flex-shrink: 0;
 }
@@ -271,7 +271,7 @@ header {
 .search-container input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(123, 75, 46, 0.1);
+  box-shadow: 0 0 0 3px rgba(74, 74, 74, 0.1);
 }
 
 .search-container:focus-within {
@@ -304,7 +304,7 @@ select {
 
 select:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(123, 75, 46, 0.1);
+  box-shadow: 0 0 0 3px rgba(74, 74, 74, 0.1);
 }
 
 /* Кнопки */
@@ -406,7 +406,7 @@ select:focus {
 }
 
 .btn-favorite:hover {
-  background: rgba(123, 75, 46, 0.1);
+  background: rgba(74, 74, 74, 0.1);
   color: var(--secondary);
 }
 
@@ -481,7 +481,7 @@ main {
 .filter-group select:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  box-shadow: 0 0 0 3px rgba(140, 140, 140, 0.1);
 }
 
 .price-range {
@@ -818,25 +818,25 @@ aside h3 {
 }
 
 .about-section h1 {
-  color: #7B4B2E;
+  color: #4A4A4A; /* Серый вместо коричневого */
   margin-bottom: 1.5rem;
   font-size: clamp(1.8rem, 5vw, 2.5rem);
 }
 
 .about-section h2 {
-  color: #7B4B2E;
+  color: #4A4A4A; /* Серый вместо коричневого */
   font-size: clamp(1.5rem, 4vw, 2rem);
   margin-bottom: 1rem;
 }
 
 .about-section h3 {
-  color: #7B4B2E;
+  color: #4A4A4A; /* Серый вместо коричневого */
   margin: 1.5rem 0 1rem;
   font-size: clamp(1.2rem, 3vw, 1.5rem);
 }
 
 .about-section h4 {
-  color: #7B4B2E;
+  color: #4A4A4A; /* Серый вместо коричневого */
   margin: 1.5rem 0 1rem;
 }
 
@@ -858,12 +858,12 @@ aside h3 {
 }
 
 .about-section strong {
-  color: #D4AF37;
+  color: #8C8C8C; /* Полу-серый вместо желтого */
 }
 
 .about-section mark {
-  background-color: #E6C35C;
-  color: #5A3520;
+  background-color: #A6A6A6; /* Светло-серый вместо желтого */
+  color: #2A2A2A; /* Темно-серый вместо коричневого */
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
 }
@@ -1233,7 +1233,7 @@ footer {
 .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  box-shadow: 0 0 0 3px rgba(140, 140, 140, 0.1);
 }
 
 .form-row {
@@ -1382,7 +1382,7 @@ footer {
 }
 
 .status-new {
-  background: rgba(123, 75, 46, 0.1);
+  background: rgba(74, 74, 74, 0.1);
   color: var(--primary);
 }
 
@@ -1392,7 +1392,7 @@ footer {
 }
 
 .status-shipped {
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(140, 140, 140, 0.1);
   color: var(--accent);
 }
 
@@ -1661,7 +1661,7 @@ button:focus, input:focus, select:focus, textarea:focus {
 
 /* Стили для информации о доставке */
 .delivery-notice {
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(140, 140, 140, 0.1);
   padding: 1rem;
   border-radius: var(--border-radius);
   margin: 1rem 0;
@@ -3599,7 +3599,7 @@ main {
 
 .profile-avatar {
     font-size: 60px;
-    color: #7B4B2E;
+    color: #4A4A4A; /* Серый вместо коричневого */
 }
 
 .profile-details p {
@@ -3631,7 +3631,7 @@ main {
 
 .stat-item i {
     font-size: 24px;
-    color: #7B4B2E;
+    color: #4A4A4A; /* Серый вместо коричневого */
     margin-bottom: 8px;
 }
 
@@ -3654,11 +3654,11 @@ main {
     padding: 20px;
     margin-bottom: 15px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    border-left: 4px solid #7B4B2E;
+    border-left: 4px solid #4A4A4A; /* Серый вместо коричневого */
 }
 
 .user-order-card.new {
-    border-left-color: #7B4B2E;
+    border-left-color: #4A4A4A; /* Серый вместо коричневого */
 }
 
 .user-order-card.processing {
@@ -3666,7 +3666,7 @@ main {
 }
 
 .user-order-card.shipped {
-    border-left-color: #D4AF37;
+    border-left-color: #8C8C8C; /* Полу-серый вместо желтого */
 }
 
 .user-order-card.delivered {
@@ -3709,8 +3709,8 @@ main {
 }
 
 .status-new {
-    background: rgba(123, 75, 46, 0.1);
-    color: #7B4B2E;
+    background: rgba(74, 74, 74, 0.1); /* Серый вместо коричневого */
+    color: #4A4A4A; /* Серый вместо коричневого */
 }
 
 .status-processing {
@@ -3719,8 +3719,8 @@ main {
 }
 
 .status-shipped {
-    background: rgba(212, 175, 55, 0.1);
-    color: #D4AF37;
+    background: rgba(140, 140, 140, 0.1); /* Полу-серый вместо желтого */
+    color: #8C8C8C; /* Полу-серый вместо желтого */
 }
 
 .status-delivered {
@@ -3745,14 +3745,14 @@ main {
 }
 
 .order-ttn-info {
-    background: rgba(123, 75, 46, 0.1);
+    background: rgba(74, 74, 74, 0.1); /* Серый вместо коричневого */
     padding: 10px;
     border-radius: 6px;
     margin: 10px 0;
 }
 
 .track-link {
-    color: #7B4B2E;
+    color: #4A4A4A; /* Серый вместо коричневого */
     text-decoration: none;
     font-size: 14px;
 }
@@ -4237,7 +4237,6 @@ main {
 }
 
 /* Добавьте эти стили в медиазапрос для мобильных устройств */
-
 @media (max-width: 768px) {
   /* Скрываем текст на кнопке входа/профиля */
   .btn-admin .btn-text {
@@ -4303,7 +4302,6 @@ main {
 }
 
 /* Добавьте эти стили в конец файла styles.css */
-
 .gender-filter {
     display: flex;
     gap: 10px;
@@ -4313,9 +4311,9 @@ main {
 
 .gender-btn {
     padding: 8px 16px;
-    border: 2px solid #7B4B2E;
+    border: 2px solid #4A4A4A; /* Серый вместо коричневого */
     background: white;
-    color: #7B4B2E;
+    color: #4A4A4A; /* Серый вместо коричневого */
     border-radius: 20px;
     cursor: pointer;
     font-weight: 600;
@@ -4328,9 +4326,9 @@ main {
 }
 
 .gender-btn.active {
-    background: #7B4B2E;
+    background: #4A4A4A; /* Серый вместо коричневого */
     color: white;
-    box-shadow: 0 4px 12px rgba(123, 75, 46, 0.3);
+    box-shadow: 0 4px 12px rgba(74, 74, 74, 0.3); /* Серый вместо коричневого */
 }
 
 @media (max-width: 768px) {
@@ -4370,14 +4368,14 @@ main {
     background: var(--primary-light);
     color: var(--white);
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(123, 75, 46, 0.2);
+    box-shadow: 0 4px 8px rgba(74, 74, 74, 0.2); /* Серый вместо коричневого */
 }
 
 .sport-type-btn.active {
     background: var(--primary);
     color: var(--white);
     border-color: var(--primary);
-    box-shadow: 0 4px 12px rgba(123, 75, 46, 0.3);
+    box-shadow: 0 4px 12px rgba(74, 74, 74, 0.3); /* Серый вместо коричневого */
 }
 
 /* Адаптивность для фильтра видов спорта */
@@ -4504,7 +4502,7 @@ main {
 
 .user-dropdown a:hover {
     background-color: #f8f9fa;
-    color: #7B4B2E;
+    color: #4A4A4A; /* Серый вместо коричневого */
 }
 
 .user-menu:hover .user-dropdown {
@@ -4624,7 +4622,6 @@ main {
 }
 
 /* ДОБАВЬТЕ ЭТИ СТИЛИ В КОНЕЦ ФАЙЛА styles.css */
-
 /* Исправление для кнопки закрытия модального окна */
 .modal-close {
   position: absolute;
@@ -4654,7 +4651,7 @@ main {
   background: var(--primary) !important;
   color: var(--white) !important;
   transform: rotate(90deg) scale(1.1);
-  box-shadow: 0 6px 16px rgba(123, 75, 46, 0.3) !important;
+  box-shadow: 0 6px 16px rgba(74, 74, 74, 0.3) !important; /* Серый вместо коричневого */
 }
 
 .modal-close:active {
