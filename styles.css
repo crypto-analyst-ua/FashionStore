@@ -158,11 +158,8 @@ header {
 
 .logo i {
   font-size: clamp(1.8rem, 5vw, 2.5rem);
-  color: var(--white);
-  background: var(--primary-light);
   padding: 0.5rem;
   border-radius: 50%;
-  box-shadow: 0 0 15px rgba(106, 106, 106, 0.4);
   animation: pulse 2s infinite;
   flex-shrink: 0;
 }
@@ -175,9 +172,6 @@ header {
 
 .logo h1 {
   font-size: clamp(1.3rem, 4vw, 1.8rem);
-  color: var(--white);
-  -webkit-text-fill-color: var(--white);
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
   margin-bottom: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -2501,7 +2495,6 @@ button:focus, input:focus, select:focus, textarea:focus {
     font-family: 'Arial', sans-serif;
     font-size: 28px;
     font-weight: 700;
-    color: var(--white);
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin: 0;
@@ -2516,7 +2509,6 @@ button:focus, input:focus, select:focus, textarea:focus {
     left: 0;
     width: 100%;
     height: 3px;
-    background: linear-gradient(90deg, var(--primary-light), var(--accent-light));
     border-radius: 2px;
 }
 
@@ -2526,7 +2518,6 @@ button:focus, input:focus, select:focus, textarea:focus {
     font-weight: 400;
     text-transform: none;
     letter-spacing: 0.5px;
-    color: var(--gray-light);
     margin-top: 2px;
 }
 
@@ -3285,19 +3276,7 @@ body.search-suggestions-open {
 
 /* Стили для черного текста с белой обводкой в логотипе */
 .logo-text .logo-name {
-    color: #000000 !important;
     font-weight: 700;
-    text-shadow: 
-        0 0 5px #ffffff,
-        0 0 10px #ffffff,
-        0 0 15px #ffffff,
-        0 0 20px #ffffff,
-        0 0 25px #ffffff,
-        0 0 30px #ffffff !important;
-    -webkit-text-stroke: 1px #ffffff !important;
-    background: none !important;
-    -webkit-background-clip: initial !important;
-    -webkit-text-fill-color: #000000 !important;
 }
 
 /* Скрытие кнопки администратора */
