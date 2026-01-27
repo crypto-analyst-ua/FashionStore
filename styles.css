@@ -1,33 +1,33 @@
 /* Подключение шрифтов */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;600;700&display=swap');
 
-/* Обновленная цветовая палитра - ОДЕЖДА И ОБУВЬ */
+/* УЛУЧШЕННАЯ ЦВЕТОВАЯ ПАЛИТРА - МАГАЗИН ОБУВИ */
 :root {
-  --primary: #8B4513; /* Коричневый - кожа, натуральные материалы */
-  --primary-light: #A0522D;
-  --primary-dark: #654321;
-  --secondary: #2F4F4F; /* Темно-серый/сизый - элегантность */
-  --secondary-light: #708090;
-  --secondary-dark: #1C2E2E;
-  --accent: #B8860B; /* Золотистый - акцент, роскошь */
-  --accent-light: #DAA520;
-  --accent-dark: #8B6914;
-  --success: #228B22; /* Зеленый для успеха */
-  --warning: #FF8C00; /* Оранжевый для предупреждений */
-  --danger: #B22222; /* Красный для ошибок */
-  --light: #F5F5F5;
-  --dark: #2F2F2F;
-  --gray: #8C8C8C;
-  --gray-light: #D3D3D3;
-  --gray-lighter: #F0F0F0;
+  --primary: #7B4B2E; /* Элегантный коричневый - цвет натуральной кожи */
+  --primary-light: #9C6B4A;
+  --primary-dark: #5A3520;
+  --secondary: #2C3E50; /* Темно-синий - элегантность и стиль */
+  --secondary-light: #34495E;
+  --secondary-dark: #1C2833;
+  --accent: #D4AF37; /* Золотистый - роскошь и качество */
+  --accent-light: #E6C35C;
+  --accent-dark: #B8941F;
+  --success: #27AE60; /* Зеленый для успеха */
+  --warning: #E67E22; /* Оранжевый для предупреждений */
+  --danger: #C0392B; /* Красный для ошибок */
+  --light: #F8F9FA;
+  --dark: #2C3E50;
+  --gray: #7F8C8D;
+  --gray-light: #BDC3C7;
+  --gray-lighter: #ECF0F1;
   --white: #FFFFFF;
   --surface: #FFFFFF;
-  --surface-2: #FAFAFA;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --surface-2: #F5F7FA;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.15);
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --border-radius: 12px;
-  --border-radius-lg: 16px;
+  --border-radius: 10px;
+  --border-radius-lg: 14px;
 }
 
 /* Общие стили */
@@ -46,7 +46,7 @@ body {
   font-family: 'Roboto', sans-serif;
   line-height: 1.6;
   color: var(--dark);
-  background: linear-gradient(135deg, #FAF0E6 0%, #F5F5DC 25%, #FFF8DC 50%, #FDF5E6 75%, #FAF9F6 100%);
+  background: linear-gradient(135deg, #FDF6E3 0%, #FCF3CF 25%, #FEF9E7 50%, #FEF5E7 75%, #FEF9E7 100%);
   background-attachment: fixed;
   background-size: cover;
   min-height: 100vh;
@@ -73,7 +73,7 @@ h1 {
 
 h2 {
   font-size: clamp(1.5rem, 4vw, 2rem);
-  border-bottom: 2px solid var(--secondary);
+  border-bottom: 2px solid var(--accent);
   padding-bottom: 0.5rem;
   display: inline-block;
 }
@@ -83,14 +83,14 @@ h3 {
   color: var(--primary);
 }
 
-/* Хедер - градиент для магазина одежды и обуви */
+/* Хедер - градиент для магазина обуви */
 header {
   background: linear-gradient(135deg, 
-    #8B4513 0%, 
-    #2F4F4F 25%, 
-    #B8860B 50%, 
-    #228B22 75%, 
-    #A0522D 100%);
+    #7B4B2E 0%, 
+    #2C3E50 25%, 
+    #D4AF37 50%, 
+    #9C6B4A 75%, 
+    #34495E 100%);
   color: var(--white);
   padding: 1rem;
   box-shadow: var(--shadow);
@@ -141,7 +141,7 @@ header {
 .search-container-mobile input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+  box-shadow: 0 0 0 3px rgba(123, 75, 46, 0.1);
 }
 
 .logo {
@@ -162,7 +162,7 @@ header {
   background: var(--primary-light);
   padding: 0.5rem;
   border-radius: 50%;
-  box-shadow: 0 0 15px rgba(160, 82, 45, 0.4);
+  box-shadow: 0 0 15px rgba(156, 107, 74, 0.4);
   animation: pulse 2s infinite;
   flex-shrink: 0;
 }
@@ -271,7 +271,7 @@ header {
 .search-container input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+  box-shadow: 0 0 0 3px rgba(123, 75, 46, 0.1);
 }
 
 .search-container:focus-within {
@@ -304,7 +304,7 @@ select {
 
 select:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+  box-shadow: 0 0 0 3px rgba(123, 75, 46, 0.1);
 }
 
 /* Кнопки */
@@ -406,7 +406,7 @@ select:focus {
 }
 
 .btn-favorite:hover {
-  background: rgba(139, 69, 19, 0.1);
+  background: rgba(123, 75, 46, 0.1);
   color: var(--secondary);
 }
 
@@ -481,7 +481,7 @@ main {
 .filter-group select:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
 }
 
 .price-range {
@@ -807,41 +807,41 @@ aside h3 {
   display: block;
 }
 
-/* О магазине - ДЛЯ СПОРТИВНОГО МАГАЗИНА */
+/* О магазине - ДЛЯ МАГАЗИНА ОБУВИ */
 .about-section {
   background: linear-gradient(135deg, #ffffff 0%, #FAFAFA 50%, #ffffff 100%);
-  color: #2F2F2F;
+  color: #2C3E50;
   padding: 2.5rem 0;
   margin: 2rem 0;
-  border: 1px solid #FAF0E6;
+  border: 1px solid #FDF6E3;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .about-section h1 {
-  color: #8B4513;
+  color: #7B4B2E;
   margin-bottom: 1.5rem;
   font-size: clamp(1.8rem, 5vw, 2.5rem);
 }
 
 .about-section h2 {
-  color: #8B4513;
+  color: #7B4B2E;
   font-size: clamp(1.5rem, 4vw, 2rem);
   margin-bottom: 1rem;
 }
 
 .about-section h3 {
-  color: #8B4513;
+  color: #7B4B2E;
   margin: 1.5rem 0 1rem;
   font-size: clamp(1.2rem, 3vw, 1.5rem);
 }
 
 .about-section h4 {
-  color: #8B4513;
+  color: #7B4B2E;
   margin: 1.5rem 0 1rem;
 }
 
 .about-section p {
-  color: #424242;
+  color: #2C3E50;
   margin-bottom: 1rem;
   line-height: 1.6;
 }
@@ -854,41 +854,41 @@ aside h3 {
 .about-section li {
   margin-bottom: 0.8rem;
   line-height: 1.6;
-  color: #424242;
+  color: #2C3E50;
 }
 
 .about-section strong {
-  color: #B8860B;
+  color: #D4AF37;
 }
 
 .about-section mark {
-  background-color: #FAF0E6;
-  color: #654321;
+  background-color: #E6C35C;
+  color: #5A3520;
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
 }
 
 .about-section .highlight {
-  background: #FAFAFA;
+  background: #F5F7FA;
   padding: 1.5rem;
   border-radius: var(--border-radius);
-  border-left: 4px solid #2F4F4F;
-  color: #424242;
+  border-left: 4px solid #2C3E50;
+  color: #2C3E50;
   margin: 1.5rem 0;
 }
 
 .about-section .container {
-  color: #424242;
+  color: #2C3E50;
 }
 
 .about-section article {
-  color: #424242;
+  color: #2C3E50;
   margin-bottom: 1.5rem;
 }
 
 .about-section ul li::before {
   content: "✓ ";
-  color: #228B22;
+  color: #27AE60;
   font-weight: bold;
   margin-right: 0.5rem;
 }
@@ -1233,7 +1233,7 @@ footer {
 .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
 }
 
 .form-row {
@@ -1382,27 +1382,27 @@ footer {
 }
 
 .status-new {
-  background: rgba(139, 69, 19, 0.1);
+  background: rgba(123, 75, 46, 0.1);
   color: var(--primary);
 }
 
 .status-processing {
-  background: rgba(255, 140, 0, 0.1);
-  color: #FF8C00;
+  background: rgba(230, 126, 34, 0.1);
+  color: #E67E22;
 }
 
 .status-shipped {
-  background: rgba(184, 134, 11, 0.1);
+  background: rgba(212, 175, 55, 0.1);
   color: var(--accent);
 }
 
 .status-delivered {
-  background: rgba(34, 139, 34, 0.1);
-  color: #228B22;
+  background: rgba(39, 174, 96, 0.1);
+  color: #27AE60;
 }
 
 .status-cancelled {
-  background: rgba(178, 34, 34, 0.1);
+  background: rgba(192, 57, 43, 0.1);
   color: var(--danger);
 }
 
@@ -1661,7 +1661,7 @@ button:focus, input:focus, select:focus, textarea:focus {
 
 /* Стили для информации о доставке */
 .delivery-notice {
-  background: rgba(184, 134, 11, 0.1);
+  background: rgba(212, 175, 55, 0.1);
   padding: 1rem;
   border-radius: var(--border-radius);
   margin: 1rem 0;
@@ -2742,8 +2742,8 @@ body.search-suggestions-open {
 }
 
 .about-section mark {
-  background-color: var(--secondary-light) !important;
-  color: var(--dark) !important;
+  background-color: var(--accent-light) !important;
+  color: var(--primary-dark) !important;
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
 }
@@ -3599,7 +3599,7 @@ main {
 
 .profile-avatar {
     font-size: 60px;
-    color: #3498db;
+    color: #7B4B2E;
 }
 
 .profile-details p {
@@ -3631,7 +3631,7 @@ main {
 
 .stat-item i {
     font-size: 24px;
-    color: #3498db;
+    color: #7B4B2E;
     margin-bottom: 8px;
 }
 
@@ -3654,27 +3654,27 @@ main {
     padding: 20px;
     margin-bottom: 15px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    border-left: 4px solid #3498db;
+    border-left: 4px solid #7B4B2E;
 }
 
 .user-order-card.new {
-    border-left-color: #3498db;
+    border-left-color: #7B4B2E;
 }
 
 .user-order-card.processing {
-    border-left-color: #f39c12;
+    border-left-color: #E67E22;
 }
 
 .user-order-card.shipped {
-    border-left-color: #9b59b6;
+    border-left-color: #D4AF37;
 }
 
 .user-order-card.delivered {
-    border-left-color: #27ae60;
+    border-left-color: #27AE60;
 }
 
 .user-order-card.cancelled {
-    border-left-color: #e74c3c;
+    border-left-color: #C0392B;
 }
 
 .order-card-header {
@@ -3709,28 +3709,28 @@ main {
 }
 
 .status-new {
-    background: #e3f2fd;
-    color: #1976d2;
+    background: rgba(123, 75, 46, 0.1);
+    color: #7B4B2E;
 }
 
 .status-processing {
-    background: #fff3e0;
-    color: #f57c00;
+    background: rgba(230, 126, 34, 0.1);
+    color: #E67E22;
 }
 
 .status-shipped {
-    background: #f3e5f5;
-    color: #7b1fa2;
+    background: rgba(212, 175, 55, 0.1);
+    color: #D4AF37;
 }
 
 .status-delivered {
-    background: #e8f5e8;
-    color: #388e3c;
+    background: rgba(39, 174, 96, 0.1);
+    color: #27AE60;
 }
 
 .status-cancelled {
-    background: #ffebee;
-    color: #d32f2f;
+    background: rgba(192, 57, 43, 0.1);
+    color: #C0392B;
 }
 
 .order-total {
@@ -3745,14 +3745,14 @@ main {
 }
 
 .order-ttn-info {
-    background: #e3f2fd;
+    background: rgba(123, 75, 46, 0.1);
     padding: 10px;
     border-radius: 6px;
     margin: 10px 0;
 }
 
 .track-link {
-    color: #1976d2;
+    color: #7B4B2E;
     text-decoration: none;
     font-size: 14px;
 }
@@ -3787,7 +3787,7 @@ main {
 .error-message {
     text-align: center;
     padding: 40px 20px;
-    color: #e74c3c;
+    color: #C0392B;
 }
 
 .error-message i {
@@ -4313,9 +4313,9 @@ main {
 
 .gender-btn {
     padding: 8px 16px;
-    border: 2px solid #8B4513;
+    border: 2px solid #7B4B2E;
     background: white;
-    color: #8B4513;
+    color: #7B4B2E;
     border-radius: 20px;
     cursor: pointer;
     font-weight: 600;
@@ -4323,14 +4323,14 @@ main {
 }
 
 .gender-btn:hover {
-    background: #FAF0E6;
+    background: #FDF6E3;
     transform: translateY(-2px);
 }
 
 .gender-btn.active {
-    background: #8B4513;
+    background: #7B4B2E;
     color: white;
-    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+    box-shadow: 0 4px 12px rgba(123, 75, 46, 0.3);
 }
 
 @media (max-width: 768px) {
@@ -4370,14 +4370,14 @@ main {
     background: var(--primary-light);
     color: var(--white);
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(139, 69, 19, 0.2);
+    box-shadow: 0 4px 8px rgba(123, 75, 46, 0.2);
 }
 
 .sport-type-btn.active {
     background: var(--primary);
     color: var(--white);
     border-color: var(--primary);
-    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+    box-shadow: 0 4px 12px rgba(123, 75, 46, 0.3);
 }
 
 /* Адаптивность для фильтра видов спорта */
@@ -4504,109 +4504,109 @@ main {
 
 .user-dropdown a:hover {
     background-color: #f8f9fa;
-    color: #8B4513;
+    color: #7B4B2E;
 }
 
 .user-menu:hover .user-dropdown {
     display: block;
 }
 
-    /* Обновленные стили для цветных иконок контактов */
+/* Обновленные стили для цветных иконок контактов */
+.contact-info {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.contact-info a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 22px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    background: var(--surface-2);
+}
+
+/* Цветные иконки по брендам */
+.contact-info a:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.contact-info a[href*="facebook"] i {
+    color: #1877F2;
+}
+
+.contact-info a[href*="instagram"] i {
+    color: #E4405F;
+}
+
+.contact-info a[href*="whatsapp"] i {
+    color: #25D366;
+}
+
+.contact-info a[href*="viber"] i {
+    color: #7360F2;
+}
+
+.contact-info a[href*="telegram"] i {
+    color: #0088cc;
+}
+
+/* Эффект при наведении - затемнение цвета */
+.contact-info a[href*="facebook"]:hover i {
+    color: #166FE5;
+}
+
+.contact-info a[href*="instagram"]:hover i {
+    color: #C13584;
+}
+
+.contact-info a[href*="whatsapp"]:hover i {
+    color: #128C7E;
+}
+
+.contact-info a[href*="viber"]:hover i {
+    color: #665BCF;
+}
+
+.contact-info a[href*="telegram"]:hover i {
+    color: #0077B5;
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
     .contact-info {
-        display: flex;
-        flex-direction: row;
-        gap: 12px;
-        justify-content: center;
-        align-items: center;
-        margin-top: 10px;
-        flex-wrap: wrap;
+        gap: 10px;
     }
-    
     .contact-info a {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        font-size: 22px;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        background: var(--surface-2);
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
     }
-    
-    /* Цветные иконки по брендам */
-    .contact-info a:hover {
-        transform: translateY(-3px) scale(1.1);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+@media (max-width: 480px) {
+    .contact-info {
+        gap: 8px;
     }
-    
-    .contact-info a[href*="facebook"] i {
-        color: #1877F2;
+    .contact-info a {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
     }
-    
-    .contact-info a[href*="instagram"] i {
-        color: #E4405F;
-    }
-    
-    .contact-info a[href*="whatsapp"] i {
-        color: #25D366;
-    }
-    
-    .contact-info a[href*="viber"] i {
-        color: #7360F2;
-    }
-    
-    .contact-info a[href*="telegram"] i {
-        color: #0088cc;
-    }
-    
-    /* Эффект при наведении - затемнение цвета */
-    .contact-info a[href*="facebook"]:hover i {
-        color: #166FE5;
-    }
-    
-    .contact-info a[href*="instagram"]:hover i {
-        color: #C13584;
-    }
-    
-    .contact-info a[href*="whatsapp"]:hover i {
-        color: #128C7E;
-    }
-    
-    .contact-info a[href*="viber"]:hover i {
-        color: #665BCF;
-    }
-    
-    .contact-info a[href*="telegram"]:hover i {
-        color: #0077B5;
-    }
-    
-    /* Для мобильных устройств */
-    @media (max-width: 768px) {
-        .contact-info {
-            gap: 10px;
-        }
-        .contact-info a {
-            width: 40px;
-            height: 40px;
-            font-size: 20px;
-        }
-    }
-    
-    @media (max-width: 480px) {
-        .contact-info {
-            gap: 8px;
-        }
-        .contact-info a {
-            width: 36px;
-            height: 36px;
-            font-size: 18px;
-        }
-    }
-    
-    /* Сохраняем цветные иконки мессенджеров */
+}
+
+/* Сохраняем цветные иконки мессенджеров */
 .contact-info .fa-whatsapp { color: #25D366 !important; }
 .contact-info .fa-viber { color: #7360F2 !important; }
 .contact-info .fa-telegram { color: #0088cc !important; }
@@ -4654,7 +4654,7 @@ main {
   background: var(--primary) !important;
   color: var(--white) !important;
   transform: rotate(90deg) scale(1.1);
-  box-shadow: 0 6px 16px rgba(139, 69, 19, 0.3) !important;
+  box-shadow: 0 6px 16px rgba(123, 75, 46, 0.3) !important;
 }
 
 .modal-close:active {
