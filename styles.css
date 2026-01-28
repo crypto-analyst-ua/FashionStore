@@ -46,7 +46,16 @@ body {
   font-family: 'Roboto', sans-serif;
   line-height: 1.6;
   color: var(--dark);
-  background: linear-gradient(135deg, #FDF6E3 0%, #FCF3CF 25%, #FEF9E7 50%, #FEF5E7 75%, #FEF9E7 100%);
+  background: linear-gradient(135deg, 
+    #FF6B6B 0%,      /* Красный */
+    #FF8E53 14.28%,  /* Оранжево-красный */
+    #FFD166 28.56%,  /* Желтый */
+    #06D6A0 42.84%,  /* Зеленый */
+    #118AB2 57.12%,  /* Голубой */
+    #073B4C 71.4%,   /* Темно-синий */
+    #7209B7 85.68%,  /* Фиолетовый */
+    #FF006E 100%     /* Розовый */
+  );
   background-attachment: fixed;
   background-size: cover;
   min-height: 100vh;
