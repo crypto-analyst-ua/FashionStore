@@ -42,55 +42,62 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-/* УЛУЧШЕННЫЙ РАДУЖНЫЙ ФОН */
+/* УЛУЧШЕННЫЙ РАДУЖНЫЙ ФОН - СУПЕР КРАСИВЫЙ И ПЛАВНЫЙ */
 body {
   font-family: 'Roboto', sans-serif;
   line-height: 1.6;
   color: var(--dark);
   
-  /* ОСНОВНОЙ РАДУЖНЫЙ ГРАДИЕНТ - ПЛАВНЫЙ И КРАСИВЫЙ */
+  /* ПЕРЕРАБОТАННЫЙ РАДУЖНЫЙ ГРАДИЕНТ - УЛЬТРА ПЛАВНЫЙ */
   background: 
     linear-gradient(
       135deg,
-      #FF6B6B 0%,          /* Яркий красный */
-      #FF8E53 12%,         /* Оранжевый */
-      #FFD166 24%,         /* Желтый */
-      #06D6A0 36%,         /* Светло-зеленый */
-      #118AB2 48%,         /* Голубой */
-      #073B4C 60%,         /* Темно-синий */
-      #7209B7 72%,         /* Фиолетовый */
-      #FF006E 84%,         /* Розовый */
-      #FF6B6B 100%         /* Замыкаем круг красным */
+      #FF3366 0%,          /* Яркий розово-красный */
+      #FF6633 11%,         /* Оранжево-красный */
+      #FF9933 22%,         /* Оранжевый */
+      #FFCC33 33%,         /* Золотисто-желтый */
+      #CCFF33 44%,         /* Лаймовый */
+      #66FF66 55%,         /* Неоново-зеленый */
+      #33FFCC 66%,         /* Бирюзовый */
+      #33CCFF 77%,         /* Небесно-голубой */
+      #3366FF 88%,         /* Яркий синий */
+      #9933FF 100%         /* Фиолетовый */
     );
   
   background-attachment: fixed;
-  background-size: 400% 400%; /* Увеличиваем для анимации */
+  background-size: 300% 300%; /* Идеальный размер для плавной анимации */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
   
-  /* МЕДЛЕННАЯ АНИМАЦИЯ ПЕРЕЛИВАНИЯ ЦВЕТОВ */
-  animation: gradientFlow 20s ease infinite;
+  /* УЛУЧШЕННАЯ АНИМАЦИЯ - ОЧЕНЬ МЕДЛЕННАЯ И ПЛАВНАЯ */
+  animation: gradientFlow 25s ease infinite;
   
-  /* ДОПОЛНИТЕЛЬНЫЙ ЭФФЕКТ - СВЕТЯЩИЕСЯ ПЯТНА */
+  /* ДОПОЛНИТЕЛЬНЫЙ ЭФФЕКТ - МЯГКАЯ ГЛУБИНА */
   position: relative;
 }
 
-/* Анимация плавного движения градиента */
+/* УЛУЧШЕННАЯ АНИМАЦИЯ ГРАДИЕНТА */
 @keyframes gradientFlow {
   0% {
     background-position: 0% 50%;
   }
-  50% {
+  25% {
     background-position: 100% 50%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
   }
   100% {
     background-position: 0% 50%;
   }
 }
 
-/* ДОБАВЛЯЕМ СВЕТЯЩИЕСЯ ПЯТНА НА ФОНЕ */
+/* НОВЫЙ ЭФФЕКТ - ПАРЯЩИЕ СВЕТЯЩИЕСЯ ШАРЫ */
 body::before {
   content: '';
   position: fixed;
@@ -99,32 +106,51 @@ body::before {
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 20% 30%, rgba(255, 107, 107, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(6, 214, 160, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(114, 9, 183, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 70% 70%, rgba(255, 209, 102, 0.15) 0%, transparent 50%);
+    /* Большие светящиеся сферы */
+    radial-gradient(circle at 10% 20%, rgba(255, 51, 102, 0.25) 0%, transparent 30%),
+    radial-gradient(circle at 90% 30%, rgba(255, 153, 51, 0.25) 0%, transparent 35%),
+    radial-gradient(circle at 20% 80%, rgba(51, 255, 204, 0.25) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(153, 51, 255, 0.25) 0%, transparent 25%),
+    radial-gradient(circle at 50% 50%, rgba(255, 204, 51, 0.2) 0%, transparent 45%),
+    
+    /* Мелкие мерцающие частицы */
+    radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.15) 0%, transparent 8%),
+    radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.15) 0%, transparent 8%),
+    radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 8%),
+    radial-gradient(circle at 60% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 8%);
+  
   z-index: -1;
   pointer-events: none;
-  animation: floatingBubbles 30s ease-in-out infinite;
+  
+  /* НОВАЯ АНИМАЦИЯ - ПЛАВНОЕ ПАРЕНИЕ */
+  animation: floatingBubbles 40s ease-in-out infinite alternate;
 }
 
-/* Анимация плавающих светящихся пятен */
+/* УЛУЧШЕННАЯ АНИМАЦИЯ СФЕР */
 @keyframes floatingBubbles {
   0%, 100% {
-    transform: translate(0, 0);
+    transform: translate(0, 0) scale(1);
+    opacity: 0.8;
   }
-  25% {
-    transform: translate(5%, 3%);
+  20% {
+    transform: translate(3%, -2%) scale(1.05);
+    opacity: 1;
   }
-  50% {
-    transform: translate(-3%, 5%);
+  40% {
+    transform: translate(-2%, 4%) scale(0.95);
+    opacity: 0.9;
   }
-  75% {
-    transform: translate(2%, -4%);
+  60% {
+    transform: translate(4%, 1%) scale(1.02);
+    opacity: 0.95;
+  }
+  80% {
+    transform: translate(-1%, -3%) scale(0.98);
+    opacity: 0.85;
   }
 }
 
-/* ДОПОЛНИТЕЛЬНЫЙ ГРАДИЕНТ ДЛЯ ТЕНИ НА ФОНЕ */
+/* НОВЫЙ ЭФФЕКТ - МЕРЦАЮЩИЕ ЗВЕЗДЫ */
 body::after {
   content: '';
   position: fixed;
@@ -132,47 +158,172 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
-    linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      rgba(255, 255, 255, 0) 30%,
-      rgba(255, 255, 255, 0) 70%,
-      rgba(255, 255, 255, 0.05) 100%
-    );
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(3px 3px at 40px 70px, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 80px 40px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(2px 2px at 120px 90px, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(3px 3px at 150px 60px, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 180px 120px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(2px 2px at 220px 150px, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(3px 3px at 250px 80px, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 280px 200px, rgba(255, 255, 255, 0.7), transparent);
+  
+  background-repeat: repeat;
   z-index: -1;
   pointer-events: none;
+  
+  /* АНИМАЦИЯ МЕРЦАНИЯ */
+  animation: twinkling 8s ease-in-out infinite alternate;
 }
 
-/* УЛУЧШЕНИЯ ДЛЯ КОНТЕНТА НА ФОНЕ (чтобы текст оставался читаемым) */
+@keyframes twinkling {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* УЛУЧШЕНИЯ ДЛЯ КОНТЕНТА С ГЛУБИННЫМ ЭФФЕКТОМ */
 .card, .filters, .admin-panel, .about-section, .modal-content {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+    0 0 20px rgba(255, 255, 255, 0.1) !important;
 }
 
 /* Эффект при наведении на карточки */
 .card:hover, .filters:hover, .admin-panel:hover {
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(255, 255, 255, 0.97) !important;
+  backdrop-filter: blur(15px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(15px) saturate(200%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.1),
-    0 0 20px rgba(255, 255, 255, 0.3);
+    0 12px 48px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.3) inset,
+    0 0 30px rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-5px) !important;
 }
 
-/* МЕДИА-ЗАПРОСЫ ДЛЯ АДАПТИВНОСТИ ФОНА */
+/* АДАПТИВНОСТЬ ФОНА */
 @media (max-width: 768px) {
-  /* Упрощаем фон на мобильных для производительности */
   body {
-    animation: gradientFlow 40s ease infinite;
+    /* Упрощенный фон для мобильных устройств */
+    background: 
+      linear-gradient(
+        135deg,
+        #FF3366 0%,
+        #FF9933 33%,
+        #CCFF33 66%,
+        #33CCFF 100%
+      );
+    background-size: 200% 200%;
+    animation: gradientFlow 35s ease infinite;
   }
   
   body::before {
+    /* Упрощенные светящиеся сферы */
     background: 
-      radial-gradient(circle at 20% 30%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(6, 214, 160, 0.1) 0%, transparent 50%);
+      radial-gradient(circle at 20% 30%, rgba(255, 51, 102, 0.2) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(51, 255, 204, 0.2) 0%, transparent 40%);
     animation: floatingBubbles 50s ease-in-out infinite;
   }
+  
+  body::after {
+    /* Меньше мерцающих звезд */
+    background-image: 
+      radial-gradient(2px 2px at 40px 60px, rgba(255, 255, 255, 0.5), transparent),
+      radial-gradient(3px 3px at 120px 90px, rgba(255, 255, 255, 0.6), transparent),
+      radial-gradient(2px 2px at 200px 40px, rgba(255, 255, 255, 0.5), transparent);
+  }
+}
+
+/* ДОПОЛНИТЕЛЬНЫЙ ЭФФЕКТ ДЛЯ ХЕДЕРА И ФУТЕРА */
+header {
+  background: linear-gradient(135deg, 
+    rgba(74, 74, 74, 0.95) 0%,  
+    rgba(44, 62, 80, 0.95) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+footer {
+  background: linear-gradient(135deg, 
+    rgba(74, 74, 74, 0.95) 0%,  
+    rgba(44, 62, 80, 0.95) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ЭФФЕКТ ДЛЯ КНОПОК НА РАДУЖНОМ ФОНЕ */
+.btn {
+  background: linear-gradient(135deg, 
+    rgba(74, 74, 74, 0.9) 0%, 
+    rgba(44, 62, 80, 0.9) 100%);
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.btn:hover {
+  background: linear-gradient(135deg, 
+    rgba(108, 108, 108, 0.9) 0%, 
+    rgba(64, 82, 100, 0.9) 100%);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+/* ПРОЗРАЧНОСТЬ ДЛЯ ФОРМ И ВВОДА */
+input, select, textarea {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+input:focus, select:focus, textarea:focus {
+  background: rgba(255, 255, 255, 1) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 
+    0 0 0 3px rgba(74, 74, 74, 0.15),
+    0 0 10px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ЭФФЕКТ ДЛЯ ПАГИНАЦИИ */
+.pagination button {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.pagination button:hover, .pagination button.active {
+  background: rgba(74, 74, 74, 0.9);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ЭФФЕКТ ДЛЯ МОДАЛЬНЫХ ОКОН */
+.modal-content {
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(20px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(200%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+    0 0 40px rgba(255, 255, 255, 0.15) !important;
 }
 
 /* Заголовки */
@@ -2513,9 +2664,8 @@ button:focus, input:focus, select:focus, textarea:focus {
 }
 
 .search-suggestion .product-price {
-  color: var(--primary);
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--accent);
 }
 
 .search-container {
