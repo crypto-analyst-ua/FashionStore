@@ -4701,3 +4701,117 @@ main {
   border: 2px solid var(--primary) !important;
   color: var(--primary-dark) !important;
 }
+
+/* ===== ИСПРАВЛЕНИЯ ДЛЯ КАРТОЧЕК НА МОБИЛЬНЫХ (ВАРИАНТ 1) ===== */
+/* Изображение на всю ширину, без зазоров, с обрезкой */
+@media (max-width: 768px) {
+  .card {
+    min-height: auto;           /* убираем фиксированную минимальную высоту */
+    padding: 0;
+    margin: 0;
+  }
+
+  .card img {
+    width: 100%;
+    height: 200px;              /* фиксированная высота – подберите под свой дизайн */
+    object-fit: cover;          /* изображение заполняет всю область, возможно обрезание */
+    background-color: transparent;
+  }
+
+  /* Уменьшаем внутренние отступы и делаем текст компактнее */
+  .card h3 {
+    padding: 0.3rem 0.5rem 0.2rem;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .card p {
+    padding: 0 0.5rem;
+    margin: 0 0 0.3rem;
+    font-size: 0.8rem;
+  }
+
+  .price-container {
+    padding: 0 0.5rem;
+    margin: 0 0 0.3rem;
+  }
+
+  .card-actions {
+    padding: 0 0.5rem 0.5rem;
+    margin: 0;
+    gap: 0.3rem;
+  }
+
+  .card-actions .btn {
+    min-width: 80px;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Ещё более компактно для очень маленьких экранов */
+@media (max-width: 480px) {
+  .card img {
+    height: 180px;              /* чуть меньше высота на совсем узких экранах */
+  }
+
+  .card h3 {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.85rem;
+  }
+
+  .card p {
+    padding: 0 0.4rem;
+    font-size: 0.75rem;
+  }
+
+  .price-container {
+    padding: 0 0.4rem;
+  }
+
+  .card-actions {
+    padding: 0 0.4rem 0.4rem;
+  }
+
+  .card-actions .btn {
+    min-width: 70px;
+    padding: 0.3rem 0.4rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .card img {
+    height: 160px;
+  }
+
+  .card h3 {
+    padding: 0.1rem 0.3rem;
+    font-size: 0.8rem;
+  }
+
+  .card p {
+    padding: 0 0.3rem;
+    font-size: 0.7rem;
+  }
+
+  .price-container {
+    padding: 0 0.3rem;
+  }
+
+  .card-actions {
+    padding: 0 0.3rem 0.3rem;
+  }
+
+  .card-actions .btn {
+    min-width: 60px;
+    padding: 0.2rem 0.3rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    gap: 0;
+  }
+}
