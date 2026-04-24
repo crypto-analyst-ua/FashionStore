@@ -23,6 +23,8 @@ const productShowcaseData = [
 ];
 
 let fashionShowInterval, timerInterval, progressInterval, orientationChangeHandler;
+let hasScrolledToPromotions = false;
+
 const loadingMessages = [
     "🎯 Підбираємо найкращі товари для вас...",
     "✨ Знаходимо ексклюзивні пропозиції...",
@@ -134,6 +136,50 @@ function updateLoadingStats() {
     });
 }
 
+// Функція прокрутки до заголовка "Акційні пропозиції та новинки"
+function scrollToPromotions() {
+    if (hasScrolledToPromotions) return;
+    hasScrolledToPromotions = true;
+    
+    setTimeout(() => {
+        let promoHeading = null;
+        const headings = document.querySelectorAll('h2');
+        for (let h of headings) {
+            const text = h.innerText;
+            if (text.includes('Акційні пропозиції') || text.includes('Акційні пропозиції та новинки')) {
+                promoHeading = h;
+                break;
+            }
+        }
+        
+        if (promoHeading) {
+            const header = document.querySelector('header');
+            const headerHeight = header ? header.offsetHeight : 80;
+            const elementPosition = promoHeading.getBoundingClientRect().top + window.pageYOffset;
+            const offsetPosition = elementPosition - headerHeight - 10;
+            
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+            
+            promoHeading.classList.add('highlight-promotions');
+            setTimeout(() => {
+                promoHeading.classList.remove('highlight-promotions');
+            }, 1500);
+        } else {
+            const bannersSection = document.querySelector('.discount-banners');
+            if (bannersSection) {
+                bannersSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                bannersSection.classList.add('highlight-promotions');
+                setTimeout(() => {
+                    bannersSection.classList.remove('highlight-promotions');
+                }, 1500);
+            }
+        }
+    }, 300);
+}
+
 function closeFashionShow() {
     const fashionShow = document.getElementById('fashion-show');
     fashionShow.style.opacity = '0';
@@ -149,6 +195,7 @@ function closeFashionShow() {
             window.removeEventListener('resize', orientationChangeHandler);
             window.removeEventListener('orientationchange', orientationChangeHandler);
         }
+        scrollToPromotions(); // після закриття прелоадера – прокрутка до акцій
     }, 300);
 }
 
@@ -224,6 +271,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(() => {
         const productGrid = document.getElementById('product-grid');
         if (productGrid && productGrid.querySelector('.skeleton-item')) showFashionShow();
+        setTimeout(() => scrollToPromotions(), 4000);
     }, 1000);
 });
 

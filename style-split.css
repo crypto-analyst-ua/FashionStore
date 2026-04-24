@@ -1309,3 +1309,33 @@
 .discount-banner .banner-image img {
     object-position: center top;
 }
+
+/* Підсвічування блоку акцій після прокрутки */
+.highlight-promotions {
+    animation: glowPromo 0.6s ease-in-out 3;
+}
+
+@keyframes glowPromo {
+    0% { box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.7); }
+    50% { box-shadow: 0 0 0 15px rgba(233, 30, 99, 0.2); }
+    100% { box-shadow: 0 0 0 0 rgba(233, 30, 99, 0); }
+}
+
+/* Підсвічування заголовка акцій після прокрутки */
+.highlight-promotions {
+    animation: glowPromo 0.6s ease-in-out 3;
+}
+
+@keyframes glowPromo {
+    0% { box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.7); }
+    50% { box-shadow: 0 0 0 15px rgba(233, 30, 99, 0.2); }
+    100% { box-shadow: 0 0 0 0 rgba(233, 30, 99, 0); }
+}
+
+/* Додаткове оформлення для заголовка під час підсвічування */
+h2.highlight-promotions {
+    display: inline-block;
+    padding: 0 10px;
+    border-radius: 20px;
+    background: rgba(233, 30, 99, 0.05);
+}
