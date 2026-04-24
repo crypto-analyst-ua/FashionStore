@@ -4,8 +4,9 @@ Disallow: /admin/
 Disallow: /private/
 Disallow: /tmp/
 Disallow: /*.json$
+Disallow: /404.html
 
-# Разрешить индексацию изображений
+# Роздільна індексація зображень
 Allow: /*.jpeg$
 Allow: /*.jpg$
 Allow: /*.png$
@@ -15,7 +16,7 @@ Allow: /*.svg$
 Sitemap: https://fashionstore-ua.web.app/sitemap.xml
 Sitemap: https://fashionstore-ua.web.app/sitemap-images.xml
 
-# User-agent для поисковых систем
+# Налаштування для Google
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
@@ -24,15 +25,17 @@ User-agent: Googlebot-Image
 Allow: /
 Crawl-delay: 1
 
+# Для Bing
 User-agent: Bingbot
 Allow: /
 Crawl-delay: 2
 
+# Для Яндекса
 User-agent: YandexBot
 Allow: /
 Crawl-delay: 2
 
-# Блокировка агрессивных ботов
+# Блокування шкідливих ботів
 User-agent: AhrefsBot
 Disallow: /
 Crawl-delay: 10
@@ -49,7 +52,7 @@ User-agent: DotBot
 Disallow: /
 Crawl-delay: 10
 
-# Для социальных сетей
+# Соціальні мережі
 User-agent: Twitterbot
 Allow: /
 
@@ -59,5 +62,4 @@ Allow: /
 User-agent: Pinterestbot
 Allow: /
 
-# Обновлено: 2025-01-02
-# Версия: 2.0
+# Версія: 3.1 (без сторінки новинок)
